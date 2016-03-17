@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace FFramework.FMySQL
+namespace FFramework.MySQL
 {
     public class Database
     {

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace FFramework.FPatch
+namespace FFramework.Patch
 {
     public class Patches
     {

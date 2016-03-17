@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     public class ProcessEx
     {

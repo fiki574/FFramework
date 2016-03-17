@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     ///<summary>Class used for reading and writing "*.ini" files</summary>
     public class INI

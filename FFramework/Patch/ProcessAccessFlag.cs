@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FFramework.FPatch
+namespace FFramework.Patch
 {
     [Flags]
     public enum ProcessAccessFlags : uint

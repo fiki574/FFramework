@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.IO;
 
-namespace FFramework.FFile
+namespace FFramework.File
 {
     public class BinaryReaderV2 : BinaryReader
     {

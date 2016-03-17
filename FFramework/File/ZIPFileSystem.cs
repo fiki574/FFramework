@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FFramework.FFile
+namespace FFramework.File
 {
     ///<summary>Class that allows you opening and reading/exploring the "*.zip" archives (compressed folders and/or files)</summary>
     public class ZIPFileSystem : IFileSystem

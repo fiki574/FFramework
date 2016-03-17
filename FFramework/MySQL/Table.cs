@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FFramework.FMySQL
+namespace FFramework.MySQL
 {
     public class Table<T> where T : struct
     {

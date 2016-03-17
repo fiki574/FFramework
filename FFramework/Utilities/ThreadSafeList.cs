@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     ///<summary>Used in exact same way as normal lists, though this kind of lists are thread-safe, plus have some more functionalities than the default ones</summary>
     public class ThreadSafeList<T>

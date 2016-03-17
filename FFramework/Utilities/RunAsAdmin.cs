@@ -8,7 +8,7 @@ using System.Security.Principal;
 using System.Diagnostics;
 using System.ComponentModel;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     public class RunAsAdmin
     {

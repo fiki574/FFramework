@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     ///<summary>Used in exact same way as normal memory stream, though this extension allows run-time expansion of default stream size of 2048/4096 bytes</summary>
     public class ExpandableMemoryStream : Stream
@@ -69,7 +69,6 @@ namespace FFramework.FUtilities
 
         public override void Flush()
         {
-
         }
 
         public override long Length
@@ -88,9 +87,7 @@ namespace FFramework.FUtilities
             }
             set
             {
-                if (value > m_data.Length)
-                    EnsureLength((int)value);
-
+                if (value > m_data.Length) EnsureLength((int)value);
                 m_position = (int)value;
             }
         }
@@ -117,7 +114,6 @@ namespace FFramework.FUtilities
                     Position = m_length - offset;
                     break;
             }
-
             return m_position;
         }
 

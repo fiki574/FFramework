@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     public class Logger
     {
@@ -38,7 +38,7 @@ namespace FFramework.FUtilities
                 Console.ForegroundColor = message_color;
                 Console.Write(message + '\n');
 
-                StreamWriter file = File.AppendText(file_name);
+                StreamWriter file = System.IO.File.AppendText(file_name);
                 if(use_timestamps == true) file.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + caller + ": " + message);
                 else file.WriteLine(caller + ": " + message);
                 file.Close();

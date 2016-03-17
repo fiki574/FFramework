@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     public class Unix
     {

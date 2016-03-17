@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     public class Translate
     {

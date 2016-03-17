@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     public class IP
     {

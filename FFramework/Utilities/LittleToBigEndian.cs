@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     ///<summary>Class used for converting input from little to big endian form</summary>
     public class LittleToBigEndian

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FFramework.FUtilities
+namespace FFramework.Utilities
 {
     ///<summary>Class used for platform managment</summary>
     public static class Platform
     {
-        public static ThreadSafeList<string> allowed_platforms = new ThreadSafeList<string>();
+        public static ThreadSafeList<String> allowed_platforms = new ThreadSafeList<String>();
 
         ///<summary>Retrieve the current platform ID</summary>
         ///<returns>Current PlatformID</returns>
