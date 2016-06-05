@@ -46,6 +46,8 @@
     <Compile Include="File\BinaryReaderV2.cs" />
     <Compile Include="File\IFileSystem.cs" />
     <Compile Include="File\ZIPFileSystem.cs" />
+    <Compile Include="HTTP\HttpHandlerAttribute.cs" />
+    <Compile Include="HTTP\HttpServer.cs" />
     <Compile Include="MySQL\Database.cs" />
     <Compile Include="MySQL\DatabaseTable.cs" />
     <Compile Include="MySQL\Table.cs" />

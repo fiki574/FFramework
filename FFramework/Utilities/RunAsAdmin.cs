@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    C# Framework with a lot of useful functions and classes
+    Copyright (C) 2016 Bruno Fištrek
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +30,6 @@ namespace FFramework.Utilities
 {
     public class RunAsAdmin
     {
-        ///<summary>Runs application with Administrator rights. NOTE: After using this function, have in mind you should use "Environment.Exit(x)" or "Application.Exit()" in order to successfully start an application with Administrator rights.</summary>
-        ///<param name="process_name">A path for executable you want to start with Administrator rights. NOTE: The best way to use it is "Application.ExecutablePath" as this parameter</param>
-        ///<returns>(nothing)</returns>
         public static void RunAppWithAdminRights(string executable_path)
         {
             WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
@@ -22,8 +37,7 @@ namespace FFramework.Utilities
             if (!hasAdministrativeRight) RunElevated(executable_path);
         }
 
-        ///<summary>Internal function, usage not advised!</summary>
-        public static bool RunElevated(string fileName)
+        private static bool RunElevated(string fileName)
         {
             ProcessStartInfo processInfo = new ProcessStartInfo();
             processInfo.Verb = "runas";

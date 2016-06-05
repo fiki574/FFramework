@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    C# Framework with a lot of useful functions and classes
+    Copyright (C) 2016 Bruno Fištrek
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +27,6 @@ namespace FFramework.Utilities
 {
     public class Hash
     {
-        ///<summary>Function that uses SHA256 crypto service to hash your text, password or whatever you want</summary>
-        ///<param name="text">String you want to hash</param>
-        ///<returns>Hashed string of the inputted text</returns>
         public static string SHA256Hash(string text)
         {
             SHA256 sha = new SHA256CryptoServiceProvider();
@@ -22,7 +37,6 @@ namespace FFramework.Utilities
             return strBuilder.ToString();
         }
 
-        ///<summary>Creates a random byte hash</summary>
         public static byte[] RandomHash(int seed = 0, int size = 8)
         {
             var hash = new byte[size];

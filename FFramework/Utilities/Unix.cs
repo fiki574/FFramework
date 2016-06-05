@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    C# Framework with a lot of useful functions and classes
+    Copyright (C) 2016 Bruno Fištrek
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +26,11 @@ namespace FFramework.Utilities
 {
     public class Unix
     {
-        ///<summary>Function used to transform current date to total seconds that have passed since 1.1.1970.</summary>
-        ///<returns>Total amount of seconds passed from 1.1.1970.</returns>
         public static int GetCurrentUnixTimestamp()
         {
             return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
         }
 
-        ///<summary>Function used to transform unix timestamp to human readable date</summary>
-        ///<returns>DateTime object for given unix timestamp</returns>
         public static DateTime GetDatetimeFromUnixTimestamp(int ut)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).Add(TimeSpan.FromSeconds(ut)).ToLocalTime();

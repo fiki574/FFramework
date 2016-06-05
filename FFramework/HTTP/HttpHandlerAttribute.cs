@@ -21,24 +21,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
-namespace FFramework.Utilities
+namespace FFramework.HTTP
 {
-    public class ProcessEx
+    [AttributeUsage(AttributeTargets.Method)]
+    public class HttpHandlerAttribute : Attribute
     {
-        public static bool IsProcessActive(string process_name)
+        public string Url
         {
-            Process[] pname = Process.GetProcessesByName(process_name);
-            if (pname.Length == 0) return false;
-            else return true;
+            get;
+            private set;
         }
 
-        public static Process GetProcess(string process_name)
+        public HttpHandlerAttribute(string url)
         {
-            Process[] pname = Process.GetProcessesByName(process_name);
-            if (pname.Length == 0) return null;
-            else return pname[0];
+            Url = url;
         }
     }
 }

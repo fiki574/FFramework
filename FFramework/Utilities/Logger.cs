@@ -1,4 +1,22 @@
-﻿using System;
+﻿/*
+    C# Framework with a lot of useful functions and classes
+    Copyright (C) 2016 Bruno Fištrek
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,15 +28,6 @@ namespace FFramework.Utilities
 {
     public class Logger
     {
-        ///<summary>Write console text in color, save log lines in file, etc.</summary>
-        ///<param name="caller">A function/part of application you're calling this function from</param>
-        ///<param name="caller_color">A console display color for that caller</param>
-        ///<param name="message">Message you want to display as actual log line</param>
-        ///<param name="caller_color">A console display color for that message</param>
-        ///<param name="use_timestamps">If true, the timestamps will appear at the start of each console line in gray color</param>
-        ///<param name="save_in_file">If true, all log lines will be saved to a log file named in parameter "file_name"</param>
-        ///<param name="file_name">A file you want to save your log lines if, it can be a path or a name, by default it's set to the directory where your application is and log file is named 'defaultname.log'</param>
-        ///<returns>(nothing)</returns>
         public static void Write(string caller, ConsoleColor caller_color, string message, ConsoleColor message_color, bool use_timestamps = true, bool save_in_file = true, string file_name = "defaultname.log")
         {
             Mutex mutex = new Mutex();

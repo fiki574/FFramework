@@ -1,46 +1,52 @@
-﻿using System;
+﻿/*
+    C# Framework with a lot of useful functions and classes
+    Copyright (C) 2016 Bruno Fištrek
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace FFramework.Utilities
 {
-    ///<summary>Class used for platform managment</summary>
     public static class Platform
     {
         public static ThreadSafeList<String> allowed_platforms = new ThreadSafeList<String>();
 
-        ///<summary>Retrieve the current platform ID</summary>
-        ///<returns>Current PlatformID</returns>
         public static PlatformID GetCurrentPlatform()
         {
             return Environment.OSVersion.Platform;
         }
 
-        ///<summary>Retrieve the current platform ID as string</summary>
-        ///<returns>Current platform as string</returns>
         public static string GetCurrentPlatformString()
         {
             return Environment.OSVersion.Platform.ToString();
         }
 
-        ///<summary>Allow "platform_id" by adding it to allowed platforms' list</summary>
-        ///<param name="platform_id">Platform you want to allow</param>
-        ///<returns>(nothing)</returns>
         public static void AllowPlatform(PlatformID platform_id)
         {
             allowed_platforms.Add(platform_id.ToString());
         }
 
-        ///<summary>Check if "platform_id" is allowed. NOTE: You have to use "AllowPlatform()" to add desired platforms to the list, otherwise this function will not work and will cause exceptions</summary>
-        ///<param name="platform_id">Platform you want to check</param>
-        ///<returns>true if it's in the list (allowed), or false if it's not in the list (disallowed)</returns>
         public static bool IsPlatformAllowed(PlatformID platform_id)
         {
             return allowed_platforms.Contains(platform_id.ToString());
         }
 
-        ///<summary>Clear the platform list when you're done with using it, or closing the application in general</summary>
         public static void DisposePlatformsList()
         {
             allowed_platforms.Remove(p => true);

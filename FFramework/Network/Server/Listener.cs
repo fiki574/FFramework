@@ -71,23 +71,8 @@ namespace FFramework.Network.Server
             _clients.Add(cclient);
             NetworkStream clientStream = tcpClient.GetStream();
             Byte[] message = new Byte[4096];
-            Int32 bytesRead;
-            while (true)
+            while (clientStream.Read(message, 0, 4096) != 0)
             {
-                bytesRead = 0;
-                try
-                {
-                    bytesRead = clientStream.Read(message, 0, 4096);
-                }
-                catch
-                {
-                    break;
-                }
-                if (bytesRead == 0)
-                {
-                    break;
-                }
-
                 IPacket packet = null;
                 foreach (KeyValuePair<Byte, IPacket> p in _packets)
                 {
@@ -97,7 +82,7 @@ namespace FFramework.Network.Server
                         break;
                     }
                 }
-                packet.Write(message, 1, bytesRead - 1);
+                packet.Write(message, 1, message.Length - 1);
                 packet.Handle(cclient);
             }
             lock (_clients)
