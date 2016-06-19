@@ -37,18 +37,11 @@ namespace FFramework.Patch
             _process = p;
         }
 
-        ///<summary>Adds a memory patch with given byte data to patch list that will be applied only after using "ApplyPatches()" function</summary>
-        ///<param name="address">The address you want to patch</param>
-        ///<param name="data">Data you want to insert/patch 'into' the address</param>
-        ///<returns>(nothing)</returns>
         public void AddPatch(IntPtr address, byte[] data)
         {
             _patches.Add(address, data);
         }
 
-        ///<summary>Applies all patches from the patch list that were added with the function "AddPatch()"</summary>
-        ///<param name="force_exit_if_patch_fails">If true, the selected process will be shut down if the patch(es) fail(s), by default this is set to false</param>
-        ///<returns>(nothing)</returns>
         public void ApplyPatches(bool force_exit_if_patch_fails = false)
         {
             _process.WaitForInputIdle();

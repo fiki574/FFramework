@@ -23,11 +23,7 @@ namespace FFramework.Network.Server
 {
     public class Client
     {
-        public TcpClient tcp
-        {
-            get;
-            private set;
-        }
+        public TcpClient tcp;
 
         public Client(TcpClient client)
         {

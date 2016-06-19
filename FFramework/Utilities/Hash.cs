@@ -37,7 +37,7 @@ namespace FFramework.Utilities
             return strBuilder.ToString();
         }
 
-        public static byte[] RandomHash(int seed = 0, int size = 8)
+        public static byte[] GenerateRandomHash(int seed = 0, int size = 8)
         {
             var hash = new byte[size];
             if (seed > 0) new Random(seed).NextBytes(hash);

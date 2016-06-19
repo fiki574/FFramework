@@ -30,7 +30,7 @@ namespace FFramework.Utilities
 {
     public class RunAsAdmin
     {
-        public static void RunAppWithAdminRights(string executable_path)
+        public static void RunWithAdminRights(string executable_path)
         {
             WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);

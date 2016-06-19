@@ -175,7 +175,5 @@ namespace FFramework.Utilities
                 this.list = list;
             }
         }
-
-        //TODO: Update() function
     }
 }

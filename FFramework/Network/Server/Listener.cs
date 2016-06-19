@@ -14,13 +14,8 @@ namespace FFramework.Network.Server
         private Thread listenThread;
         private String IP;
         private int Port;
-
         private ThreadSafeList<Client> _clients = new ThreadSafeList<Client>();
-        private Dictionary<Byte, IPacket> _packets
-        {
-            get;
-            set;
-        }
+        private Dictionary<Byte, IPacket> _packets;
 
         public Listener(String ip, Int32 port)
         {

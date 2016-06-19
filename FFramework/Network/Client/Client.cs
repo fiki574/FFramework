@@ -27,21 +27,11 @@ namespace FFramework.Network.Client
 {
     public class Client
     {
-        public TcpClient client
-        {
-            get;
-            private set;
-        }
-
+        public TcpClient client;
         private Thread clientThread;
         private NetworkStream stream;
         private IPEndPoint address;
-        private Dictionary<Byte, IPacket> _packets
-        {
-            get;
-            set;
-        }
-
+        private Dictionary<Byte, IPacket> _packets;
         public bool liveConnection = false;
 
         public Client(String ip, int Port)
