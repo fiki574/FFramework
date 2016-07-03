@@ -37,7 +37,7 @@ namespace FFramework.File
             using (var ws = System.IO.File.OpenWrite(file))
             using (BinaryWriter fileWriter = new BinaryWriter(ws))
             {
-                fileWriter.Write((uint)header);
+                fileWriter.Write(header);
                 ws.Position = 16;
 
                 byte[] compressed;
@@ -46,22 +46,22 @@ namespace FFramework.File
                 using (BinaryWriter w = new BinaryWriter(s))
                 {
                     string[] files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
-                    w.Write((int)files.Length);
+                    w.Write(files.Length);
 
                     foreach (var filePath in files)
                     {
                         string fileName = filePath.Substring(dir.Length + 1, filePath.Length - dir.Length - 1);
-                        w.Write((int)fileName.Length);
+                        w.Write(fileName.Length);
                         w.Write(Encoding.ASCII.GetBytes(fileName));
-                        w.Write((int)offset);
+                        w.Write(offset);
                         int size = (int)new FileInfo(filePath).Length;
-                        w.Write((int)(offset + size));
+                        w.Write((offset + size));
                         offset += size;
                         fileWriter.Write(System.IO.File.ReadAllBytes(filePath));
                     }
 
                     ws.Position = 4;
-                    fileWriter.Write((int)offset);
+                    fileWriter.Write(offset);
                     fileWriter.Write((int)s.Position);
                     byte[] decompressed = s.ToArray();
                     compressed = Compress(decompressed);
@@ -75,7 +75,7 @@ namespace FFramework.File
 
         private static byte[] Compress(byte[] data)
         {
-            using (var ms = new System.IO.MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 using (var compressor = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.Default)) compressor.Write(data, 0, data.Length);
                 return ms.ToArray();
@@ -126,8 +126,7 @@ namespace FFramework.File
 
         private static void CreatePath(string path)
         {
-            string fileName = Path.GetFileName(path);
-            path = path.Substring(0, path.Length - fileName.Length);
+            path = path.Substring(0, path.Length - Path.GetFileName(path).Length);
             CreatePath(path.Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
