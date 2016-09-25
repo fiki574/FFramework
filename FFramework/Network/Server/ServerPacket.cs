@@ -31,6 +31,9 @@ namespace FFramework.Network.Server
             for (int i = 0; i < s.Length; i++) WriteByte((Byte)s[i]);
         }
 
-        //TODO: more Write functions
+        protected void WriteValue(object i)
+        {
+            WriteS(i.ToString());
+        }
     }
 }

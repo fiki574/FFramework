@@ -19,12 +19,9 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FFramework.Patch
 {
@@ -74,6 +71,13 @@ namespace FFramework.Patch
             int result = VirtualProtectEx(hProcess, lpAddress, new IntPtr(size), newProtect, out oldProtect);
             if (result == 0) throw new Exception(String.Format("Failed to chance access ({0}).", Kernel32.GetLastError()));
             return oldProtect;
+        }
+
+        public static int WriteString(IntPtr handle, IntPtr address, string str)
+        {
+            IntPtr written;
+            byte[] data = Encoding.Default.GetBytes(str + "\0");
+            return WriteProcessMemory(handle, address, data, data.Length, out written);
         }
     }
 }

@@ -20,7 +20,6 @@ using System;
 using System.Net;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 
 namespace FFramework.Network.Client

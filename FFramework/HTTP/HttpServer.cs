@@ -21,14 +21,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace FFramework.HTTP
 {
@@ -55,7 +51,7 @@ namespace FFramework.HTTP
         public HttpServer()
         {
             m_listener = new HttpListener();
-            m_listener.Prefixes.Add("http://*:8880/");
+            m_listener.Prefixes.Add("http://*:8080/");
         }
 
         public void Start()
