@@ -41,5 +41,21 @@ namespace FFramework.Utilities
             else if (month == 2) return IsLeapYear(year) == true ? 29 : 28;
             else return 0;
         }
+
+        public static bool IsDigitsOnly(string str, bool allow_dot = false)
+        {
+            if (!allow_dot)
+                foreach (char c in str)
+                {
+                    if (c < '0' || c > '9')
+                        return false;
+                }
+            else
+                foreach (char c in str)
+                    if (c < '0' || c > '9')
+                        if (c != '.')
+                            return false;
+            return true;
+        }
     }
 }
