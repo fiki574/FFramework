@@ -34,9 +34,9 @@ namespace FFramework.HTTP
 
         private static Dictionary<string, KeyValuePair<HttpHandlerAttribute, HttpHandlerDelegate>> _handlers = new Dictionary<string, KeyValuePair<HttpHandlerAttribute, HttpHandlerDelegate>>();
 
-        public static void MapHandlers()
+        public static void MapHandlers(Type t)
         {
-            foreach (MethodInfo methodInfo in typeof(HttpServer).GetMethods(BindingFlags.NonPublic | BindingFlags.Static))
+            foreach (MethodInfo methodInfo in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static))
             {
                 var attributes = methodInfo.GetCustomAttributes(typeof(HttpHandlerAttribute), false);
                 if (attributes.Length < 1) continue;
