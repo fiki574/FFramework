@@ -63,7 +63,6 @@
     <Compile Include="Network\Server\ServerPacket.cs" />
     <Compile Include="Patch\Kernel32.cs" />
     <Compile Include="Patch\ProcessAccessFlag.cs" />
-    <Compile Include="Utilities\CSV.cs" />
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="Utilities\ExpandableMemoryStream.cs" />

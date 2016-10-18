@@ -308,15 +308,15 @@ namespace FFramework.MySQL
 
         private string TypeToColumnDescription(Type t)
         {
-            if (t == typeof(long)) return "bigint(21) NOT NULL";
-            else if (t == typeof(int)) return "int(11) NOT NULL";
-            else if (t == typeof(short)) return "smallint(6) NOT NULL";
-            else if (t == typeof(sbyte)) return "tinyint(4) NOT NULL";
-            else if (t == typeof(ulong)) return "bigint(21) UNSIGNED NOT NULL";
-            else if (t == typeof(uint)) return "int(11) UNSIGNED NOT NULL";
-            else if (t == typeof(ushort)) return "smallint(6) UNSIGNED NOT NULL";
-            else if (t == typeof(byte)) return "tinyint(4) UNSIGNED NOT NULL";
-            else if (t == typeof(string)) return "varchar(256) NOT NULL DEFAULT ''";
+            if (t == typeof(long)) return "bigint(21)";
+            else if (t == typeof(int)) return "int(11)";
+            else if (t == typeof(short)) return "smallint(6)";
+            else if (t == typeof(sbyte)) return "tinyint(4)";
+            else if (t == typeof(ulong)) return "bigint(21)";
+            else if (t == typeof(uint)) return "int(11) UNSIGNED";
+            else if (t == typeof(ushort)) return "smallint(6) UNSIGNED";
+            else if (t == typeof(byte)) return "tinyint(4) UNSIGNED";
+            else if (t == typeof(string)) return "text";
             else throw new Exception("Not a valid column type.");
         }
 

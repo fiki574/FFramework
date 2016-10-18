@@ -48,10 +48,10 @@ namespace FFramework.HTTP
 
         private HttpListener m_listener;
 
-        public HttpServer()
+        public HttpServer(int port = 8080)
         {
             m_listener = new HttpListener();
-            m_listener.Prefixes.Add("http://*:8080/");
+            m_listener.Prefixes.Add("http://*:" + port + "/");
         }
 
         public void Start()

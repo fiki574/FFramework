@@ -30,23 +30,18 @@ namespace FFramework.File
         public static void Pack(string dir, string extension, uint header = 0x14B4150)
         {
             string file = dir + extension;
-
             int offset = 16;
-
             using (var ws = System.IO.File.OpenWrite(file))
             using (BinaryWriter fileWriter = new BinaryWriter(ws))
             {
                 fileWriter.Write(header);
                 ws.Position = 16;
-
                 byte[] compressed;
-
                 using (var s = new MemoryStream())
                 using (BinaryWriter w = new BinaryWriter(s))
                 {
                     string[] files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
                     w.Write(files.Length);
-
                     foreach (var filePath in files)
                     {
                         string fileName = filePath.Substring(dir.Length + 1, filePath.Length - dir.Length - 1);
@@ -58,14 +53,12 @@ namespace FFramework.File
                         offset += size;
                         fileWriter.Write(System.IO.File.ReadAllBytes(filePath));
                     }
-
                     ws.Position = 4;
                     fileWriter.Write(offset);
                     fileWriter.Write((int)s.Position);
                     byte[] decompressed = s.ToArray();
                     compressed = Compress(decompressed);
                 }
-
                 fileWriter.Write(compressed.Length);
                 ws.Position = offset;
                 fileWriter.Write(compressed, 0, compressed.Length);
@@ -84,7 +77,6 @@ namespace FFramework.File
         public static void Unpack(string file, uint header = 0x14B4150)
         {
             string dir = Path.GetFileNameWithoutExtension(file);
-
             using (Stream s = System.IO.File.OpenRead(file))
             using (BinaryReader reader = new BinaryReader(s))
             {
@@ -96,14 +88,11 @@ namespace FFramework.File
                 int offset = reader.ReadInt32();
                 int size = reader.ReadInt32();
                 int compressedSize = reader.ReadInt32();
-
                 s.Position = offset;
                 byte[] compressed = reader.ReadBytes(compressedSize);
                 byte[] decompressed = new byte[size];
-
                 using (var cs = new MemoryStream(compressed))
                 using (var zs = new ZlibStream(cs, CompressionMode.Decompress)) zs.Read(decompressed, 0, size);
-
                 using (MemoryStream ds = new MemoryStream(decompressed))
                 using (BinaryReader drs = new BinaryReader(ds))
                 {
