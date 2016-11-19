@@ -19,21 +19,14 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using FFramework.Utilities;
 
 namespace FFramework.Patch
 {
-    public struct Patch
-    {
-        public IntPtr Address;
-        public string StringData;
-        public byte[] ByteData;
-    }
-
     public class Patches
     {
-        private List<Patch> _patches = new List<Patch>();
+        private ThreadSafeDictionary<IntPtr, object> _patches = new ThreadSafeDictionary<IntPtr, object>();
         private Process _process = null;
 
         public Patches(Process p)
@@ -43,31 +36,30 @@ namespace FFramework.Patch
 
         public void AddPatch(IntPtr address, object data)
         {
-            Type t = data.GetType();
-            if (t == typeof(string)) _patches.Add(new Patch() { Address = address, StringData = (string)data, ByteData = null });
-            else if (t == typeof(byte[])) _patches.Add(new Patch() { Address = address, StringData = null, ByteData = (byte[])data });
-            else return;
+            _patches.Add(address, data);
         }
 
         public void ApplyPatches()
         {
-            if (_patches.Count == 0) return;
+            if (_patches.Length == 0) return;
             try
             {
                 IntPtr handle = Kernel32.OpenProcess(_process, ProcessAccessFlags.All);
-                foreach (var patch in _patches)
+                foreach (var patch in _patches.Where(p => true))
                 {
-                    if (GetPatchType(patch) == typeof(byte[]))
+                    if (GetDataType(patch.Value) == typeof(byte[]))
                     {
-                        uint oldProtect = Kernel32.VirtualProtectEx(handle, patch.Address, patch.ByteData.Length, 0x40);
-                        Kernel32.WriteProcessMemory(handle, patch.Address, patch.ByteData);
-                        Kernel32.VirtualProtectEx(handle, patch.Address, patch.ByteData.Length, oldProtect);
+                        byte[] data = (byte[])patch.Value;
+                        uint oldProtect = Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, 0x40);
+                        Kernel32.WriteProcessMemory(handle, patch.Key, data);
+                        Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, oldProtect);
                     }
-                    else if (GetPatchType(patch) == typeof(string))
+                    else if (GetDataType(patch.Value) == typeof(string))
                     {
-                        uint oldProtect = Kernel32.VirtualProtectEx(handle, patch.Address, patch.StringData.Length, 0x40);
-                        Kernel32.WriteString(handle, patch.Address, patch.StringData);
-                        Kernel32.VirtualProtectEx(handle, patch.Address, patch.StringData.Length, oldProtect);
+                        string data = (string)patch.Value;
+                        uint oldProtect = Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, 0x40);
+                        Kernel32.WriteString(handle, patch.Key, data);
+                        Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, oldProtect);
                     }
                     else return;
                 }
@@ -78,10 +70,11 @@ namespace FFramework.Patch
             }
         }
 
-        public Type GetPatchType(Patch patch)
+        public Type GetDataType(object data)
         {
-            if (patch.StringData == null && patch.ByteData != null) return typeof(byte[]);
-            else if (patch.StringData != null && patch.ByteData == null) return typeof(string);
+            Type t = data.GetType();
+            if (t == typeof(string)) return typeof(string);
+            else if (t == typeof(byte[])) return typeof(byte[]);
             else return null;
         }
     }

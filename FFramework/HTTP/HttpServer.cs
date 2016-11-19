@@ -95,7 +95,7 @@ namespace FFramework.HTTP
                 }
 
                 KeyValuePair<HttpHandlerAttribute, HttpHandlerDelegate> pair;
-                String[] raw = context.Request.RawUrl.Split('&');
+                string[] raw = context.Request.RawUrl.Split('&');
                 if (raw[0] == "/favicon.ico") return;
                 if (!_handlers.TryGetValue(raw[0], out pair)) throw new Exception("Missing handler.");
 

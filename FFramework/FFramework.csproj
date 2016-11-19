@@ -75,6 +75,7 @@
     <Compile Include="Utilities\Platform.cs" />
     <Compile Include="Utilities\ProcessEx.cs" />
     <Compile Include="Utilities\RunAsAdmin.cs" />
+    <Compile Include="Utilities\ThreadSafeDictionary.cs" />
     <Compile Include="Utilities\ThreadSafeList.cs" />
     <Compile Include="Utilities\Translate.cs" />
     <Compile Include="Utilities\Unix.cs" />

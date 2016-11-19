@@ -22,7 +22,7 @@ namespace FFramework.Utilities
 {
     public static class Platform
     {
-        public static ThreadSafeList<String> allowed_platforms = new ThreadSafeList<String>();
+        public static ThreadSafeList<string> allowed_platforms = new ThreadSafeList<string>();
 
         public static PlatformID GetCurrentPlatform()
         {

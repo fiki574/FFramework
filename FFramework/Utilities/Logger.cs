@@ -38,6 +38,7 @@ namespace FFramework.Utilities
                     text = "[" + DateTime.Now.ToString("HH:mm:ss") + "] ";
                     Console.Write(text);
                 }
+
                 Console.ForegroundColor = caller_color;
                 Console.Write(caller + ": ");
                 Console.ForegroundColor = message_color;

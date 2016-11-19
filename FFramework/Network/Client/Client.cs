@@ -16,11 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.Net;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
+using FFramework.Utilities;
 
 namespace FFramework.Network.Client
 {
@@ -30,21 +30,21 @@ namespace FFramework.Network.Client
         private Thread clientThread;
         private NetworkStream stream;
         private IPEndPoint address;
-        private Dictionary<Byte, IPacket> _packets;
+        private ThreadSafeDictionary<byte, IPacket> _packets;
         public bool liveConnection = false;
 
-        public Client(String ip, int Port)
+        public Client(string ip, int Port)
         {
             address = new IPEndPoint(IPAddress.Parse(ip), Port);
             client = new TcpClient();
-            _packets = new Dictionary<Byte, IPacket>();
+            _packets = new ThreadSafeDictionary<byte, IPacket>();
             connect(address);
             stream = client.GetStream();
             clientThread = new Thread(new ThreadStart(handleServer));
             clientThread.Start();
         }
 
-        public void AddReceivePacket(Byte opcode, IPacket packet)
+        public void AddReceivePacket(byte opcode, IPacket packet)
         {
             _packets.Add(opcode, packet);
         }
@@ -64,11 +64,11 @@ namespace FFramework.Network.Client
 
         private void handleServer()
         {
-            Byte[] message = new Byte[4096];
+            byte[] message = new byte[4096];
             while (stream.Read(message, 0, 4096) != 0)
             {
                 IPacket packet = null;
-                foreach (KeyValuePair<Byte, IPacket> p in _packets)
+                foreach (KeyValuePair<byte, IPacket> p in _packets.Where(p => true))
                 {
                     if (p.Key == message[0])
                     {
@@ -85,7 +85,7 @@ namespace FFramework.Network.Client
 
         public void Send(ClientPacket packet)
         {
-            Byte[] array = packet.ToArray();
+            byte[] array = packet.ToArray();
             stream.Write(array, 0, array.Length);
             stream.Flush();
         }

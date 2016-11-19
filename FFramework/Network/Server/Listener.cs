@@ -29,15 +29,15 @@ namespace FFramework.Network.Server
     {
         private TcpListener tcpListener;
         private Thread listenThread;
-        private String IP;
+        private string IP;
         private int Port;
         private ThreadSafeList<Client> _clients = new ThreadSafeList<Client>();
-        private Dictionary<Byte, IPacket> _packets;
+        private ThreadSafeDictionary<byte, IPacket> _packets;
 
-        public Listener(String ip, Int32 port)
+        public Listener(string ip, int port)
         {
             IPAddress address = IPAddress.Any;
-            _packets = new Dictionary<Byte, IPacket>();
+            _packets = new ThreadSafeDictionary<byte, IPacket>();
             try
             {
                 address = IPAddress.Parse(ip);
@@ -53,7 +53,7 @@ namespace FFramework.Network.Server
             listenThread.Start();
         }
 
-        public void AddReceivePacket(Byte opcode, IPacket packet)
+        public void AddReceivePacket(byte opcode, IPacket packet)
         {
             _packets.Add(opcode, packet);
         }
@@ -62,7 +62,7 @@ namespace FFramework.Network.Server
         {
             try
             {
-                this.tcpListener.Start();
+                tcpListener.Start();
             }
             catch (SocketException)
             {
@@ -70,7 +70,7 @@ namespace FFramework.Network.Server
             }
             while (true)
             {
-                TcpClient client = this.tcpListener.AcceptTcpClient();
+                TcpClient client = tcpListener.AcceptTcpClient();
                 Thread clientThread = new Thread(new ParameterizedThreadStart(handleClient));
                 clientThread.Start(client);
             }
@@ -82,11 +82,11 @@ namespace FFramework.Network.Server
             Client cclient = new Client(tcpClient);
             _clients.Add(cclient);
             NetworkStream clientStream = tcpClient.GetStream();
-            Byte[] message = new Byte[4096];
+            byte[] message = new byte[4096];
             while (clientStream.Read(message, 0, 4096) != 0)
             {
                 IPacket packet = null;
-                foreach (KeyValuePair<Byte, IPacket> p in _packets)
+                foreach (KeyValuePair<byte, IPacket> p in _packets.Where(p => true))
                 {
                     if (p.Key == message[0])
                     {
