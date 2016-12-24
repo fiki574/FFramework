@@ -20,13 +20,13 @@
 
 using System;
 using System.Diagnostics;
-using FFramework.Utilities;
+using System.Collections.Generic;
 
 namespace FFramework.Patch
 {
     public class Patches
     {
-        private ThreadSafeDictionary<IntPtr, object> _patches = new ThreadSafeDictionary<IntPtr, object>();
+        private Dictionary<IntPtr, object> _patches = new Dictionary<IntPtr, object>();
         private Process _process = null;
 
         public Patches(Process p)
@@ -41,11 +41,11 @@ namespace FFramework.Patch
 
         public void ApplyPatches()
         {
-            if (_patches.Length == 0) return;
+            if (_patches.Count == 0) return;
             try
             {
                 IntPtr handle = Kernel32.OpenProcess(_process, ProcessAccessFlags.All);
-                foreach (var patch in _patches.Where(p => true))
+                foreach (var patch in _patches)
                 {
                     if (GetDataType(patch.Value) == typeof(byte[]))
                     {

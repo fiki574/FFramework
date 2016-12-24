@@ -32,12 +32,12 @@ namespace FFramework.Network.Server
         private string IP;
         private int Port;
         private ThreadSafeList<Client> _clients = new ThreadSafeList<Client>();
-        private ThreadSafeDictionary<byte, IPacket> _packets;
+        private Dictionary<byte, IPacket> _packets;
 
         public Listener(string ip, int port)
         {
             IPAddress address = IPAddress.Any;
-            _packets = new ThreadSafeDictionary<byte, IPacket>();
+            _packets = new Dictionary<byte, IPacket>();
             try
             {
                 address = IPAddress.Parse(ip);
@@ -86,7 +86,7 @@ namespace FFramework.Network.Server
             while (clientStream.Read(message, 0, 4096) != 0)
             {
                 IPacket packet = null;
-                foreach (KeyValuePair<byte, IPacket> p in _packets.Where(p => true))
+                foreach (KeyValuePair<byte, IPacket> p in _packets)
                 {
                     if (p.Key == message[0])
                     {

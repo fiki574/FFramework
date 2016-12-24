@@ -20,7 +20,6 @@ using System.Net;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
-using FFramework.Utilities;
 
 namespace FFramework.Network.Client
 {
@@ -30,14 +29,14 @@ namespace FFramework.Network.Client
         private Thread clientThread;
         private NetworkStream stream;
         private IPEndPoint address;
-        private ThreadSafeDictionary<byte, IPacket> _packets;
+        private Dictionary<byte, IPacket> _packets;
         public bool liveConnection = false;
 
         public Client(string ip, int Port)
         {
             address = new IPEndPoint(IPAddress.Parse(ip), Port);
             client = new TcpClient();
-            _packets = new ThreadSafeDictionary<byte, IPacket>();
+            _packets = new Dictionary<byte, IPacket>();
             connect(address);
             stream = client.GetStream();
             clientThread = new Thread(new ThreadStart(handleServer));
@@ -68,7 +67,7 @@ namespace FFramework.Network.Client
             while (stream.Read(message, 0, 4096) != 0)
             {
                 IPacket packet = null;
-                foreach (KeyValuePair<byte, IPacket> p in _packets.Where(p => true))
+                foreach (KeyValuePair<byte, IPacket> p in _packets)
                 {
                     if (p.Key == message[0])
                     {
