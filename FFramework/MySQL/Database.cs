@@ -45,7 +45,7 @@ namespace FFramework.MySQL
 
         public Database(string host, int port, string username, string password, string database)
         {
-            m_connectionString = String.Format("server={0};port={1};uid={2};pwd={3};database={4};", host, port, username, password, database);
+            m_connectionString = string.Format("server={0};port={1};uid={2};pwd={3};database={4};", host, port, username, password, database);
             m_connection = new MySqlConnection();
             m_connection.ConnectionString = m_connectionString;
         }
@@ -61,7 +61,7 @@ namespace FFramework.MySQL
 
             using (MySqlCommand cmd = m_connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("SELECT * FROM `{0}`;", t.Name);
+                cmd.CommandText = string.Format("SELECT * FROM `{0}`;", t.Name);
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -103,7 +103,7 @@ namespace FFramework.MySQL
             using (var cmd = m_connection.CreateCommand())
             {
                 bool first = true;
-                foreach (var field in type.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+                foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
                 {
                     if (first) first = false;
                     else
@@ -112,7 +112,7 @@ namespace FFramework.MySQL
                         queryBuilder.Append(",");
                     }
 
-                    string parameter = String.Format("@param{0}", field.Name);
+                    string parameter = string.Format("@param{0}", field.Name);
                     valueBuilder.Append(parameter);
                     cmd.Parameters.AddWithValue(parameter, field.GetValue(val));
                     queryBuilder.AppendFormat("`{0}`", field.Name);
@@ -143,7 +143,7 @@ namespace FFramework.MySQL
             using (var cmd = m_connection.CreateCommand())
             {
                 bool first = true;
-                foreach (var field in type.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+                foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
                 {
                     if (field.Name == "Index") continue;
                     if (first) first = false;
@@ -192,7 +192,7 @@ namespace FFramework.MySQL
             DatabaseTable table = (DatabaseTable)tableAttributes[0];
             using (var cmd = m_connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("DROP TABLE IF EXISTS `{0}`", table.Name);
+                cmd.CommandText = string.Format("DROP TABLE IF EXISTS `{0}`", table.Name);
                 int result = cmd.ExecuteNonQuery();
             }
 
@@ -250,7 +250,7 @@ namespace FFramework.MySQL
             List<KeyValuePair<string, Type>> columns = new List<KeyValuePair<string, Type>>();
             using (MySqlCommand cmd = m_connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("SELECT * FROM `{0}`", table.Name);
+                cmd.CommandText = string.Format("SELECT * FROM `{0}`", table.Name);
                 using (var reader = cmd.ExecuteReader(CommandBehavior.SchemaOnly))
                 {
                     for (int i = 0; i < reader.FieldCount; i++) columns.Add(new KeyValuePair<string, Type>(reader.GetName(i), reader.GetFieldType(i)));
@@ -279,7 +279,7 @@ namespace FFramework.MySQL
 
             using (var cmd = m_connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("ALTER TABLE `{0}` ADD `{1}` {2}", table.Name, name, TypeToColumnDescription(t));
+                cmd.CommandText = string.Format("ALTER TABLE `{0}` ADD `{1}` {2}", table.Name, name, TypeToColumnDescription(t));
                 int result = cmd.ExecuteNonQuery();
             }
         }
@@ -290,7 +290,7 @@ namespace FFramework.MySQL
 
             using (var cmd = m_connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("ALTER TABLE `{0}` DROP COLUMN `{1}`", table.Name, name);
+                cmd.CommandText = string.Format("ALTER TABLE `{0}` DROP COLUMN `{1}`", table.Name, name);
                 int result = cmd.ExecuteNonQuery();
             }
         }

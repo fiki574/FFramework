@@ -35,7 +35,7 @@ namespace FFramework.Utilities
             }
             catch 
             {
-                throw new Exception("IP retrieval failed");
+                return "127.0.0.1";
             }
         }
     }

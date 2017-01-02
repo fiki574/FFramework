@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.Net;
 
 namespace FFramework.Utilities
@@ -25,7 +24,7 @@ namespace FFramework.Utilities
     {
         public static string TranslateText(string input, string language_pair)
         {
-            string url = String.Format("http://www.google.com/translate_t?hl=en&ie=UTF8&text={0}&langpair={1}", input, language_pair);
+            string url = string.Format("http://www.google.com/translate_t?hl=en&ie=UTF8&text={0}&langpair={1}", input, language_pair);
             WebClient webClient = new WebClient();
             webClient.Encoding = System.Text.Encoding.UTF8;
             string result = webClient.DownloadString(url);

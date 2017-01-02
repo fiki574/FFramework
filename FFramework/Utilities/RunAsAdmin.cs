@@ -27,8 +27,7 @@ namespace FFramework.Utilities
         public static void RunWithAdminRights(string executable_path)
         {
             WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
-            if (!hasAdministrativeRight) RunElevated(executable_path);
+            if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator)) RunElevated(executable_path);
         }
 
         private static bool RunElevated(string fileName)
@@ -41,8 +40,10 @@ namespace FFramework.Utilities
                 Process.Start(processInfo);
                 return true;
             }
-            catch (Win32Exception) { }
-            return false;
+            catch (Win32Exception)
+            {
+                return false;
+            }
         }
     }
 }

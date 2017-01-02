@@ -24,8 +24,7 @@ namespace FFramework.Utilities
     {
         public static bool IsProcessActive(string process_name)
         {
-            Process[] pname = Process.GetProcessesByName(process_name);
-            if (pname.Length == 0) return false;
+            if (Process.GetProcessesByName(process_name).Length == 0) return false;
             else return true;
         }
 

@@ -26,6 +26,14 @@ namespace FFramework.Patch
 {
     public class Patches
     {
+        public enum Response
+        {
+            OK = 0,
+            NoPatches = 1,
+            InvalidDataType = 2,
+            Exception = 3
+        }
+
         private Dictionary<IntPtr, object> _patches = new Dictionary<IntPtr, object>();
         private Process _process = null;
 
@@ -39,43 +47,36 @@ namespace FFramework.Patch
             _patches.Add(address, data);
         }
 
-        public void ApplyPatches()
+        public Response ApplyPatches()
         {
-            if (_patches.Count == 0) return;
+            if (_patches.Count == 0) return Response.NoPatches;
             try
             {
                 IntPtr handle = Kernel32.OpenProcess(_process, ProcessAccessFlags.All);
                 foreach (var patch in _patches)
                 {
-                    if (GetDataType(patch.Value) == typeof(byte[]))
+                    if (patch.Value.GetType() == typeof(byte[]))
                     {
                         byte[] data = (byte[])patch.Value;
                         uint oldProtect = Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, 0x40);
                         Kernel32.WriteProcessMemory(handle, patch.Key, data);
                         Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, oldProtect);
                     }
-                    else if (GetDataType(patch.Value) == typeof(string))
+                    else if (patch.Value.GetType() == typeof(string))
                     {
                         string data = (string)patch.Value;
                         uint oldProtect = Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, 0x40);
                         Kernel32.WriteString(handle, patch.Key, data);
                         Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, oldProtect);
                     }
-                    else return;
+                    else return Response.InvalidDataType;
                 }
             }
             catch
             {
-                return;
+                return Response.Exception;
             }
-        }
-
-        public Type GetDataType(object data)
-        {
-            Type t = data.GetType();
-            if (t == typeof(string)) return typeof(string);
-            else if (t == typeof(byte[])) return typeof(byte[]);
-            else return null;
+            return Response.OK;
         }
     }
 }

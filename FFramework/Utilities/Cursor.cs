@@ -38,11 +38,11 @@ namespace FFramework.Utilities
 
         public static void SetPosition(int x, int y)
         {
-            Point p = new Cursor.Point();
+            Point p = new Point();
             p.X = Convert.ToInt16(x);
             p.Y = Convert.ToInt16(y);
-            Cursor.ClientToScreen(default(IntPtr), ref p);
-            Cursor.SetCursorPos(p.X, p.Y);
+            ClientToScreen(default(IntPtr), ref p);
+            SetCursorPos(p.X, p.Y);
         }
     }
 }

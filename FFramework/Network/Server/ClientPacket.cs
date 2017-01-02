@@ -26,11 +26,11 @@ namespace FFramework.Network.Server
     {
         public ClientPacket() : base() { }
 
-        protected String ReadS()
+        protected string ReadS()
         {
             int length = ReadByte();
             if (length > Length - Position) return "";
-            Byte[] str = new Byte[length];
+            byte[] str = new byte[length];
             Read(str, 0, length);
             return Encoding.ASCII.GetString(str);
         }

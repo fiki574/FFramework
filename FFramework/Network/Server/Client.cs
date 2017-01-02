@@ -32,7 +32,7 @@ namespace FFramework.Network.Server
 
         public void Send(ServerPacket packet)
         {
-            Byte[] array = packet.ToArray();
+            byte[] array = packet.ToArray();
             tcp.GetStream().Write(array, 0, array.Length);
             tcp.GetStream().Flush();
         }

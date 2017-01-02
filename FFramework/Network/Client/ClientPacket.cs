@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.IO;
 
 namespace FFramework.Network.Client
@@ -25,10 +24,10 @@ namespace FFramework.Network.Client
     {
         public ClientPacket() : base() { }
 
-        protected void WriteS(String s)
+        protected void WriteS(string s)
         {
-            WriteByte((Byte)s.Length);
-            for (int i = 0; i < s.Length; i++) WriteByte((Byte)s[i]);
+            WriteByte((byte)s.Length);
+            for (int i = 0; i < s.Length; i++) WriteByte((byte)s[i]);
         }
 
         protected void WriteValue(object i)
