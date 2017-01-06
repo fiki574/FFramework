@@ -19,7 +19,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace FFramework.Utilities
+namespace FFramework.File
 {
     public class INI
     {
