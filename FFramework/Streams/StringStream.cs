@@ -41,7 +41,7 @@ namespace FFramework.Streams
         public object Read()
         {
             int length = ReadByte();
-            if (length > Length - Position) return "";
+            if (length > Length - Position) return null;
             byte[] str = new byte[length];
             Read(str, 0, length);
             return Encoding.ASCII.GetString(str);
