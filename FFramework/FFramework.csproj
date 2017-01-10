@@ -67,6 +67,7 @@
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="Streams\ExpandableMemoryStream.cs" />
+    <Compile Include="Utilities\GenericObject.cs" />
     <Compile Include="Utilities\Hash.cs" />
     <Compile Include="File\INI.cs" />
     <Compile Include="Utilities\IP.cs" />
