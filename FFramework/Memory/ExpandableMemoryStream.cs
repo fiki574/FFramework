@@ -21,7 +21,7 @@
 using System;
 using System.IO;
 
-namespace FFramework.Streams
+namespace FFramework.Memory
 {
     public class ExpandableMemoryStream : Stream
     {

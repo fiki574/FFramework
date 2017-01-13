@@ -16,25 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Net.Sockets;
-
-namespace FFramework.Network.Server
+namespace FFramework.Cryptography.SHA
 {
-    public class Client
+    public interface IDigest
     {
-        public TcpClient tcp;
-
-        public Client(TcpClient client)
-        {
-            tcp = client;
-        }
-
-        public void Send(SendPacket packet)
-        {
-            byte[] array = packet.ToArray();
-            tcp.GetStream().Write(array, 0, array.Length);
-            tcp.GetStream().Flush();
-        }
+        void BlockUpdate(byte[] input, int inOff, int length);
+        int DoFinal(byte[] output, int outOff);
+        int GetByteLength();
+        int GetDigestSize();
+        void Reset();
+        void Update(byte input);
+        string AlgorithmName { get; }
     }
 }

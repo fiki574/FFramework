@@ -82,7 +82,7 @@ namespace FFramework.Network.Client
             stream.Dispose();
         }
 
-        public void Send(ClientPacket packet)
+        public void Send(SendPacket packet)
         {
             byte[] array = packet.ToArray();
             stream.Write(array, 0, array.Length);

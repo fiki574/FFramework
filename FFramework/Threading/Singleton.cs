@@ -16,23 +16,29 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System.IO;
+using System;
 
-namespace FFramework.Network.Server
+namespace FFramework.Threading
 {
-    public class ServerPacket : MemoryStream
+    [Serializable]
+    public abstract class Singleton<T> where T : new()
     {
-        public ServerPacket() : base() { }
-
-        protected void WriteS(string s)
+        protected Singleton()
         {
-            WriteByte((byte)s.Length);
-            for (int i = 0; i < s.Length; i++) WriteByte((byte)s[i]);
         }
 
-        protected void WriteValue(object i)
+        public static T Instance
         {
-            WriteS(i.ToString());
+            get { return SingletonHolder.instance; }
+            set { SingletonHolder.instance = value; }
+        }
+
+        private sealed class SingletonHolder
+        {
+            internal static T instance = new T();
+            static SingletonHolder()
+            {
+            }
         }
     }
 }

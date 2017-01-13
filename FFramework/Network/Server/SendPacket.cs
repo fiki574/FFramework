@@ -18,11 +18,11 @@
 
 using System.IO;
 
-namespace FFramework.Network.Client
+namespace FFramework.Network.Server
 {
-    public class ClientPacket : MemoryStream
+    public class SendPacket : MemoryStream
     {
-        public ClientPacket() : base() { }
+        public SendPacket() : base() { }
 
         protected void WriteS(string s)
         {

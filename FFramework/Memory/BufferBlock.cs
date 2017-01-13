@@ -14,27 +14,32 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
+    Credits: https://github.com/usertoroot
 */
 
-using System;
-using System.Net.Sockets;
-
-namespace FFramework.Network.Server
+namespace FFramework.Memory
 {
-    public class Client
+    public class BufferBlock
     {
-        public TcpClient tcp;
+        public int StartIndex;
+        public int UsedLength;
+        public int MaxLength;
+        public byte[] Buffer;
+        public object UserToken;
+        internal bool inUse;
 
-        public Client(TcpClient client)
+        public void Free()
         {
-            tcp = client;
-        }
-
-        public void Send(SendPacket packet)
-        {
-            byte[] array = packet.ToArray();
-            tcp.GetStream().Write(array, 0, array.Length);
-            tcp.GetStream().Flush();
+            lock (this)
+            {
+                if (inUse)
+                {
+                    inUse = false;
+                    UserToken = null;
+                    BufferManager.Instance.FreeBufferBlock(this);
+                }
+            }
         }
     }
 }

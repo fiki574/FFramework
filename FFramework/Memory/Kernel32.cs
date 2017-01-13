@@ -23,7 +23,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace FFramework.Patch
+namespace FFramework.Memory
 {
     public static class Kernel32
     {

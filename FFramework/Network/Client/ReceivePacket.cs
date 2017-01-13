@@ -22,9 +22,9 @@ using System.Text;
 
 namespace FFramework.Network.Client
 {
-    public class ServerPacket : MemoryStream
+    public class ReceivePacket : MemoryStream
     {
-        public ServerPacket() : base() { }
+        public ReceivePacket() : base() { }
 
         protected string ReadS()
         {

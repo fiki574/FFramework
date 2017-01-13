@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FFramework.Utilities
+namespace FFramework.Threading
 {
     public class ThreadSafeList<T>
     {

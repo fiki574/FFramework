@@ -20,11 +20,11 @@ using System;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace FFramework.Utilities
+namespace FFramework.Cryptography.SHA
 {
-    public class Hash
+    public class SHA256Hash
     {
-        public static string SHA256Hash(string text)
+        public static string Hash(string text)
         {
             SHA256 sha = new SHA256CryptoServiceProvider();
             sha.ComputeHash(Encoding.ASCII.GetBytes(text));

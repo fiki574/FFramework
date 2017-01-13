@@ -19,7 +19,7 @@
 using System.Text;
 using System.IO;
 
-namespace FFramework.Streams
+namespace FFramework.Memory
 {
     public class StringStream : MemoryStream
     {
