@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cryptography\CRC32.cs" />
     <Compile Include="Cryptography\Hex.cs" />
     <Compile Include="Cryptography\HexEncoder.cs" />
     <Compile Include="Cryptography\SHA\GeneralDigest.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Utilities\LittleToBigEndian.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Memory\Patches.cs" />
+    <Compile Include="Utilities\Optional.cs" />
     <Compile Include="Utilities\Platform.cs" />
     <Compile Include="Utilities\ProcessEx.cs" />
     <Compile Include="Utilities\RunAsAdmin.cs" />

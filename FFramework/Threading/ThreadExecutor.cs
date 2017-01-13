@@ -80,7 +80,6 @@ namespace FFramework.Threading
         public ThreadStart ExecutingThread;
         public bool Processing = false;
         private ProcessDelegate ProcessEvent;
-        private int ExecuteCount;
 
         public ThreadExecutor(int ThreadID)
         {
