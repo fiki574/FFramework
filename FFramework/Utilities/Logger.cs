@@ -31,18 +31,18 @@ namespace FFramework.Utilities
             {
                 mutex.WaitOne();
                 string text = null;
-                Console.BufferHeight = Console.WindowWidth - 20;
+                System.Console.BufferHeight = System.Console.WindowWidth - 20;
                 if (use_timestamps == true)
                 {
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    System.Console.ForegroundColor = ConsoleColor.Gray;
                     text = "[" + DateTime.Now.ToString("HH:mm:ss") + "] ";
-                    Console.Write(text);
+                    System.Console.Write(text);
                 }
 
-                Console.ForegroundColor = caller_color;
-                Console.Write(caller + ": ");
-                Console.ForegroundColor = message_color;
-                Console.Write(message + '\n');
+                System.Console.ForegroundColor = caller_color;
+                System.Console.Write(caller + ": ");
+                System.Console.ForegroundColor = message_color;
+                System.Console.Write(message + '\n');
 
                 StreamWriter file = System.IO.File.AppendText(file_name);
                 if(use_timestamps == true) file.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + caller + ": " + message);

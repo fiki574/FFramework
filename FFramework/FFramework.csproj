@@ -79,6 +79,7 @@
     <Compile Include="Memory\StringStream.cs" />
     <Compile Include="Threading\Singleton.cs" />
     <Compile Include="Threading\ThreadExecutor.cs" />
+    <Compile Include="Utilities\Console.cs" />
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="Memory\ExpandableMemoryStream.cs" />
