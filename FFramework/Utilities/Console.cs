@@ -17,11 +17,43 @@
 */
 
 using System;
+using System.Runtime.InteropServices;
 
 namespace FFramework.Utilities
 {
     public class Console
     {
+        [DllImport("kernel32.dll")]
+        public static extern bool AllocConsole();
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        public static void InitConsole()
+        {
+            try
+            {
+                IntPtr hw = GetConsoleWindow();
+                if (hw == IntPtr.Zero) AllocConsole();
+                System.Console.Clear();
+                ShowWindow(hw, 8);
+            }
+            catch { }
+        }
+
+        public static void CloseConsole()
+        {
+            try
+            {
+                IntPtr hw = GetConsoleWindow();
+                if (hw != IntPtr.Zero) ShowWindow(hw, 0);
+            }
+            catch { }
+        }
+
         public static void WriteColoredLine(string str)
         {
             if (!str.Contains("{") && !str.Contains("}")) System.Console.WriteLine(str);
