@@ -27,17 +27,13 @@ namespace FFramework.File
         {
             string[] folders = location.Split('\\');
             string root = folders[0];
-            if (!Directory.Exists(root))
-                Directory.CreateDirectory(root);
+            if (!Directory.Exists(root)) Directory.CreateDirectory(root);
             for (int i = 1; i < folders.Length - 1; i++)
             {
                 root += "\\" + folders[i];
-                if (!Directory.Exists(root))
-                    Directory.CreateDirectory(root);
+                if (!Directory.Exists(root)) Directory.CreateDirectory(root);
             }
-
-            if(!System.IO.File.Exists(folders[folders.Length - 1]))
-                System.IO.File.Create(folders[folders.Length - 1]);
+            if(!System.IO.File.Exists(folders[folders.Length - 1])) System.IO.File.Create(folders[folders.Length - 1]);
             return root;
         }
 
@@ -48,7 +44,7 @@ namespace FFramework.File
 
         public static float GetSizeKB(string file)
         {
-            return (float)Math.Round((new FileInfo(file).Length / 1024f), 2);
+            return (float)Math.Round((new FileInfo(file).Length / 1024f), 3);
         }
     }
 }

@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 
 namespace FFramework.Utilities
 {
-    public class Console
+    public class ConsoleExtension
     {
         [DllImport("kernel32.dll")]
         public static extern bool AllocConsole();
@@ -38,7 +38,7 @@ namespace FFramework.Utilities
             {
                 IntPtr hw = GetConsoleWindow();
                 if (hw == IntPtr.Zero) AllocConsole();
-                System.Console.Clear();
+                Console.Clear();
                 ShowWindow(hw, 8);
             }
             catch { }
@@ -56,7 +56,7 @@ namespace FFramework.Utilities
 
         public static void WriteColoredLine(string str)
         {
-            if (!str.Contains("{") && !str.Contains("}")) System.Console.WriteLine(str);
+            if (!str.Contains("{") && !str.Contains("}")) Console.WriteLine(str);
             str += "{";
             for (int i = 0; i < str.Length; i++)
             {
@@ -73,53 +73,37 @@ namespace FFramework.Utilities
                     switch (color)
                     {
                         case "white":
-                            System.Console.ForegroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.White;
                             break;
                         case "blue":
-                            System.Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Blue;
                             break;
                         case "red":
-                            System.Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.Red;
                             break;
                         case "yellow":
-                            System.Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                             break;
                         case "green":
-                            System.Console.ForegroundColor = ConsoleColor.Green;
+                            Console.ForegroundColor = ConsoleColor.Green;
                             break;
                         case "cyan":
-                            System.Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.ForegroundColor = ConsoleColor.Cyan;
                             break;
                         case "black":
-                            System.Console.ForegroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.Black;
                             break;
                         case "gray":
-                            System.Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.ForegroundColor = ConsoleColor.Gray;
                             break;
                         case "magenta":
-                            System.Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.ForegroundColor = ConsoleColor.Magenta;
                             break;
                     }
-                    System.Console.Write(text);
+                    Console.Write(text);
                 }
             }
-            System.Console.WriteLine();
-        }
-
-        public static void WriteStructMembers(object o)
-        {
-            foreach (var field in o.GetType().GetFields())
-            {
-                var value = field.GetValue(o);
-                if (field.FieldType.IsArray)
-                {
-                    Array a = (Array)value;
-                    string s = null;
-                    for (int i = 0; i < a.Length; i++) s += Convert.ToString(a.GetValue(i));
-                    System.Console.WriteLine(field.Name + " (" + field.FieldType.ToString() + "): " + s);
-                }
-                else System.Console.WriteLine(field.Name + " (" + field.FieldType.ToString() + "): " + value);
-            }
+            Console.WriteLine();
         }
     }
 }

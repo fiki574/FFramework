@@ -33,6 +33,7 @@ namespace FFramework.Memory
         int bufferSize, bufferCount, blockSize;
         AutoResetEvent waiter = new AutoResetEvent(false);
         public int MaxWaitTime = 10;
+
         public int TotalAllocatedMemory
         {
             get
@@ -40,6 +41,7 @@ namespace FFramework.Memory
                 return bufferBlocks.Count * bufferSize;
             }
         }
+
         public int FreeMemory
         {
             get
@@ -59,7 +61,7 @@ namespace FFramework.Memory
                 freeBlocks = new ConcurrentQueue<BufferBlock>();
                 for (int i = 0; i < bufferCount; i++) ExtendBuffer();
             }
-            else  throw new NotSupportedException("BufferManager cannot be initialized twice!");
+            else throw new NotSupportedException("BufferManager cannot be initialized twice!");
         }
 
         void ExtendBuffer()

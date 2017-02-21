@@ -64,6 +64,7 @@ namespace FFramework.Cryptography.SHA
         }
 
         public abstract int DoFinal(byte[] output, int outOff);
+
         public void Finish()
         {
             long bitLength = byteCount << 3;
@@ -85,6 +86,7 @@ namespace FFramework.Cryptography.SHA
         internal abstract void ProcessBlock();
         internal abstract void ProcessLength(long bitLength);
         internal abstract void ProcessWord(byte[] input, int inOff);
+
         public virtual void Reset()
         {
             byteCount = 0L;
@@ -102,6 +104,7 @@ namespace FFramework.Cryptography.SHA
             }
             byteCount += 1L;
         }
+
         public abstract string AlgorithmName { get; }
     }
 }

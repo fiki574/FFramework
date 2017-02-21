@@ -25,16 +25,18 @@ namespace FFramework.Utilities
     {
         private string path;
         private string folder;
+        private DirectoryInfo directory;
 
         public FolderTreeView(string folder)
         {
             this.folder = folder;
+            directory = new DirectoryInfo(folder);
             path = null;
         }
 
-        public void CreateTree(DirectoryInfo folder, TreeViewItem parentNode)
+        public void CreateTree(TreeViewItem parentNode)
         {
-            DirectoryInfo[] dirs = folder.GetDirectories();
+            DirectoryInfo[] dirs = directory.GetDirectories();
             if (dirs.Length > 0)
             {
                 foreach (DirectoryInfo dir in dirs)
@@ -45,12 +47,12 @@ namespace FFramework.Utilities
                     foreach (FileInfo file in files)
                         newi.Items.Add(new TreeViewItem() { Header = file.Name });
                     parentNode.Items.Add(newi);
-                    CreateTree(dir, newi);
+                    CreateTree(newi);
                 }
             }
         }
 
-        public bool IsItemFolder(TreeViewItem item)
+        public bool IsFolder(TreeViewItem item)
         {
             return item.Items.Count == 0 ? false : true;
         }
@@ -74,16 +76,11 @@ namespace FFramework.Utilities
 
         private string ReversePath()
         {
-            if (path != null)
-            {
-                string[] p = path.Split('\\');
-                string actual_path = "";
-                for (int i = p.Length - 1; i > 0; i--)
-                    actual_path += p[i] + "\\";
-                return folder + "\\" + actual_path.Remove(actual_path.Length - 1);
-            }
-            else
-                return null;
+            string[] p = path.Split('\\');
+            string actual_path = "";
+            for (int i = p.Length - 1; i > 0; i--)
+                actual_path += p[i] + "\\";
+            return folder + "\\" + actual_path.Remove(actual_path.Length - 1);
         }
     }
 }

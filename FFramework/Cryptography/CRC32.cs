@@ -183,22 +183,6 @@ namespace FFramework.Cryptography
                 }
                 while (i != 0);
             }
-
-            #if VERBOSE
-            Console.WriteLine();
-            Console.WriteLine("private static readonly UInt32[] crc32Table = {");
-            for (int i = 0; i < crc32Table.Length; i+=4)
-            {
-                Console.Write("   ");
-                for (int j=0; j < 4; j++)
-                {
-                    Console.Write(" 0x{0:X8}U,", crc32Table[i+j]);
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine("};");
-            Console.WriteLine();
-            #endif
         }
 
 
@@ -256,6 +240,7 @@ namespace FFramework.Cryptography
             while (len2 != 0);
             crc1 ^= crc2;
             _register = ~crc1;
+
             return;
         }
 
