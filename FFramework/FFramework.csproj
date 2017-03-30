@@ -62,8 +62,8 @@
     <Compile Include="Cryptography\SRP6\SRP.cs" />
     <Compile Include="File\Files.cs" />
     <Compile Include="File\Packer.cs" />
-    <Compile Include="HTTP\HttpHandlerAttribute.cs" />
     <Compile Include="HTTP\HttpServer.cs" />
+    <Compile Include="HTTP\MIME.cs" />
     <Compile Include="Image\Convert.cs" />
     <Compile Include="Image\DDS.cs" />
     <Compile Include="Memory\BufferBlock.cs" />

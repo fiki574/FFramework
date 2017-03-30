@@ -50,5 +50,10 @@ namespace FFramework.Network.Client
             else if (t == typeof(ulong)) return Convert.ToUInt64(ReadS());
             else return null;
         }
+
+        public void EmptyData()
+        {
+            SetLength(0);
+        }
     }
 }

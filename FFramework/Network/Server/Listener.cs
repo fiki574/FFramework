@@ -58,6 +58,11 @@ namespace FFramework.Network.Server
             _packets.Add(opcode, packet);
         }
 
+        public ThreadSafeList<Client> GetClients()
+        {
+            return _clients;
+        }
+
         private void listenForClients()
         {
             try
@@ -83,8 +88,20 @@ namespace FFramework.Network.Server
             _clients.Add(cclient);
             NetworkStream clientStream = tcpClient.GetStream();
             byte[] message = new byte[4096];
-            while (clientStream.Read(message, 0, 4096) != 0)
+            int bytesRead;
+            while (true)
             {
+                bytesRead = 0;
+                try
+                {
+                    bytesRead = clientStream.Read(message, 0, 4096);
+                }
+                catch
+                {
+                    break;
+                }
+                if (bytesRead == 0) break;
+
                 IPacket packet = null;
                 foreach (KeyValuePair<byte, IPacket> p in _packets)
                 {
@@ -94,6 +111,7 @@ namespace FFramework.Network.Server
                         break;
                     }
                 }
+                packet.EmptyData();
                 packet.Write(message, 1, message.Length - 1);
                 packet.Handle(cclient);
             }

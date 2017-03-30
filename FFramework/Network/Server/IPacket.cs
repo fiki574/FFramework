@@ -21,6 +21,7 @@ namespace FFramework.Network.Server
     public interface IPacket
     {
         void Write(byte[] buffer, int offset, int count);
+        void EmptyData();
         void Handle(Client client);
     }
 }

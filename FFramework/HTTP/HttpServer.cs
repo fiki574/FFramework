@@ -22,36 +22,47 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Threading;
 
 namespace FFramework.HTTP
 {
-    public partial class HttpServer
+    public class HttpServer
     {
-        private delegate string HttpHandlerDelegate(HttpServer server, HttpListenerRequest request, Dictionary<string, string> parameters);
-
-        private static Dictionary<string, KeyValuePair<HttpHandlerAttribute, HttpHandlerDelegate>> _handlers = new Dictionary<string, KeyValuePair<HttpHandlerAttribute, HttpHandlerDelegate>>();
-
-        public static void MapHandlers(Type t)
-        {
-            foreach (MethodInfo methodInfo in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static))
-            {
-                var attributes = methodInfo.GetCustomAttributes(typeof(HttpHandlerAttribute), false);
-                if (attributes.Length < 1) continue;
-                HttpHandlerAttribute attribute = (HttpHandlerAttribute)attributes[0];
-                if (_handlers.ContainsKey(attribute.Url)) continue;
-                _handlers.Add(attribute.Url, new KeyValuePair<HttpHandlerAttribute, HttpHandlerDelegate>(attribute, (HttpHandlerDelegate)Delegate.CreateDelegate(typeof(HttpHandlerDelegate), methodInfo)));
-            }
-        }
-
+        public static List<string> files = new List<string>();
         private HttpListener m_listener;
 
         public HttpServer(int port = 8080)
         {
-            m_listener = new HttpListener();
-            m_listener.Prefixes.Add("http://*:" + port + "/");
+            try
+            {
+                if (Directory.Exists("Website"))
+                {
+                    LoadWebsiteFiles("Website");
+                    m_listener = new HttpListener();
+                    m_listener.Prefixes.Add("http://*:" + port + "/");
+                }
+                else throw new Exception("'Website' directory does not exist!");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+        }
+
+        public void LoadWebsiteFiles(string start)
+        {
+            try
+            {
+                DirectoryInfo dir = new DirectoryInfo(start);
+                DirectoryInfo[] dirs = dir.GetDirectories();
+                FileInfo[] fs = dir.GetFiles();
+                foreach (FileInfo f in fs) files.Add(f.FullName.Replace('\\', '/'));
+                if (dirs.Length > 0) foreach (DirectoryInfo d in dirs) LoadWebsiteFiles(start + "\\" + d.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
         }
 
         public void Start()
@@ -83,56 +94,22 @@ namespace FFramework.HTTP
             HttpListenerContext context = (HttpListenerContext)oContext;
             try
             {
-                Dictionary<string, string> parameters = new Dictionary<string, string>();
-                string[] tokens = context.Request.RawUrl.Split('&');
-                foreach (var token in tokens)
-                {
-                    string[] keyValuePair = token.Split('=');
-                    if (keyValuePair.Length != 2) continue;
-                    var key = WebUtility.UrlDecode(keyValuePair[0]);
-                    var value = WebUtility.UrlDecode(keyValuePair[1]);
-                    parameters.Add(key, value);
-                }
-
-                KeyValuePair<HttpHandlerAttribute, HttpHandlerDelegate> pair;
                 string[] raw = context.Request.RawUrl.Split('&');
                 if (raw[0] == "/favicon.ico") return;
-                if (!_handlers.TryGetValue(raw[0], out pair)) throw new Exception("Missing handler.");
-
-                context.Response.ContentType = "text/json";
-                string result = pair.Value(this, context.Request, parameters);
-                if (result == null) throw new Exception("Invalid response from handler " + context.Request.RawUrl + ".");
                 context.Response.ContentEncoding = context.Request.ContentEncoding;
-                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream, context.Response.ContentEncoding)) writer.Write(result);
+                context.Response.ContentType = MIME.GetMimeType(Path.GetExtension(raw[0]));
+                string path = files.Find(f => f.ToString().Contains(raw[0]));
+                using (StreamReader sr = new StreamReader(System.IO.File.OpenRead(path)))
+                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream, context.Response.ContentEncoding)) writer.Write(sr.ReadToEnd());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                context.Response.ContentType = "text/json";
-                context.Response.ContentEncoding = context.Request.ContentEncoding;
-                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream, context.Response.ContentEncoding)) writer.Write(JsonEncode("Exception: " + e.ToString()));
+                throw new Exception(ex.ToString());
             }
             finally
             {
                 context.Response.Close();
             }
-        }
-
-        public static string JsonEncode(string text)
-        {
-            return text;
-        }
-
-        public static string JsonEncode(string[] text)
-        {
-            StringBuilder builder = new StringBuilder(1024);
-            builder.Append("[");
-            for (int i = 0; i < text.Length; i++)
-            {
-                if (i > 0) builder.Append(",");
-                builder.Append('"' + text[i] + '"');
-            }
-            builder.Append("]");
-            return builder.ToString();
         }
     }
 }

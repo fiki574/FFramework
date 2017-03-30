@@ -64,8 +64,20 @@ namespace FFramework.Network.Client
         private void handleServer()
         {
             byte[] message = new byte[4096];
-            while (stream.Read(message, 0, 4096) != 0)
+            int bytesRead;
+            while (true)
             {
+                bytesRead = 0;
+                try
+                {
+                    bytesRead = stream.Read(message, 0, 4096);
+                }
+                catch
+                {
+                    break;
+                }
+                if (bytesRead == 0) break;
+
                 IPacket packet = null;
                 foreach (KeyValuePair<byte, IPacket> p in _packets)
                 {
@@ -75,6 +87,7 @@ namespace FFramework.Network.Client
                         break;
                     }
                 }
+                packet.EmptyData();
                 packet.Write(message, 1, message.Length - 1);
                 packet.Handle();
             }
