@@ -1,6 +1,6 @@
 /*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2016 Bruno Fištrek
+    Copyright (C) 2017 Bruno Fištrek
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("FFramework")]
-[assembly: AssemblyCopyright("Copyright © 2016 Bruno Fištrek")]
+[assembly: AssemblyCopyright("Copyright © 2017 Bruno Fištrek")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

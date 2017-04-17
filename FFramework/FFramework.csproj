@@ -60,6 +60,9 @@
     <Compile Include="Cryptography\ByteSwap.cs" />
     <Compile Include="Cryptography\SHA\SHA1Digest.cs" />
     <Compile Include="Cryptography\SRP6\SRP.cs" />
+    <Compile Include="Extensions\BinaryReaderExtension.cs" />
+    <Compile Include="Extensions\BinaryWriterExtension.cs" />
+    <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="File\Files.cs" />
     <Compile Include="File\Packer.cs" />
     <Compile Include="HTTP\HttpServer.cs" />
@@ -86,7 +89,7 @@
     <Compile Include="Memory\StringStream.cs" />
     <Compile Include="Threading\Singleton.cs" />
     <Compile Include="Threading\ThreadExecutor.cs" />
-    <Compile Include="Utilities\ConsoleExtension.cs" />
+    <Compile Include="Extensions\ConsoleExtension.cs" />
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="Memory\ExpandableMemoryStream.cs" />
@@ -105,7 +108,6 @@
     <Compile Include="Threading\ThreadSafeList.cs" />
     <Compile Include="Utilities\Translate.cs" />
     <Compile Include="Utilities\FolderTreeView.cs" />
-    <Compile Include="Utilities\TypeExtension.cs" />
     <Compile Include="Utilities\Unix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
