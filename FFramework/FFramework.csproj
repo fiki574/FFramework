@@ -93,6 +93,7 @@
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="Memory\ExpandableMemoryStream.cs" />
+    <Compile Include="Utilities\FDB.cs" />
     <Compile Include="Utilities\GenericObject.cs" />
     <Compile Include="Cryptography\SHA\SHA256Hash.cs" />
     <Compile Include="File\INI.cs" />
