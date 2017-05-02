@@ -17,7 +17,7 @@
 */
 
 using System.Net;
-using System.Text.RegularExpressions;
+using System.Net.Sockets;
 
 namespace FFramework.Utilities
 {
@@ -27,15 +27,19 @@ namespace FFramework.Utilities
         {
             try
             {
-                string externalIP;
-                externalIP = (new WebClient()).DownloadString("http://checkip.dyndns.org/");
-                externalIP = (new Regex(@"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")).Matches(externalIP)[0].ToString();
-                return externalIP;
+                return (new WebClient()).DownloadString("http://bot.whatismyipaddress.com/");
             }
-            catch 
+            catch
             {
                 return "127.0.0.1";
             }
+        }
+
+        public static string GetLocalIP()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList) if (ip.AddressFamily == AddressFamily.InterNetwork) return ip.ToString();
+            return "127.0.0.1";
         }
     }
 }

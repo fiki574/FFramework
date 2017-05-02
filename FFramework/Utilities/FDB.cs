@@ -54,7 +54,7 @@ namespace FFramework.Utilities
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -73,7 +73,7 @@ namespace FFramework.Utilities
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -96,45 +96,53 @@ namespace FFramework.Utilities
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
         public void Write<T>(List<T> entries, ref FDBFile file)
         {
-            using (var ms = new MemoryStream())
+            try
             {
-                using (var writer = new BinaryWriter(ms))
+                using (var ms = new MemoryStream())
                 {
-                    writer.Write(entries.Count);
-                    writer.Write(Marshal.SizeOf(typeof(T)));
-                    foreach (T t in entries) writer.WriteStructure(t);
+                    using (var writer = new BinaryWriter(ms))
+                    {
+                        writer.Write(entries.Count);
+                        writer.Write(Marshal.SizeOf(typeof(T)));
+                        foreach (T t in entries) writer.WriteStructure(t);
+                    }
+                    var data = ms.ToArray();
+                    file.Data = new byte[data.Length];
+                    Buffer.BlockCopy(data, 0, file.Data, 0, data.Length);
                 }
-                var data = ms.ToArray();
-                file.Data = new byte[data.Length];
-                Buffer.BlockCopy(data, 0, file.Data, 0, data.Length);
+                UpdateFile(ref file);
             }
-            UpdateFile(ref file);
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
         }
 
         public List<T> Read<T>(ref FDBFile File)
         {
-            using (var reader = new BinaryReader(new MemoryStream(File.Data)))
+            try
             {
-                var entries = reader.ReadInt32();
-                var size = reader.ReadInt32();
-                if (size < Marshal.SizeOf(typeof(T))) //structure has field(s) added
+                using (var reader = new BinaryReader(new MemoryStream(File.Data)))
                 {
-                    //TODO
+                    var entries = reader.ReadInt32();
+                    var size = reader.ReadInt32();
+                    var cursize = Marshal.SizeOf(typeof(T));
+                    if (size < cursize || size > cursize) throw new Exception($"Size of structure in database: {size} | Current structure size: {cursize} | Sizes must be the same!");
+                    var list = new List<T>(entries);
+                    for (int i = 0; i < entries; i++) list.Add((T)reader.ReadStructure(typeof(T)));
+                    reader.Close();
+                    return list;
                 }
-                else if (size > Marshal.SizeOf(typeof(T))) //structure has field(s) removed
-                {
-                    //TODO
-                }
-                var list = new List<T>(entries);
-                for (int i = 0; i < entries; i++) list.Add((T)reader.ReadStructure(typeof(T)));
-                reader.Close();
-                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -158,7 +166,7 @@ namespace FFramework.Utilities
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -219,7 +227,7 @@ namespace FFramework.Utilities
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                throw new Exception(ex.ToString());
             }
         }
 
