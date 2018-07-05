@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,8 +32,15 @@ namespace FFramework.Utilities
             this.value = value;
         }
 
-        private bool IsNullable(T t) { return false; }
-        private bool IsNullable(T? t) { return true; }
+        private bool IsNullable(T t)
+        {
+            return false;
+        }
+
+        private bool IsNullable(T? t)
+        {
+            return true;
+        }
 
         public bool IsPresent
         {

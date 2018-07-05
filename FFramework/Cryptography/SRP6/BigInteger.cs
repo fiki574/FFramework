@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1811,7 +1811,7 @@ namespace FFramework.Cryptography.SRP6
             {
                 long num;
                 if (sign == 0) return 0L;
-                if (magnitude.Length > 1) num = (magnitude[magnitude.Length - 2] << 0x20) | (magnitude[magnitude.Length - 1] & (0xffffffffL));
+                if (magnitude.Length > 1) num = (long)(magnitude[magnitude.Length - 2] << 0x20) | (magnitude[magnitude.Length - 1] & (0xffffffffL));
                 else num = magnitude[magnitude.Length - 1] & (0xffffffffL);
                 if (sign >= 0) return num;
                 return -num;

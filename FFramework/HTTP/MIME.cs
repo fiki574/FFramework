@@ -6,7 +6,7 @@ namespace FFramework.HTTP
     class MIME
     {
         private static IDictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
-        #region Big freaking list of mime types
+        #region
         {".323", "text/h323"},
         {".3g2", "video/3gpp2"},
         {".3gp", "video/3gpp"},
@@ -572,7 +572,8 @@ namespace FFramework.HTTP
 
         public static string GetMimeType(string extension)
         {
-            if (!extension.StartsWith(".")) extension = "." + extension;
+            if (!extension.StartsWith("."))
+                extension = "." + extension;
             string mime;
             return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }

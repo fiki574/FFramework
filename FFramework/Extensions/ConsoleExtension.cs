@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,9 @@ namespace FFramework.Extensions
                 Console.Clear();
                 ShowWindow(hw, 8);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         public static void CloseConsole()
@@ -51,12 +53,16 @@ namespace FFramework.Extensions
                 IntPtr hw = GetConsoleWindow();
                 if (hw != IntPtr.Zero) ShowWindow(hw, 0);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         public static void WriteColoredLine(string str)
         {
-            if (!str.Contains("{") && !str.Contains("}")) Console.WriteLine(str);
+            if (!str.Contains("{") && !str.Contains("}"))
+                Console.WriteLine(str);
+
             str += "{";
             for (int i = 0; i < str.Length; i++)
             {
@@ -64,12 +70,19 @@ namespace FFramework.Extensions
                 {
                     int index = str.IndexOf('}', i);
                     int next;
-                    if (index != -1) next = str.IndexOf('{', index);
-                    else break;
+                    if (index != -1)
+                        next = str.IndexOf('{', index);
+                    else
+                        break;
+
                     string text = null;
-                    for (int j = index + 1; j <= next - 1; j++) text += str[j];
+                    for (int j = index + 1; j <= next - 1; j++)
+                        text += str[j];
+
                     string color = null;
-                    for (int k = i + 1; k <= index - 1; k++) color += str[k];
+                    for (int k = i + 1; k <= index - 1; k++)
+                        color += str[k];
+
                     switch (color)
                     {
                         case "white":

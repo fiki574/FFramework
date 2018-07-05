@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,10 +35,7 @@ namespace FFramework.Memory
             }
         }
 
-        private int m_initalSize;
-        private int m_blockSize;
-        private int m_position = 0;
-        private int m_length = 0;
+        private int m_initalSize, m_blockSize, m_position = 0, m_length = 0;
 
         public ExpandableMemoryStream(int initialSize = 2048, int blockSize = 4096)
         {
@@ -109,7 +106,9 @@ namespace FFramework.Memory
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (m_position + count > m_data.Length) throw new IndexOutOfRangeException();
+            if (m_position + count > m_data.Length)
+                return -1;
+
             Array.Copy(m_data, m_position, buffer, offset, count);
             m_position += count;
             return count;
@@ -141,7 +140,8 @@ namespace FFramework.Memory
         {
             EnsureLength(m_position + count);
             Array.Copy(buffer, offset, m_data, m_position, count);
-            if (m_position + count > m_length) m_length = m_position + count;
+            if (m_position + count > m_length)
+                m_length = m_position + count;
             m_position += count;
         }
 

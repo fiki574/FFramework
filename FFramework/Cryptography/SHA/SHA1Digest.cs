@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -162,9 +162,8 @@ namespace FFramework.Cryptography.SHA
         internal override void ProcessLength(long bitLength)
         {
             if (xOff > 14)
-            {
                 ProcessBlock();
-            }
+
             X[14] = (uint)(bitLength >> 0x20);
             X[15] = (uint)bitLength;
         }
@@ -173,9 +172,7 @@ namespace FFramework.Cryptography.SHA
         {
             X[xOff] = ByteSwap.BE_To_UInt32(input, inOff);
             if (++xOff == 0x10)
-            {
                 ProcessBlock();
-            }
         }
 
         public override void Reset()

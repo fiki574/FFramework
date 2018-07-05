@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,7 +33,8 @@ namespace FFramework.Memory
         public static IntPtr OpenProcess(Process process, ProcessAccessFlags flags)
         {
             IntPtr handle = OpenProcess(flags, false, process.Id);
-            if (handle == IntPtr.Zero) throw new Exception(String.Format("Failed to open process ({0}).", Kernel32.GetLastError()));
+            if (handle == IntPtr.Zero)
+                return default(IntPtr);
             return handle;
         }
 
@@ -44,7 +45,8 @@ namespace FFramework.Memory
         {
             IntPtr bytesWritten;
             int result = WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, lpBuffer.Length, out bytesWritten);
-            if (result == 0) throw new Exception(String.Format("Failed to write to process ({0}).", Kernel32.GetLastError()));
+            if (result == 0)
+                return 0;
             return result;
         }
 
@@ -55,7 +57,8 @@ namespace FFramework.Memory
         {
             IntPtr bytesRead;
             int result = ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, lpBuffer.Length, out bytesRead);
-            if (result == 0) throw new Exception("Failed to read from process.");
+            if (result == 0)
+                return 0;
             return result;
         }
 
@@ -69,7 +72,8 @@ namespace FFramework.Memory
         {
             uint oldProtect;
             int result = VirtualProtectEx(hProcess, lpAddress, new IntPtr(size), newProtect, out oldProtect);
-            if (result == 0) throw new Exception(String.Format("Failed to chance access ({0}).", Kernel32.GetLastError()));
+            if (result == 0)
+                return 0;
             return oldProtect;
         }
 

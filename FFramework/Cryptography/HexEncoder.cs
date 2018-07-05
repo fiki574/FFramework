@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,15 +42,18 @@ namespace FFramework.Cryptography
             int num4 = off + length;
             while (num4 > off)
             {
-                if (!ignore((char)data[num4 - 1])) break;
+                if (!ignore((char)data[num4 - 1]))
+                    break;
                 num4--;
             }
             int index = off;
             while (index < num4)
             {
-                while ((index < num4) && ignore((char)data[index])) index++;
+                while ((index < num4) && ignore((char)data[index]))
+                    index++;
                 byte num = decodingTable[data[index++]];
-                while ((index < num4) && ignore((char)data[index])) index++;
+                while ((index < num4) && ignore((char)data[index]))
+                    index++;
                 byte num2 = decodingTable[data[index++]];
                 outStream.WriteByte((byte)((num << 4) | num2));
                 num3++;
@@ -70,9 +73,11 @@ namespace FFramework.Cryptography
             int num5 = 0;
             while (num5 < length)
             {
-                while ((num5 < length) && ignore(data[num5])) num5++;
+                while ((num5 < length) && ignore(data[num5]))
+                    num5++;
                 byte num = decodingTable[data[num5++]];
-                while ((num5 < length) && ignore(data[num5])) num5++;
+                while ((num5 < length) && ignore(data[num5]))
+                    num5++;
                 byte num2 = decodingTable[data[num5++]];
                 outStream.WriteByte((byte)((num << 4) | num2));
                 num3++;
@@ -93,7 +98,8 @@ namespace FFramework.Cryptography
 
         private bool ignore(char c)
         {
-            if (((c != '\n') && (c != '\r')) && (c != '\t')) return (c == ' ');
+            if (((c != '\n') && (c != '\r')) && (c != '\t'))
+                return (c == ' ');
             return true;
         }
     }

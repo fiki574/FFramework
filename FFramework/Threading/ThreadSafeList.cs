@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,6 +25,18 @@ namespace FFramework.Threading
     {
         private List<T> list = new List<T>();
 
+        public T this[int index]
+        {
+            get
+            {
+                return list[index];
+            }
+            set
+            {
+                list[index] = value;
+            }
+        }
+
         public ThreadSafeList()
         {
         }
@@ -47,7 +59,8 @@ namespace FFramework.Threading
             List<R> nList = new List<R>();
             lock (list)
             {
-                foreach (T item in list) nList.Add(selector(item));
+                foreach (T item in list)
+                    nList.Add(selector(item));
             }
             return nList;
         }
@@ -57,7 +70,9 @@ namespace FFramework.Threading
             List<T> nList = new List<T>();
             lock (list)
             {
-                foreach (T item in list) if (selector(item)) nList.Add(item);
+                foreach (T item in list)
+                    if (selector(item))
+                        nList.Add(item);
             }
             return nList;
         }
@@ -65,21 +80,27 @@ namespace FFramework.Threading
         public T Single(Func<T, bool> condition)
         {
             int count = Count(condition);
-            if (count > 1) throw new Exception("Multiple entries found matching condition.");
-            else if (count == 0) throw new Exception("No entry found matching condition.");
+            if (count > 1)
+                return default(T);
+            else if (count == 0)
+                return default(T);
             else
                 lock (list)
                 {
-                    foreach (T item in list) if (condition(item)) return item;
+                    foreach (T item in list)
+                        if (condition(item))
+                            return item;
                 }
-            throw new Exception("No entry found matching condition.");
+            return default(T);
         }
 
         public T FirstOrDefault(Func<T, bool> condition)
         {
             lock (list)
             {
-                foreach (T item in list) if (condition(item)) return item;
+                foreach (T item in list)
+                    if (condition(item))
+                        return item;
             }
             return default(T);
         }
@@ -87,14 +108,51 @@ namespace FFramework.Threading
         public T SingleOrDefault(Func<T, bool> condition)
         {
             int count = Count(condition);
-            if (count > 1) throw new Exception("Multiple entries found matching condition.");
-            else if (count == 0) return default(T);
+            if (count > 1)
+                return default(T);
+            else if (count == 0)
+                return default(T);
             else
                 lock (list)
                 {
-                    foreach (T item in list) if (condition(item)) return item;
+                    foreach (T item in list)
+                        if (condition(item))
+                            return item;
                 } 
             return default(T);
+        }
+
+        public void Update(Func<T, bool> condition, T obj)
+        {
+            int count = Count(condition);
+            if (count > 1)
+                return;
+            else if (count == 0)
+                return;
+            else
+            {
+                T found = default(T);
+                bool b = false;
+                lock (list)
+                {
+                    foreach (T item in list)
+                    {
+                        if (condition(item))
+                        {
+                            found = item;
+                            b = true;
+                            break;
+                        }
+                    }
+
+                    if (b)
+                    {
+                        int index = list.IndexOf(found);
+                        list[index] = obj;
+                    }
+                }
+            }
+            return;
         }
 
         public T[] ToArray()
@@ -109,7 +167,8 @@ namespace FFramework.Threading
         {
             lock (list)
             {
-                foreach (T item in list) feachAction(item);
+                foreach (T item in list)
+                    feachAction(item);
             }
         }
 
@@ -118,7 +177,9 @@ namespace FFramework.Threading
             int i = 0;
             lock (list)
             {
-                foreach (T item in list) if (selector(item)) i++;
+                foreach (T item in list)
+                    if (selector(item))
+                        i++;
             }
             return i;
         }
@@ -127,7 +188,9 @@ namespace FFramework.Threading
         {
             lock (list)
             {
-                foreach (T item in list) if (selector(item)) return true;
+                foreach (T item in list)
+                    if (selector(item))
+                        return true;
             }
             return false;
         }
@@ -136,7 +199,9 @@ namespace FFramework.Threading
         {
             lock (list)
             {
-                foreach (T i in list) if (i.Equals(item)) return true;
+                foreach (T i in list)
+                    if (i.Equals(item))
+                        return true;
                 return false;
             }
         }
@@ -161,7 +226,9 @@ namespace FFramework.Threading
         {
             lock (list)
             {
-                for (int i = list.Count - 1; i >= 0; i--) if (selector(list[i])) list.RemoveAt(i);
+                for (int i = list.Count - 1; i >= 0; i--)
+                    if (selector(list[i]))
+                        list.RemoveAt(i);
             }
         }
 
@@ -170,6 +237,22 @@ namespace FFramework.Threading
             lock (this.list)
             {
                 this.list = list;
+            }
+        }
+
+        public void Sort(Comparison<T> comparer)
+        {
+            lock (list)
+            {
+                list.Sort(comparer);
+            }
+        }
+
+        public void Clear()
+        {
+            lock (list)
+            {
+                list.Clear();
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -69,7 +69,8 @@ namespace FFramework.File
         {
             using (var ms = new MemoryStream())
             {
-                using (var compressor = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.Default)) compressor.Write(data, 0, data.Length);
+                using (var compressor = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.Default))
+                    compressor.Write(data, 0, data.Length);
                 return ms.ToArray();
             }
         }
@@ -81,9 +82,7 @@ namespace FFramework.File
             using (BinaryReader reader = new BinaryReader(s))
             {
                 if (reader.ReadUInt32() != header)
-                {
-                    throw new Exception("Unexpected header");
-                }
+                    return;
 
                 int offset = reader.ReadInt32();
                 int size = reader.ReadInt32();
@@ -92,7 +91,8 @@ namespace FFramework.File
                 byte[] compressed = reader.ReadBytes(compressedSize);
                 byte[] decompressed = new byte[size];
                 using (var cs = new MemoryStream(compressed))
-                using (var zs = new ZlibStream(cs, CompressionMode.Decompress)) zs.Read(decompressed, 0, size);
+                using (var zs = new ZlibStream(cs, CompressionMode.Decompress))
+                    zs.Read(decompressed, 0, size);
                 using (MemoryStream ds = new MemoryStream(decompressed))
                 using (BinaryReader drs = new BinaryReader(ds))
                 {
@@ -124,7 +124,8 @@ namespace FFramework.File
             for (int i = 0; i < components.Length; i++)
             {
                 a = Path.Combine(a, components[i]);
-                if (!Directory.Exists(a)) Directory.CreateDirectory(a);
+                if (!Directory.Exists(a))
+                    Directory.CreateDirectory(a);
             }
         }
     }

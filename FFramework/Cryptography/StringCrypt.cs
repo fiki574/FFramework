@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,8 @@ namespace FFramework.Cryptography
         {
             char[] r = new char[s.Length];
             int i = 0, j = r.Length;
-            for (i = 0; i < s.Length; i++) r[i] = s[i];
+            for (i = 0; i < s.Length; i++)
+                r[i] = s[i];
             for (i = 0; i < j; i++)
             {
                 char c = r[i];
@@ -49,7 +50,8 @@ namespace FFramework.Cryptography
         {
             char[] r = new char[s.Length];
             int i = 0, j = r.Length;
-            for (i = 0; i < s.Length; i++) r[i] = s[i];
+            for (i = 0; i < s.Length; i++)
+                r[i] = s[i];
             for (i = j - 1; i >= 0; i--)
             {
                 char c = r[i];

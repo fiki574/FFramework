@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,11 +30,6 @@ namespace FFramework.Utilities
     {
         public int ID;
         public byte[] Data;
-
-        public override string ToString()
-        {
-            return $"[FileID = {ID} | Data = { System.Text.Encoding.ASCII.GetString(Data) }]";
-        }
     }
 
     public class FDB
@@ -49,7 +44,8 @@ namespace FFramework.Utilities
             {
                 Name = name + ".fdb";
                 FDBFiles = new List<FDBFile>();
-                if (!System.IO.File.Exists(Name)) Initial();
+                if (!System.IO.File.Exists(Name))
+                    Initial();
                 Load();
             }
             catch (Exception ex)
@@ -133,9 +129,11 @@ namespace FFramework.Utilities
                     var entries = reader.ReadInt32();
                     var size = reader.ReadInt32();
                     var cursize = Marshal.SizeOf(typeof(T));
-                    if (size < cursize || size > cursize) throw new Exception($"Size of structure in database: {size} | Current structure size: {cursize} | Sizes must be the same!");
+                    if (size < cursize || size > cursize)
+                        throw new Exception($"Size of structure in database: {size} | Current structure size: {cursize} | Sizes must be the same!");
                     var list = new List<T>(entries);
-                    for (int i = 0; i < entries; i++) list.Add((T)reader.ReadStructure(typeof(T)));
+                    for (int i = 0; i < entries; i++)
+                        list.Add((T)reader.ReadStructure(typeof(T)));
                     reader.Close();
                     return list;
                 }
@@ -153,10 +151,13 @@ namespace FFramework.Utilities
                 int id = -1;
                 if (index != -1)
                 {
-                    if (FDBFiles.Count(f => f.ID == index) > 0) return;
-                    else id = index;
+                    if (FDBFiles.Count(f => f.ID == index) > 0)
+                        return;
+                    else
+                        id = index;
                 }
-                else id = GetNextID();
+                else
+                    id = GetNextID();
 
                 var file = new FDBFile();
                 file.ID = id;
@@ -188,7 +189,9 @@ namespace FFramework.Utilities
         public int GetNextID()
         {
             var highest = 1;
-            foreach (FDBFile file in FDBFiles) if (file.ID > highest) highest = file.ID;
+            foreach (FDBFile file in FDBFiles)
+                if (file.ID > highest)
+                    highest = file.ID;
             return highest + 1;
         }
 
@@ -209,7 +212,9 @@ namespace FFramework.Utilities
 
         private FDBFile GetFileFromID(int id)
         {
-            foreach (var file in FDBFiles) if (file.ID == id) return file;
+            foreach (var file in FDBFiles)
+                if (file.ID == id)
+                    return file;
             return default(FDBFile);
         }
 

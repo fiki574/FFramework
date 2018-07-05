@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -64,12 +64,14 @@ namespace FFramework.Threading
                 {
                     foreach (ThreadExecutor Executor in Executors)
                     {
-                        if (Executor.Processing) continue;
+                        if (Executor.Processing)
+                            continue;
                         Selected = Executor;
                         break;
                     }
                 }
-                else Selected = CreateThread();
+                else
+                    Selected = CreateThread();
             }
             return Selected;
         }
@@ -107,13 +109,13 @@ namespace FFramework.Threading
                     }
 
                     long Elapsed = GetTimeStampMS() - StartTime;
-
                     Processing = false;
                     ProcessEvent = null;
-
-                    if (Elapsed < WaitTimeMS && IsRunning) Thread.Sleep((int)(WaitTimeMS - Elapsed));
+                    if (Elapsed < WaitTimeMS && IsRunning)
+                        Thread.Sleep((int)(WaitTimeMS - Elapsed));
                 }
-                else if (IsRunning) Thread.Sleep(WaitTimeMS);
+                else if (IsRunning)
+                    Thread.Sleep(WaitTimeMS);
             }
         }
 

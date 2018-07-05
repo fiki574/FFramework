@@ -1,6 +1,6 @@
 /*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,20 +26,28 @@ namespace FFramework.Utilities
             {
                 if (year % 100 == 0)
                 {
-                    if (year % 400 == 0) return true;
-                    else return false;
+                    if (year % 400 == 0)
+                        return true;
+                    else
+                        return false;
                 }
-                else return true;
+                else
+                    return true;
             }
-            else return false;
+            else
+                return false;
         }
 
         public static int GetDaysInMonth(int month, int year)
         {
-            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) return 31;
-            else if (month == 4 || month == 6 || month == 9 || month == 11) return 30;
-            else if (month == 2) return IsLeapYear(year) == true ? 29 : 28;
-            else return 0;
+            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+                return 31;
+            else if (month == 4 || month == 6 || month == 9 || month == 11)
+                return 30;
+            else if (month == 2)
+                return IsLeapYear(year) == true ? 29 : 28;
+            else
+                return 0;
         }
 
         public static bool IsDigitsOnly(string str, bool allow_dot = false)
@@ -48,8 +56,11 @@ namespace FFramework.Utilities
             {
                 if (c < '0' || c > '9')
                 {
-                    if (!allow_dot) return false;
-                    else if (allow_dot) if (c != '.') return false;
+                    if (!allow_dot)
+                        return false;
+                    else if (allow_dot)
+                        if (c != '.')
+                            return false;
                 }             
             }
             return true;

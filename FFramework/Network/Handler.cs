@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,12 +16,34 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace FFramework.Network.Client
+using System;
+
+namespace FFramework.Network
 {
-    public interface IPacket
+    public class Handler : Attribute
     {
-        void Write(byte[] buffer, int offset, int count);
-        void EmptyData();
-        void Handle();
+        public Handler(InterfaceType opcodeHandler, int type)
+        {
+            OpcodeHandler = opcodeHandler;
+            Type = type;
+        }
+
+        public InterfaceType OpcodeHandler
+        {
+            get;
+            private set;
+        }
+
+        public int Type
+        {
+            get;
+            private set;
+        }
+    }
+
+    public enum InterfaceType : int
+    {
+        Server = 0,
+        Client = 1
     }
 }

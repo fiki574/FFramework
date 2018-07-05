@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,11 +22,6 @@ using System.Runtime.InteropServices;
 
 namespace FFramework.Cryptography
 {
-    [GuidAttribute("ebc25cf6-9120-4283-b972-0e5520d0000C")]
-    [ComVisible(true)]
-    #if !NETCF
-    [ClassInterface(ClassInterfaceType.AutoDispatch)]
-    #endif
     public class CRC32
     {
         public long TotalBytesRead
@@ -52,7 +47,8 @@ namespace FFramework.Cryptography
 
         public int GetCrc32AndCopy(Stream input, Stream output)
         {
-            if (input == null) throw new Exception("The input stream must not be null.");
+            if (input == null)
+                return 0;
 
             unchecked
             {
@@ -60,13 +56,15 @@ namespace FFramework.Cryptography
                 int readSize = BUFFER_SIZE;
                 _TotalBytesRead = 0;
                 int count = input.Read(buffer, 0, readSize);
-                if (output != null) output.Write(buffer, 0, count);
+                if (output != null)
+                    output.Write(buffer, 0, count);
                 _TotalBytesRead += count;
                 while (count > 0)
                 {
                     SlurpBlock(buffer, 0, count);
                     count = input.Read(buffer, 0, readSize);
-                    if (output != null) output.Write(buffer, 0, count);
+                    if (output != null)
+                        output.Write(buffer, 0, count);
                     _TotalBytesRead += count;
                 }
                 return (int)(~_register);
@@ -85,7 +83,8 @@ namespace FFramework.Cryptography
 
         public void SlurpBlock(byte[] block, int offset, int count)
         {
-            if (block == null) throw new Exception("The data buffer must not be null.");
+            if (block == null)
+                return;
 
             for (int i = 0; i < count; i++)
             {
@@ -132,7 +131,6 @@ namespace FFramework.Cryptography
                 {
                     uint temp = (_register & 0x000000FF) ^ b;
                     _register = (_register >> 8) ^ crc32Table[(temp >= 0) ? temp : (temp + 256)];
-
                 }
             }
         }
@@ -174,10 +172,12 @@ namespace FFramework.Cryptography
                     dwCrc = i;
                     for (byte j = 8; j > 0; j--)
                     {
-                        if ((dwCrc & 1) == 1) dwCrc = (dwCrc >> 1) ^ dwPolynomial;
+                        if ((dwCrc & 1) == 1)
+                            dwCrc = (dwCrc >> 1) ^ dwPolynomial;
                         else dwCrc >>= 1;
                     }
-                    if (reverseBits) crc32Table[ReverseBits(i)] = ReverseBits(dwCrc);
+                    if (reverseBits)
+                        crc32Table[ReverseBits(i)] = ReverseBits(dwCrc);
                     else crc32Table[i] = dwCrc;
                     i++;
                 }
@@ -192,7 +192,8 @@ namespace FFramework.Cryptography
             int i = 0;
             while (vec != 0)
             {
-                if ((vec & 0x01) == 0x01) sum ^= matrix[i];
+                if ((vec & 0x01) == 0x01)
+                    sum ^= matrix[i];
                 vec >>= 1;
                 i++;
             }
@@ -201,7 +202,8 @@ namespace FFramework.Cryptography
 
         private void gf2_matrix_square(uint[] square, uint[] mat)
         {
-            for (int i = 0; i < 32; i++) square[i] = gf2_matrix_times(mat, mat[i]);
+            for (int i = 0; i < 32; i++)
+                square[i] = gf2_matrix_times(mat, mat[i]);
         }
 
         public void Combine(int crc, int length)
@@ -209,7 +211,8 @@ namespace FFramework.Cryptography
             uint[] even = new uint[32];
             uint[] odd = new uint[32];
 
-            if (length == 0) return;
+            if (length == 0)
+                return;
 
             uint crc1 = ~_register;
             uint crc2 = (uint)crc;
@@ -226,21 +229,23 @@ namespace FFramework.Cryptography
             gf2_matrix_square(odd, even);
 
             uint len2 = (uint)length;
-
             do
             {
                 gf2_matrix_square(even, odd);
-                if ((len2 & 1) == 1) crc1 = gf2_matrix_times(even, crc1);
+                if ((len2 & 1) == 1)
+                    crc1 = gf2_matrix_times(even, crc1);
                 len2 >>= 1;
-                if (len2 == 0) break;
+                if (len2 == 0)
+                    break;
                 gf2_matrix_square(odd, even);
-                if ((len2 & 1) == 1) crc1 = gf2_matrix_times(odd, crc1);
+                if ((len2 & 1) == 1)
+                    crc1 = gf2_matrix_times(odd, crc1);
                 len2 >>= 1;
             }
             while (len2 != 0);
+
             crc1 ^= crc2;
             _register = ~crc1;
-
             return;
         }
 
@@ -290,17 +295,20 @@ namespace FFramework.Cryptography
 
         public CrcCalculatorStream(Stream stream, long length) : this(true, length, stream, null)
         {
-            if (length < 0) throw new ArgumentException("length");
+            if (length < 0)
+                return;
         }
 
         public CrcCalculatorStream(Stream stream, long length, bool leaveOpen) : this(leaveOpen, length, stream, null)
         {
-            if (length < 0) throw new ArgumentException("length");
+            if (length < 0)
+                return;
         }
 
         public CrcCalculatorStream(Stream stream, long length, bool leaveOpen, CRC32 crc32) : this(leaveOpen, length, stream, crc32)
         {
-            if (length < 0) throw new ArgumentException("length");
+            if (length < 0)
+                return;
         }
 
         private CrcCalculatorStream(bool leaveOpen, long length, Stream stream, CRC32 crc32) : base()
@@ -313,18 +321,30 @@ namespace FFramework.Cryptography
 
         public long TotalBytesSlurped
         {
-            get { return _Crc32.TotalBytesRead; }
+            get
+            {
+                return _Crc32.TotalBytesRead;
+            }
         }
 
         public int Crc
         {
-            get { return _Crc32.Crc32Result; }
+            get
+            {
+                return _Crc32.Crc32Result;
+            }
         }
 
         public bool LeaveOpen
         {
-            get { return _leaveOpen; }
-            set { _leaveOpen = value; }
+            get
+            {
+                return _leaveOpen;
+            }
+            set
+            {
+                _leaveOpen = value;
+            }
         }
 
         public override int Read(byte[] buffer, int offset, int count)
@@ -332,34 +352,47 @@ namespace FFramework.Cryptography
             int bytesToRead = count;
             if (_lengthLimit != UnsetLengthLimit)
             {
-                if (_Crc32.TotalBytesRead >= _lengthLimit) return 0;
+                if (_Crc32.TotalBytesRead >= _lengthLimit)
+                    return 0;
                 long bytesRemaining = _lengthLimit - _Crc32.TotalBytesRead;
-                if (bytesRemaining < count) bytesToRead = (int)bytesRemaining;
+                if (bytesRemaining < count)
+                    bytesToRead = (int)bytesRemaining;
             }
             int n = _innerStream.Read(buffer, offset, bytesToRead);
-            if (n > 0) _Crc32.SlurpBlock(buffer, offset, n);
+            if (n > 0)
+                _Crc32.SlurpBlock(buffer, offset, n);
             return n;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (count > 0) _Crc32.SlurpBlock(buffer, offset, count);
+            if (count > 0)
+                _Crc32.SlurpBlock(buffer, offset, count);
             _innerStream.Write(buffer, offset, count);
         }
 
         public override bool CanRead
         {
-            get { return _innerStream.CanRead; }
+            get
+            {
+                return _innerStream.CanRead;
+            }
         }
 
         public override bool CanSeek
         {
-            get { return false; }
+            get
+            {
+                return false;
+            }
         }
 
         public override bool CanWrite
         {
-            get { return _innerStream.CanWrite; }
+            get
+            {
+                return _innerStream.CanWrite;
+            }
         }
 
         public override void Flush()
@@ -371,25 +404,32 @@ namespace FFramework.Cryptography
         {
             get
             {
-                if (_lengthLimit == UnsetLengthLimit) return _innerStream.Length;
+                if (_lengthLimit == UnsetLengthLimit)
+                    return _innerStream.Length;
                 else return _lengthLimit;
             }
         }
 
         public override long Position
         {
-            get { return _Crc32.TotalBytesRead; }
-            set { throw new NotSupportedException(); }
+            get
+            {
+                return _Crc32.TotalBytesRead;
+            }
+            set
+            {
+                throw new NotSupportedException();
+            }
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            throw new NotSupportedException();
+            return 0;
         }
 
         public override void SetLength(long value)
         {
-            throw new NotSupportedException();
+            return;
         }
 
         void IDisposable.Dispose()
@@ -400,7 +440,8 @@ namespace FFramework.Cryptography
         public override void Close()
         {
             base.Close();
-            if (!_leaveOpen) _innerStream.Close();
+            if (!_leaveOpen)
+                _innerStream.Close();
         }
     }
 }

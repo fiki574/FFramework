@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,34 +24,42 @@ namespace FFramework.Utilities
 {
     public class Logger
     {
+        private static bool IsLogging = false;
+        private static Mutex mutex = new Mutex();
+
         public static void Write(string caller, ConsoleColor caller_color, string message, ConsoleColor message_color, bool use_timestamps = true, bool save_in_file = true, string file_name = "defaultname.log")
         {
-            Mutex mutex = new Mutex();
             try
             {
-                mutex.WaitOne();
-                string text = null;
-                Console.BufferHeight = Console.WindowWidth - 20;
-                if (use_timestamps == true)
+                lock (mutex)
                 {
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    text = "[" + DateTime.Now.ToString("HH:mm:ss") + "] ";
-                    Console.Write(text);
+                    while (IsLogging)
+                        Thread.Sleep(10);
+
+                    string text = null;
+                    Console.BufferHeight = Console.WindowWidth - 20;
+                    if (use_timestamps == true)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        text = "[" + DateTime.Now.ToString("HH:mm:ss") + "] ";
+                        Console.Write(text);
+                    }
+
+                    Console.ForegroundColor = caller_color;
+                    Console.Write(caller + ": ");
+                    Console.ForegroundColor = message_color;
+                    Console.Write(message + '\n');
+
+                    StreamWriter file = System.IO.File.AppendText(file_name);
+                    if (use_timestamps == true)
+                        file.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + caller + ": " + message);
+                    else
+                        file.WriteLine(caller + ": " + message);
+                    file.Close();
                 }
-
-                Console.ForegroundColor = caller_color;
-                Console.Write(caller + ": ");
-                Console.ForegroundColor = message_color;
-                Console.Write(message + '\n');
-
-                StreamWriter file = System.IO.File.AppendText(file_name);
-                if(use_timestamps == true) file.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + caller + ": " + message);
-                else file.WriteLine(caller + ": " + message);
-                file.Close();
             }
-            finally
+            catch
             {
-                mutex.ReleaseMutex();
             }
         }
     }

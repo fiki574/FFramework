@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,21 +24,10 @@ namespace FFramework.Image
 {
     public class DDSImage
     {
-        private const int DDPF_ALPHAPIXELS = 0x00000001;
-        private const int DDPF_ALPHA = 0x00000002;
-        private const int DDPF_FOURCC = 0x00000004;
-        private const int DDPF_RGB = 0x00000040;
-        private const int DDPF_YUV = 0x00000200;
-        private const int DDPF_LUMINANCE = 0x00020000;
-        private const int DDSD_MIPMAPCOUNT = 0x00020000;
-        private const int FOURCC_DXT1 = 0x31545844;
-        private const int FOURCC_DX10 = 0x30315844;
-        private const int FOURCC_DXT5 = 0x35545844;
-
+        private const int DDPF_ALPHAPIXELS = 0x00000001, DDPF_ALPHA = 0x00000002,  DDPF_FOURCC = 0x00000004, DDPF_RGB = 0x00000040, DDPF_YUV = 0x00000200, DDPF_LUMINANCE = 0x00020000, DDSD_MIPMAPCOUNT = 0x00020000, FOURCC_DXT1 = 0x31545844, FOURCC_DX10 = 0x30315844, FOURCC_DXT5 = 0x35545844;
         public int dwMagic;
         private DDS_HEADER header = new DDS_HEADER();
-        public byte[] bdata;
-        public byte[] bdata2;
+        public byte[] bdata, bdata2;
 
         public Bitmap[] images;
 
@@ -60,10 +49,10 @@ namespace FFramework.Image
                     int mipMapCount = 1;
                     if ((header.dwFlags & DDSD_MIPMAPCOUNT) != 0)
                         mipMapCount = header.dwMipMapCount;
+
                     images = new Bitmap[mipMapCount];
 
                     bdata = r.ReadBytes(header.dwPitchOrLinearSize);
-
 
                     for (int i = 0; i < mipMapCount; ++i)
                     {
@@ -74,12 +63,7 @@ namespace FFramework.Image
                             images[i] = readLinearImage(bdata, w, h);
                         else if ((header.ddspf.dwFlags & DDPF_FOURCC) != 0)
                             images[i] = readBlockImage(bdata, w, h);
-                        else if ((header.ddspf.dwFlags & DDPF_FOURCC) == 0 &&
-                                  header.ddspf.dwRGBBitCount == 0x10 &&
-                                  header.ddspf.dwRBitMask == 0xFF &&
-                                  header.ddspf.dwGBitMask == 0xFF00 &&
-                                  header.ddspf.dwBBitMask == 0x00 &&
-                                  header.ddspf.dwABitMask == 0x00)
+                        else if ((header.ddspf.dwFlags & DDPF_FOURCC) == 0 && header.ddspf.dwRGBBitCount == 0x10 && header.ddspf.dwRBitMask == 0xFF && header.ddspf.dwGBitMask == 0xFF00 && header.ddspf.dwBBitMask == 0x00 && header.ddspf.dwABitMask == 0x00)
                             images[i] = UncompressV8U8(bdata, w, h);
                     }
                 }
@@ -119,32 +103,26 @@ namespace FFramework.Image
         {
             ushort color0 = (ushort)(blockStorage[0] | blockStorage[1] << 8);
             ushort color1 = (ushort)(blockStorage[2] | blockStorage[3] << 8);
-
             int temp;
-
             temp = (color0 >> 11) * 255 + 16;
             byte r0 = (byte)((temp / 32 + temp) / 32);
             temp = ((color0 & 0x07E0) >> 5) * 255 + 32;
             byte g0 = (byte)((temp / 64 + temp) / 64);
             temp = (color0 & 0x001F) * 255 + 16;
             byte b0 = (byte)((temp / 32 + temp) / 32);
-
             temp = (color1 >> 11) * 255 + 16;
             byte r1 = (byte)((temp / 32 + temp) / 32);
             temp = ((color1 & 0x07E0) >> 5) * 255 + 32;
             byte g1 = (byte)((temp / 64 + temp) / 64);
             temp = (color1 & 0x001F) * 255 + 16;
             byte b1 = (byte)((temp / 32 + temp) / 32);
-
             uint code = (uint)(blockStorage[4] | blockStorage[5] << 8 | blockStorage[6] << 16 | blockStorage[7] << 24);
-
             for (int j = 0; j < 4; j++)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     Color finalColor = Color.FromArgb(0);
                     byte positionCode = (byte)((code >> 2 * (4 * j + i)) & 0x03);
-
                     if (color0 > color1)
                     {
                         switch (positionCode)
@@ -207,39 +185,31 @@ namespace FFramework.Image
         {
             byte alpha0 = blockStorage[0];
             byte alpha1 = blockStorage[1];
-
             int bitOffset = 2;
             uint alphaCode1 = (uint)(blockStorage[bitOffset + 2] | (blockStorage[bitOffset + 3] << 8) | (blockStorage[bitOffset + 4] << 16) | (blockStorage[bitOffset + 5] << 24));
             ushort alphaCode2 = (ushort)(blockStorage[bitOffset + 0] | (blockStorage[bitOffset + 1] << 8));
-
             ushort color0 = (ushort)(blockStorage[8] | blockStorage[9] << 8);
             ushort color1 = (ushort)(blockStorage[10] | blockStorage[11] << 8);
-
             int temp;
-
             temp = (color0 >> 11) * 255 + 16;
             byte r0 = (byte)((temp / 32 + temp) / 32);
             temp = ((color0 & 0x07E0) >> 5) * 255 + 32;
             byte g0 = (byte)((temp / 64 + temp) / 64);
             temp = (color0 & 0x001F) * 255 + 16;
             byte b0 = (byte)((temp / 32 + temp) / 32);
-
             temp = (color1 >> 11) * 255 + 16;
             byte r1 = (byte)((temp / 32 + temp) / 32);
             temp = ((color1 & 0x07E0) >> 5) * 255 + 32;
             byte g1 = (byte)((temp / 64 + temp) / 64);
             temp = (color1 & 0x001F) * 255 + 16;
             byte b1 = (byte)((temp / 32 + temp) / 32);
-
             uint code = (uint)(blockStorage[12] | blockStorage[13] << 8 | blockStorage[14] << 16 | blockStorage[15] << 24);
-
             for (int j = 0; j < 4; j++)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     int alphaCodeIndex = 3 * (4 * j + i);
                     int alphaCode;
-
                     if (alphaCodeIndex <= 12)
                         alphaCode = (alphaCode2 >> alphaCodeIndex) & 0x07;
                     else if (alphaCodeIndex == 15)
@@ -268,7 +238,6 @@ namespace FFramework.Image
                     }
 
                     byte colorCode = (byte)((code >> 2 * (4 * j + i)) & 0x03);
-
                     Color finalColor = new Color();
                     switch (colorCode)
                     {
@@ -390,10 +359,6 @@ namespace FFramework.Image
         public int dwGBitMask;
         public int dwBBitMask;
         public int dwABitMask;
-
-        public DDS_PIXELFORMAT()
-        {
-        }
     }
 
     enum DXGI_FORMAT : uint

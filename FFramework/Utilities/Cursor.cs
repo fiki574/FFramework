@@ -1,6 +1,6 @@
 /*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@ namespace FFramework.Utilities
     public class Cursor
     {
         [DllImport("User32.Dll")]
-        public static extern long SetCursorPos(int x, int y);
+        private static extern long SetCursorPos(int x, int y);
 
         [DllImport("User32.Dll")]
-        public static extern bool ClientToScreen(IntPtr hWnd, ref Point point);
+        private static extern bool ClientToScreen(IntPtr hWnd, ref Point point);
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct Point
+        private struct Point
         {
             public int X;
             public int Y;

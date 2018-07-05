@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -61,7 +61,8 @@ namespace FFramework.Memory
                 freeBlocks = new ConcurrentQueue<BufferBlock>();
                 for (int i = 0; i < bufferCount; i++) ExtendBuffer();
             }
-            else throw new NotSupportedException("BufferManager cannot be initialized twice!");
+            else
+                return;
         }
 
         void ExtendBuffer()
@@ -87,7 +88,9 @@ namespace FFramework.Memory
         {
             if (bufferBlocks == null) Init(0x800000, 4, 0x1000);
             BufferBlock block;
-            while (!freeBlocks.TryDequeue(out block)) if (!waiter.WaitOne(MaxWaitTime)) ExtendBuffer();
+            while (!freeBlocks.TryDequeue(out block))
+                if (!waiter.WaitOne(MaxWaitTime))
+                    ExtendBuffer();
             block.inUse = true;
             return block;
         }

@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,28 +29,36 @@ namespace FFramework.Extensions
             object o = Activator.CreateInstance(t);
             if (t.IsValueType && !t.IsEnum)
             {
-                if (t == typeof(byte)) return reader.ReadByte();
-                else if (t == typeof(short)) return reader.ReadInt16();
-                else if (t == typeof(int)) return reader.ReadInt32();
-                else if (t == typeof(uint)) return reader.ReadInt64();
+                if (t == typeof(byte))
+                    return reader.ReadByte();
+                else if (t == typeof(short))
+                    return reader.ReadInt16();
+                else if (t == typeof(int))
+                    return reader.ReadInt32();
+                else if (t == typeof(uint))
+                    return reader.ReadInt64();
                 else
                 {
                     foreach (var f in t.GetFields())
                     {
-                        if (f.FieldType.IsCustomValueType()) f.SetValue(o, reader.ReadStructure(f.FieldType));
+                        if (f.FieldType.IsCustomValueType())
+                            f.SetValue(o, reader.ReadStructure(f.FieldType));
                         else if (f.FieldType.IsArray)
                         {
                             int length = reader.ReadInt32();
                             Array a = Array.CreateInstance(f.FieldType.GetElementType(), length);
-                            for (int i = 0; i < length; i++) a.SetValue(reader.ReadStructure(f.FieldType.GetElementType()), i);
+                            for (int i = 0; i < length; i++)
+                                a.SetValue(reader.ReadStructure(f.FieldType.GetElementType()), i);
                             f.SetValue(o, a);
                         }
-                        else f.SetValue(o, reader.ReadStructureValue(f.FieldType));
+                        else
+                            f.SetValue(o, reader.ReadStructureValue(f.FieldType));
                     }
                     return o;
                 }
             }
-            else return reader.ReadStructureValue(t);
+            else
+                return reader.ReadStructureValue(t);
         }
 
         public static object ReadStructureValue(this BinaryReader reader, Type t)
@@ -61,12 +69,18 @@ namespace FFramework.Extensions
                 byte[] textBytes = reader.ReadBytes(length);
                 return Encoding.UTF8.GetString(textBytes);
             }
-            else if (t == typeof(byte)) return reader.ReadByte();
-            else if (t == typeof(bool)) return reader.ReadBoolean();
-            else if (t == typeof(short)) return reader.ReadInt16();
-            else if (t == typeof(int)) return reader.ReadInt32();
-            else if (t == typeof(long)) return reader.ReadInt64();
-            else throw new Exception("Unknown type in structure.");
+            else if (t == typeof(byte))
+                return reader.ReadByte();
+            else if (t == typeof(bool))
+                return reader.ReadBoolean();
+            else if (t == typeof(short))
+                return reader.ReadInt16();
+            else if (t == typeof(int))
+                return reader.ReadInt32();
+            else if (t == typeof(long))
+                return reader.ReadInt64();
+            else
+                return null;
         }
 
         public static T ReadStructure<T>(this BinaryReader reader) where T : struct
@@ -81,7 +95,8 @@ namespace FFramework.Extensions
             Type t = typeof(T);
             int length = reader.ReadInt32();
             T[] ts = new T[length];
-            for (int i = 0; i < length; i++) ts[i] = (T)reader.ReadStructure(t);
+            for (int i = 0; i < length; i++)
+                ts[i] = (T)reader.ReadStructure(t);
             return ts;
         }
     }

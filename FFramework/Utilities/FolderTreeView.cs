@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@ namespace FFramework.Utilities
             path = null;
         }
 
-        public void CreateTree(TreeViewItem parentNode)
+        public static void CreateDirectoryTree(DirectoryInfo parent, TreeViewItem item, string filter = null)
         {
-            DirectoryInfo[] dirs = directory.GetDirectories();
+            DirectoryInfo[] dirs = parent.GetDirectories();
             if (dirs.Length > 0)
             {
                 foreach (DirectoryInfo dir in dirs)
@@ -45,9 +45,18 @@ namespace FFramework.Utilities
                     newi.Header = dir.Name;
                     FileInfo[] files = dir.GetFiles();
                     foreach (FileInfo file in files)
-                        newi.Items.Add(new TreeViewItem() { Header = file.Name });
-                    parentNode.Items.Add(newi);
-                    CreateTree(newi);
+                    {
+                        if (filter != null)
+                        {
+                            if (file.FullName.Contains(filter))
+                                newi.Items.Add(new TreeViewItem() { Header = file.Name });
+                            else
+                                continue;
+                        }
+                        else newi.Items.Add(new TreeViewItem() { Header = file.Name });
+                    }
+                    item.Items.Add(newi);
+                    CreateDirectoryTree(dir, newi, filter);
                 }
             }
         }

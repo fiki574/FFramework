@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,9 +70,7 @@ namespace FFramework.Cryptography.SHA
             long bitLength = byteCount << 3;
             Update(0x80);
             while (xBufOff != 0)
-            {
                 Update(0);
-            }
             ProcessLength(bitLength);
             ProcessBlock();
         }
@@ -105,6 +103,9 @@ namespace FFramework.Cryptography.SHA
             byteCount += 1L;
         }
 
-        public abstract string AlgorithmName { get; }
+        public abstract string AlgorithmName
+        {
+            get;
+        }
     }
 }

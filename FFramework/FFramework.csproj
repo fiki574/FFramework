@@ -72,21 +72,16 @@
     <Compile Include="Memory\BufferBlock.cs" />
     <Compile Include="Memory\BufferManager.cs" />
     <Compile Include="Memory\ByteBuffer.cs" />
+    <Compile Include="Memory\VariableBuffer.cs" />
     <Compile Include="MySQL\Database.cs" />
     <Compile Include="MySQL\DatabaseTable.cs" />
     <Compile Include="MySQL\Table.cs" />
-    <Compile Include="Network\Client\Client.cs" />
-    <Compile Include="Network\Client\SendPacket.cs" />
-    <Compile Include="Network\Client\IPacket.cs" />
-    <Compile Include="Network\Client\ReceivePacket.cs" />
-    <Compile Include="Network\Server\Client.cs" />
-    <Compile Include="Network\Server\ReceivePacket.cs" />
-    <Compile Include="Network\Server\IPacket.cs" />
-    <Compile Include="Network\Server\Listener.cs" />
-    <Compile Include="Network\Server\SendPacket.cs" />
     <Compile Include="Memory\Kernel32.cs" />
     <Compile Include="Memory\ProcessAccessFlag.cs" />
     <Compile Include="Memory\StringStream.cs" />
+    <Compile Include="Network\Handler.cs" />
+    <Compile Include="Network\Master.cs" />
+    <Compile Include="Network\Session.cs" />
     <Compile Include="Threading\Singleton.cs" />
     <Compile Include="Threading\ThreadExecutor.cs" />
     <Compile Include="Extensions\ConsoleExtension.cs" />
@@ -107,12 +102,13 @@
     <Compile Include="Utilities\RunAsAdmin.cs" />
     <Compile Include="Cryptography\StringCrypt.cs" />
     <Compile Include="Threading\ThreadSafeList.cs" />
-    <Compile Include="Utilities\Translate.cs" />
     <Compile Include="Utilities\FolderTreeView.cs" />
     <Compile Include="Utilities\Unix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

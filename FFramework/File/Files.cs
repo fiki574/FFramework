@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,13 +27,15 @@ namespace FFramework.File
         {
             string[] folders = location.Split('\\');
             string root = folders[0];
-            if (!Directory.Exists(root)) Directory.CreateDirectory(root);
+            if (!Directory.Exists(root))
+                Directory.CreateDirectory(root);
             for (int i = 1; i < folders.Length - 1; i++)
             {
                 root += "\\" + folders[i];
                 if (!Directory.Exists(root)) Directory.CreateDirectory(root);
             }
-            if(!System.IO.File.Exists(folders[folders.Length - 1])) System.IO.File.Create(folders[folders.Length - 1]);
+            if(!System.IO.File.Exists(folders[folders.Length - 1]))
+                System.IO.File.Create(folders[folders.Length - 1]);
             return root;
         }
 

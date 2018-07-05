@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -58,7 +58,6 @@ namespace FFramework.MySQL
             Debug.Assert(tableAttribute != null && tableAttribute.Length > 0);
 
             DatabaseTable t = (DatabaseTable)tableAttribute[0];
-
             using (MySqlCommand cmd = m_connection.CreateCommand())
             {
                 cmd.CommandText = string.Format("SELECT * FROM `{0}`;", t.Name);
@@ -80,7 +79,8 @@ namespace FFramework.MySQL
                         }
                         return rows;
                     }
-                    else return new List<T>();
+                    else
+                        return new List<T>();
                 }
             }
         }
@@ -94,24 +94,24 @@ namespace FFramework.MySQL
 
             Type type = typeof(T);
             object[] o = type.GetCustomAttributes(typeof(DatabaseTable), false);
-            if (o.Length <= 0) throw new Exception("Expected this to have a table attribute.");
+            if (o.Length <= 0)
+                return;
 
             DatabaseTable t = (DatabaseTable)o[0];
             queryBuilder.AppendFormat("INSERT INTO `{0}` (", t.Name);
-
             StringBuilder valueBuilder = new StringBuilder(4096);
             using (var cmd = m_connection.CreateCommand())
             {
                 bool first = true;
                 foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
                 {
-                    if (first) first = false;
+                    if (first)
+                        first = false;
                     else
                     {
                         valueBuilder.Append(",");
                         queryBuilder.Append(",");
                     }
-
                     string parameter = string.Format("@param{0}", field.Name);
                     valueBuilder.Append(parameter);
                     cmd.Parameters.AddWithValue(parameter, field.GetValue(val));
@@ -128,18 +128,19 @@ namespace FFramework.MySQL
 
         public void Update<T>(T value) where T : struct
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             object val = value;
             StringBuilder queryBuilder = new StringBuilder(4096);
 
             Type type = typeof(T);
             object[] o = type.GetCustomAttributes(typeof(DatabaseTable), false);
-            if (o.Length <= 0) throw new Exception("Expected this to have a table attribute.");
+            if (o.Length <= 0)
+                return;
 
             DatabaseTable t = (DatabaseTable)o[0];
             queryBuilder.AppendFormat("UPDATE `{0}` SET ", t.Name);
-
             using (var cmd = m_connection.CreateCommand())
             {
                 bool first = true;
@@ -148,7 +149,7 @@ namespace FFramework.MySQL
                     if (field.Name == "Index") continue;
                     if (first) first = false;
                     else queryBuilder.Append(",");
-                    string parameter = String.Format("@param{0}", field.Name);
+                    string parameter = string.Format("@param{0}", field.Name);
                     queryBuilder.AppendFormat("`{0}` = " + parameter, field.Name);
                     cmd.Parameters.AddWithValue(parameter, field.GetValue(val));
                 }
@@ -162,18 +163,18 @@ namespace FFramework.MySQL
 
         public void Remove<T>(T value) where T : struct
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             object val = value;
             StringBuilder queryBuilder = new StringBuilder(4096);
-
             Type type = typeof(T);
             object[] o = type.GetCustomAttributes(typeof(DatabaseTable), false);
-            if (o.Length <= 0) throw new Exception("Expected this to have a table attribute.");
+            if (o.Length <= 0)
+                return;
 
             DatabaseTable t = (DatabaseTable)o[0];
             queryBuilder.AppendFormat("DELETE FROM `{0}` WHERE `Index` = @paramIndex", t.Name);
-
             using (var cmd = m_connection.CreateCommand())
             {
                 cmd.Parameters.AddWithValue("@paramIndex", type.GetField("Index").GetValue(val));
@@ -187,7 +188,8 @@ namespace FFramework.MySQL
             if (!Connected) Connect();
 
             object[] tableAttributes = t.GetCustomAttributes(typeof(DatabaseTable), false);
-            if (tableAttributes.Length < 1) throw new Exception("Can't create a database structure when the structure is not a FDatabaseTable.");
+            if (tableAttributes.Length < 1)
+                return;
 
             DatabaseTable table = (DatabaseTable)tableAttributes[0];
             using (var cmd = m_connection.CreateCommand())
@@ -208,7 +210,6 @@ namespace FFramework.MySQL
             }
 
             createBuilder.Append(",PRIMARY KEY(`Index`)) ENGINE=MyISAM DEFAULT CHARSET=latin1");
-
             using (var cmd = m_connection.CreateCommand())
             {
                 cmd.CommandText = createBuilder.ToString();
@@ -218,34 +219,41 @@ namespace FFramework.MySQL
 
         public void UpdateStructure(Type t)
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             object[] tableAttributes = t.GetCustomAttributes(typeof(DatabaseTable), false);
-            if (tableAttributes.Length < 1) throw new Exception("Can't create a database structure when the structure is not a FDatabaseTable.");
+            if (tableAttributes.Length < 1)
+                return;
 
             DatabaseTable table = (DatabaseTable)tableAttributes[0];
-
             List<KeyValuePair<string, Type>> databaseColumns = GetColumns(table);
-            if (!databaseColumns.Exists(c => c.Key == "Index")) throw new Exception("Database structure missing the Index column.");
+            if (!databaseColumns.Exists(c => c.Key == "Index"))
+                return;
 
             List<KeyValuePair<string, Type>> structColumns = t.GetFields().Select(f => new KeyValuePair<string, Type>(f.Name, f.FieldType)).ToList();
-
             var unusedColumns = databaseColumns.Except(structColumns).ToArray();
-            if (unusedColumns.Length > 0) foreach (var col in unusedColumns) RemoveColumn(table, col.Key);
+            if (unusedColumns.Length > 0)
+                foreach (var col in unusedColumns)
+                    RemoveColumn(table, col.Key);
 
             var missingColumns = structColumns.Except(databaseColumns).ToArray();
-            if (missingColumns.Length > 0) foreach (var col in missingColumns) AddColumn(table, col.Key, col.Value);
+            if (missingColumns.Length > 0)
+                foreach (var col in missingColumns)
+                    AddColumn(table, col.Key, col.Value);
         }
 
         public bool ContainsTable(DatabaseTable t)
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
             return m_tables.Contains(t.Name);
         }
 
         private List<KeyValuePair<string, Type>> GetColumns(DatabaseTable table)
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             List<KeyValuePair<string, Type>> columns = new List<KeyValuePair<string, Type>>();
             using (MySqlCommand cmd = m_connection.CreateCommand())
@@ -253,7 +261,8 @@ namespace FFramework.MySQL
                 cmd.CommandText = string.Format("SELECT * FROM `{0}`", table.Name);
                 using (var reader = cmd.ExecuteReader(CommandBehavior.SchemaOnly))
                 {
-                    for (int i = 0; i < reader.FieldCount; i++) columns.Add(new KeyValuePair<string, Type>(reader.GetName(i), reader.GetFieldType(i)));
+                    for (int i = 0; i < reader.FieldCount; i++)
+                        columns.Add(new KeyValuePair<string, Type>(reader.GetName(i), reader.GetFieldType(i)));
                 }
             }
             return columns;
@@ -261,21 +270,25 @@ namespace FFramework.MySQL
 
         private List<string> GetTables()
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             List<string> tables = new List<string>();
             using (MySqlCommand cmd = m_connection.CreateCommand())
             {
                 cmd.CommandText = "SHOW TABLES";
-                using (var reader = cmd.ExecuteReader()) if (reader.HasRows) while (reader.Read()) tables.Add(reader.GetString(0));
+                using (var reader = cmd.ExecuteReader())
+                    if (reader.HasRows)
+                        while (reader.Read())
+                            tables.Add(reader.GetString(0));
             }
-
             return tables;
         }
 
         private void AddColumn(DatabaseTable table, string name, Type t)
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             using (var cmd = m_connection.CreateCommand())
             {
@@ -286,7 +299,8 @@ namespace FFramework.MySQL
 
         private void RemoveColumn(DatabaseTable table, string name)
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             using (var cmd = m_connection.CreateCommand())
             {
@@ -297,27 +311,40 @@ namespace FFramework.MySQL
 
         private void RenameColumn(DatabaseTable table, string oldName, string newName)
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             using (var cmd = m_connection.CreateCommand())
             {
-                cmd.CommandText = String.Format("ALTER TABLE `{0}` RENAME COLUMN `{1}` TO `{2}`", table.Name, oldName, newName);
+                cmd.CommandText = string.Format("ALTER TABLE `{0}` RENAME COLUMN `{1}` TO `{2}`", table.Name, oldName, newName);
                 int result = cmd.ExecuteNonQuery();
             }
         }
 
         private string TypeToColumnDescription(Type t)
         {
-            if (t == typeof(long)) return "bigint(21)";
-            else if (t == typeof(int)) return "int(11)";
-            else if (t == typeof(short)) return "smallint(6)";
-            else if (t == typeof(sbyte)) return "tinyint(4)";
-            else if (t == typeof(ulong)) return "bigint(21)";
-            else if (t == typeof(uint)) return "int(11) UNSIGNED";
-            else if (t == typeof(ushort)) return "smallint(6) UNSIGNED";
-            else if (t == typeof(byte)) return "tinyint(4) UNSIGNED";
-            else if (t == typeof(string)) return "text";
-            else throw new Exception("Not a valid column type.");
+            if (t == typeof(long))
+                return "bigint(21)";
+            else if (t == typeof(int))
+                return "int(11)";
+            else if (t == typeof(short))
+                return "smallint(6)";
+            else if (t == typeof(sbyte))
+                return "tinyint(4)";
+            else if (t == typeof(ulong))
+                return "bigint(21)";
+            else if (t == typeof(uint))
+                return "int(11) UNSIGNED";
+            else if (t == typeof(ushort))
+                return "smallint(6) UNSIGNED";
+            else if (t == typeof(byte))
+                return "tinyint(4) UNSIGNED";
+            else if (t == typeof(string))
+                return "text";
+            else if(t == typeof(bool))
+                return "tinyint(1)";
+            else
+                return "NULL";
         }
 
         private void Connect()

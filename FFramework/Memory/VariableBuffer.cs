@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,25 +14,33 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
+    Credits: https://github.com/usertoroot/PakPacker
 */
 
-using System.IO;
+using System;
 
-namespace FFramework.Network.Client
+namespace FFramework.Memory
 {
-    public class SendPacket : MemoryStream
+    public class VariableBuffer
     {
-        public SendPacket() : base() { }
+        public byte[] Data;
+        private int m_sizeStep;
 
-        protected void WriteS(string s)
+        public VariableBuffer(int initialSize = 2048, int sizeStep = 2048)
         {
-            WriteByte((byte)s.Length);
-            for (int i = 0; i < s.Length; i++) WriteByte((byte)s[i]);
+            Data = new byte[initialSize];
+            m_sizeStep = sizeStep;
         }
 
-        protected void WriteValue(object i)
+        public void EnsureLength(int length)
         {
-            WriteS(i.ToString());
+            if (length > Data.Length)
+            {
+                float f = length / (float)m_sizeStep;
+                int newSize = m_sizeStep * (int)Math.Ceiling(f);
+                Data = new byte[newSize];
+            }
         }
     }
 }

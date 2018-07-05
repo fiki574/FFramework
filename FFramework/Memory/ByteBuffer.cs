@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,8 +25,7 @@ namespace FFramework.Memory
 {
     public class ByteBuffer
     {
-        long mReadPos;
-        long mWritePos;
+        long mReadPos, mWritePos;
         private MemoryStream mData;
         private BinaryReader mBinRead;
         private BinaryWriter mBinWrite;
@@ -137,9 +136,7 @@ namespace FFramework.Memory
             byte strLen = (byte)mData.ReadByte();
             strLen -= 128;
             for (byte i = 0; i < strLen; ++i)
-            {
                 retStr.Append((char)mBinRead.ReadUInt16());
-            }
             mReadPos = mData.Position;
             return retStr.ToString();
         }
@@ -192,13 +189,9 @@ namespace FFramework.Memory
         {
             mData.Position = mWritePos;
             byte strLen = (byte)data.Length;
-            byte character;
             mData.WriteByte((byte)(strLen + 128));
             for (int i = 0; i < strLen; ++i)
-            {
-                character = (byte)data[i];
-                mData.WriteByte(character);
-            }
+                mData.WriteByte((byte)data[i]);
             mWritePos = mData.Position;
         }
 
@@ -206,13 +199,9 @@ namespace FFramework.Memory
         {
             mData.Position = mWritePos;
             byte strLen = (byte)data.Length;
-            char character;
             mData.WriteByte((byte)(strLen + 128));
             for (int i = 0; i < strLen; ++i)
-            {
-                character = data[i];
-                mBinWrite.Write((ushort)character);
-            }
+                mBinWrite.Write((ushort)data[i]);
             mWritePos = mData.Position;
         }
 

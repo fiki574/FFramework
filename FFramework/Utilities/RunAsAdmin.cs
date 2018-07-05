@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,8 @@ namespace FFramework.Utilities
         public static void RunWithAdminRights(string executable_path)
         {
             WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator)) RunElevated(executable_path);
+            if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator))
+                RunElevated(executable_path);
         }
 
         private static bool RunElevated(string fileName)

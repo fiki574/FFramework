@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,14 +34,16 @@ namespace FFramework.Memory
         {
             string stringData = data.ToString();
             WriteByte((byte)stringData.Length);
-            for (int i = 0; i < stringData.Length; i++) WriteByte((byte)stringData[i]);
+            for (int i = 0; i < stringData.Length; i++)
+                WriteByte((byte)stringData[i]);
             count++;
         }
 
         public object Read()
         {
             int length = ReadByte();
-            if (length > Length - Position) return null;
+            if (length > Length - Position)
+                return null;
             byte[] str = new byte[length];
             Read(str, 0, length);
             return Encoding.ASCII.GetString(str);
@@ -60,8 +62,10 @@ namespace FFramework.Memory
                 Dispose();
                 return null;
             }
-            else if (action == Action.GetObjectCount) return count;
-            else return null;
+            else if (action == Action.GetObjectCount)
+                return count;
+            else
+                return null;
         }
 
         public enum Action

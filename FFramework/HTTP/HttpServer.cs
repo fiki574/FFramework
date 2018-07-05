@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2017 Bruno Fištrek
+    Copyright (C) 2018/2019 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,8 @@ namespace FFramework.HTTP
                     m_listener = new HttpListener();
                     m_listener.Prefixes.Add("http://*:" + port + "/");
                 }
-                else throw new Exception("'Website' directory does not exist!");
+                else
+                    return;
             }
             catch (Exception ex)
             {
@@ -57,7 +58,9 @@ namespace FFramework.HTTP
                 DirectoryInfo[] dirs = dir.GetDirectories();
                 FileInfo[] fs = dir.GetFiles();
                 foreach (FileInfo f in fs) files.Add(f.FullName.Replace('\\', '/'));
-                if (dirs.Length > 0) foreach (DirectoryInfo d in dirs) LoadWebsiteFiles(start + "\\" + d.ToString());
+                if (dirs.Length > 0)
+                    foreach (DirectoryInfo d in dirs)
+                        LoadWebsiteFiles(start + "\\" + d.ToString());
             }
             catch (Exception ex)
             {
@@ -95,16 +98,18 @@ namespace FFramework.HTTP
             try
             {
                 string[] raw = context.Request.RawUrl.Split('&');
-                if (raw[0] == "/favicon.ico") return;
+                if (raw[0] == "/favicon.ico")
+                    return;
                 context.Response.ContentEncoding = context.Request.ContentEncoding;
                 context.Response.ContentType = MIME.GetMimeType(Path.GetExtension(raw[0]));
                 string path = files.Find(f => f.ToString().Contains(raw[0]));
                 using (StreamReader sr = new StreamReader(System.IO.File.OpenRead(path)))
-                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream, context.Response.ContentEncoding)) writer.Write(sr.ReadToEnd());
+                    using (StreamWriter writer = new StreamWriter(context.Response.OutputStream, context.Response.ContentEncoding))
+                        writer.Write(sr.ReadToEnd());
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
             finally
             {
