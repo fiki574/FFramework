@@ -60,6 +60,7 @@ namespace FFramework.Utilities
             }
             catch
             {
+                return;
             }
         }
     }

@@ -23,8 +23,7 @@ namespace FFramework.Utilities
 {
     public class FolderTreeView
     {
-        private string path;
-        private string folder;
+        private string path, folder;
         private DirectoryInfo directory;
 
         public FolderTreeView(string folder)
@@ -34,7 +33,7 @@ namespace FFramework.Utilities
             path = null;
         }
 
-        public static void CreateDirectoryTree(DirectoryInfo parent, TreeViewItem item, string filter = null)
+        public void CreateDirectoryTree(DirectoryInfo parent, TreeViewItem item, string filter = null)
         {
             DirectoryInfo[] dirs = parent.GetDirectories();
             if (dirs.Length > 0)
@@ -53,7 +52,8 @@ namespace FFramework.Utilities
                             else
                                 continue;
                         }
-                        else newi.Items.Add(new TreeViewItem() { Header = file.Name });
+                        else
+                            newi.Items.Add(new TreeViewItem() { Header = file.Name });
                     }
                     item.Items.Add(newi);
                     CreateDirectoryTree(dir, newi, filter);

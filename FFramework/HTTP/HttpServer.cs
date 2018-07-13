@@ -44,9 +44,9 @@ namespace FFramework.HTTP
                 else
                     return;
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 
@@ -62,9 +62,9 @@ namespace FFramework.HTTP
                     foreach (DirectoryInfo d in dirs)
                         LoadWebsiteFiles(start + "\\" + d.ToString());
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 

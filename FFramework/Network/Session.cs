@@ -171,13 +171,20 @@ namespace FFramework.Network
 
         public void Send(byte[] response, int size)
         {
-            if (m_closed)
-                return;
-
-            lock (m_nStream)
+            try
             {
-                m_nStream.Write(BitConverter.GetBytes(size), 0, 4);
-                m_nStream.Write(response, 0, size);
+                if (m_closed)
+                    return;
+
+                lock (m_nStream)
+                {
+                    m_nStream.Write(BitConverter.GetBytes(size), 0, 4);
+                    m_nStream.Write(response, 0, size);
+                }
+            }
+            catch
+            {
+                Close();
             }
         }
 
@@ -197,15 +204,7 @@ namespace FFramework.Network
 
         public virtual void Send(object structure)
         {
-            try
-            {
-                Send(w => w.WriteStructure(structure));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                Close();
-            }
+            Send(w => w.WriteStructure(structure));
         }
 
         public void Close()

@@ -52,11 +52,10 @@ namespace FFramework.MySQL
 
         public List<T> GetObjects<T>() where T : struct
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             object[] tableAttribute = typeof(T).GetCustomAttributes(typeof(DatabaseTable), false);
-            Debug.Assert(tableAttribute != null && tableAttribute.Length > 0);
-
             DatabaseTable t = (DatabaseTable)tableAttribute[0];
             using (MySqlCommand cmd = m_connection.CreateCommand())
             {
@@ -87,7 +86,8 @@ namespace FFramework.MySQL
 
         public void Insert<T>(T value) where T : struct
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             object val = value;
             StringBuilder queryBuilder = new StringBuilder(4096);
@@ -117,12 +117,11 @@ namespace FFramework.MySQL
                     cmd.Parameters.AddWithValue(parameter, field.GetValue(val));
                     queryBuilder.AppendFormat("`{0}`", field.Name);
                 }
-
                 queryBuilder.Append(") VALUES (");
                 queryBuilder.Append(valueBuilder);
                 queryBuilder.Append(");");
                 cmd.CommandText = queryBuilder.ToString();
-                int result = cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -146,18 +145,21 @@ namespace FFramework.MySQL
                 bool first = true;
                 foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
                 {
-                    if (field.Name == "Index") continue;
-                    if (first) first = false;
-                    else queryBuilder.Append(",");
+                    if (field.Name == "Index")
+                        continue;
+                    if (first)
+                        first = false;
+                    else
+                        queryBuilder.Append(",");
+
                     string parameter = string.Format("@param{0}", field.Name);
                     queryBuilder.AppendFormat("`{0}` = " + parameter, field.Name);
                     cmd.Parameters.AddWithValue(parameter, field.GetValue(val));
                 }
-
                 queryBuilder.Append(" WHERE `Index` = @paramIndex");
                 cmd.Parameters.AddWithValue("@paramIndex", type.GetField("Index").GetValue(val));
                 cmd.CommandText = queryBuilder.ToString();
-                int result = cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -179,13 +181,14 @@ namespace FFramework.MySQL
             {
                 cmd.Parameters.AddWithValue("@paramIndex", type.GetField("Index").GetValue(val));
                 cmd.CommandText = queryBuilder.ToString();
-                int reuslt = cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
             }
         }
 
         public void CreateStructure(Type t)
         {
-            if (!Connected) Connect();
+            if (!Connected)
+                Connect();
 
             object[] tableAttributes = t.GetCustomAttributes(typeof(DatabaseTable), false);
             if (tableAttributes.Length < 1)
@@ -204,8 +207,10 @@ namespace FFramework.MySQL
             bool first = true;
             foreach (FieldInfo f in t.GetFields())
             {
-                if (first) first = false;
-                else createBuilder.Append(",");
+                if (first)
+                    first = false;
+                else
+                    createBuilder.Append(",");
                 createBuilder.AppendFormat("`{0}` {1}{2}", f.Name, TypeToColumnDescription(f.FieldType), f.Name == "Index" ? " AUTO_INCREMENT" : "");
             }
 
@@ -213,7 +218,7 @@ namespace FFramework.MySQL
             using (var cmd = m_connection.CreateCommand())
             {
                 cmd.CommandText = createBuilder.ToString();
-                int result = cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -247,6 +252,7 @@ namespace FFramework.MySQL
         {
             if (!Connected)
                 Connect();
+
             return m_tables.Contains(t.Name);
         }
 

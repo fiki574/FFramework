@@ -23,7 +23,7 @@ namespace FFramework.Utilities
 {
     public static class Platform
     {
-        public static ThreadSafeList<string> allowed_platforms = new ThreadSafeList<string>();
+        private static ThreadSafeList<string> allowed_platforms = new ThreadSafeList<string>();
 
         public static PlatformID GetCurrentPlatform()
         {
@@ -45,10 +45,9 @@ namespace FFramework.Utilities
             return allowed_platforms.Contains(platform_id.ToString());
         }
 
-        public static void DisposePlatformsList()
+        public static void ClearAll()
         {
-            allowed_platforms.Remove(p => true);
-            allowed_platforms = null;
+            allowed_platforms.Clear();
         }
     }
 }

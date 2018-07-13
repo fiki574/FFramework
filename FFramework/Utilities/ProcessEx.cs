@@ -24,15 +24,19 @@ namespace FFramework.Utilities
     {
         public static bool IsProcessActive(string process_name)
         {
-            if (Process.GetProcessesByName(process_name).Length == 0) return false;
-            else return true;
+            if (Process.GetProcessesByName(process_name).Length == 0)
+                return false;
+            else
+                return true;
         }
 
         public static Process GetProcess(string process_name)
         {
             Process[] pname = Process.GetProcessesByName(process_name);
-            if (pname.Length == 0) return null;
-            else return pname[0];
+            if (pname.Length == 0)
+                return null;
+            else
+                return pname[0];
         }
     }
 }

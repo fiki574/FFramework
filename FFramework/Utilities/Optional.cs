@@ -27,7 +27,9 @@ namespace FFramework.Utilities
 
         public Optional(T value)
         {
-            if (IsNullable(value) && value.Equals(default(T))) throw new ArgumentNullException("value");
+            if (IsNullable(value) && value.Equals(default(T)))
+                throw new ArgumentNullException("value");
+
             isPresent = true;
             this.value = value;
         }

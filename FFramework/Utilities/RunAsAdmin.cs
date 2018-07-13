@@ -18,7 +18,7 @@
 
 using System.Security.Principal;
 using System.Diagnostics;
-using System.ComponentModel;
+using System;
 
 namespace FFramework.Utilities
 {
@@ -26,22 +26,25 @@ namespace FFramework.Utilities
     {
         public static void RunWithAdminRights(string executable_path)
         {
-            WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator))
-                RunElevated(executable_path);
+            try
+            {
+                if (!(new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)))
+                    RunElevated(executable_path);
+            }
+            catch
+            {
+                return;
+            }
         }
 
         private static bool RunElevated(string fileName)
         {
-            ProcessStartInfo processInfo = new ProcessStartInfo();
-            processInfo.Verb = "runas";
-            processInfo.FileName = fileName;
             try
             {
-                Process.Start(processInfo);
+                Process.Start(new ProcessStartInfo() { Verb = "runas", FileName = fileName });
                 return true;
             }
-            catch (Win32Exception)
+            catch (Exception)
             {
                 return false;
             }

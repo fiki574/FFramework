@@ -48,9 +48,9 @@ namespace FFramework.Utilities
                     Initial();
                 Load();
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 
@@ -67,9 +67,9 @@ namespace FFramework.Utilities
                     for (int i = 0; i < count; i++) FDBFiles.Add((FDBFile)reader.ReadStructure(typeof(FDBFile)));
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 
@@ -90,9 +90,9 @@ namespace FFramework.Utilities
                     System.IO.File.WriteAllBytes(Name, compressed);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 
@@ -114,9 +114,9 @@ namespace FFramework.Utilities
                 }
                 UpdateFile(ref file);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 
@@ -138,9 +138,9 @@ namespace FFramework.Utilities
                     return list;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                throw new Exception(ex.ToString());
+                return null;
             }
         }
 
@@ -165,9 +165,9 @@ namespace FFramework.Utilities
                 Array.Copy(data, file.Data, data.Length);
                 FDBFiles.Add(file);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 
@@ -230,9 +230,9 @@ namespace FFramework.Utilities
                 System.IO.File.Delete("0");
                 CommitChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                return;
             }
         }
 
@@ -249,7 +249,8 @@ namespace FFramework.Utilities
         {
             using (var output = new MemoryStream())
             {
-                using (var dstream = new DeflateStream(output, CompressionLevel.Optimal)) dstream.Write(data, 0, data.Length);
+                using (var dstream = new DeflateStream(output, CompressionLevel.Optimal))
+                    dstream.Write(data, 0, data.Length);
                 return output.ToArray();
             }
         }
@@ -260,7 +261,8 @@ namespace FFramework.Utilities
             {
                 using (MemoryStream output = new MemoryStream())
                 {
-                    using (DeflateStream dstream = new DeflateStream(input, CompressionMode.Decompress)) dstream.CopyTo(output);
+                    using (DeflateStream dstream = new DeflateStream(input, CompressionMode.Decompress))
+                        dstream.CopyTo(output);
                     return output.ToArray();
                 }
             }

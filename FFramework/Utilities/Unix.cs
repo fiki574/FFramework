@@ -22,12 +22,12 @@ namespace FFramework.Utilities
 {
     public class Unix
     {
-        public static int GetCurrentUnixTimestamp()
+        public static int GetCurrentTimestamp()
         {
             return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
         }
 
-        public static DateTime GetDatetimeFromUnixTimestamp(int ut)
+        public static DateTime GetDateTimeFromTimestamp(int ut)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).Add(TimeSpan.FromSeconds(ut)).ToLocalTime();
         }
