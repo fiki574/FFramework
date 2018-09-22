@@ -85,6 +85,7 @@
     <Compile Include="Threading\Singleton.cs" />
     <Compile Include="Threading\ThreadExecutor.cs" />
     <Compile Include="Extensions\ConsoleExtension.cs" />
+    <Compile Include="Threading\ThreadSafeDictionary.cs" />
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="Memory\ExpandableMemoryStream.cs" />
@@ -105,9 +106,6 @@
     <Compile Include="Utilities\FolderTreeView.cs" />
     <Compile Include="Utilities\Unix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

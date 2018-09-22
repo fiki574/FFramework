@@ -32,10 +32,7 @@ namespace FFramework.Memory
 
         public static IntPtr OpenProcess(Process process, ProcessAccessFlags flags)
         {
-            IntPtr handle = OpenProcess(flags, false, process.Id);
-            if (handle == IntPtr.Zero)
-                return default(IntPtr);
-            return handle;
+            return OpenProcess(flags, false, process.Id);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -44,10 +41,7 @@ namespace FFramework.Memory
         public static int WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer)
         {
             IntPtr bytesWritten;
-            int result = WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, lpBuffer.Length, out bytesWritten);
-            if (result == 0)
-                return 0;
-            return result;
+            return WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, lpBuffer.Length, out bytesWritten);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -56,10 +50,7 @@ namespace FFramework.Memory
         public static int ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer)
         {
             IntPtr bytesRead;
-            int result = ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, lpBuffer.Length, out bytesRead);
-            if (result == 0)
-                return 0;
-            return result;
+            return ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, lpBuffer.Length, out bytesRead);
         }
 
         [DllImport("kernel32.dll")]
@@ -71,9 +62,7 @@ namespace FFramework.Memory
         public static uint VirtualProtectEx(IntPtr hProcess, IntPtr lpAddress, int size, uint newProtect)
         {
             uint oldProtect;
-            int result = VirtualProtectEx(hProcess, lpAddress, new IntPtr(size), newProtect, out oldProtect);
-            if (result == 0)
-                return 0;
+            VirtualProtectEx(hProcess, lpAddress, new IntPtr(size), newProtect, out oldProtect);
             return oldProtect;
         }
 

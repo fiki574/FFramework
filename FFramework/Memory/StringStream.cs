@@ -32,10 +32,14 @@ namespace FFramework.Memory
 
         public void Write(object data)
         {
+            if (!data.GetType().IsPrimitive)
+                return;
+
             string stringData = data.ToString();
             WriteByte((byte)stringData.Length);
             for (int i = 0; i < stringData.Length; i++)
                 WriteByte((byte)stringData[i]);
+
             count++;
         }
 
@@ -44,35 +48,26 @@ namespace FFramework.Memory
             int length = ReadByte();
             if (length > Length - Position)
                 return null;
+
             byte[] str = new byte[length];
             Read(str, 0, length);
             return Encoding.ASCII.GetString(str);
         }
 
-        public object Perform(Action action)
+        public void ResetPosition()
         {
-            if (action == Action.ResetPosition)
-            {
-                Position = 0;
-                return null;
-            }
-            else if (action == Action.CloseAndDispose)
-            {
-                Close();
-                Dispose();
-                return null;
-            }
-            else if (action == Action.GetObjectCount)
-                return count;
-            else
-                return null;
+            Position = 0;
         }
 
-        public enum Action
+        public void CloseAndDispose()
         {
-            ResetPosition = 0,
-            CloseAndDispose = 1,
-            GetObjectCount = 2
+            Close();
+            Dispose();
+        }
+
+        public int GetObjectCount()
+        {
+            return count;
         }
     }
 }

@@ -22,7 +22,7 @@ using System.IO;
 
 namespace FFramework.Utilities
 {
-    public class Logger
+    public static class Logger
     {
         private static bool IsLogging = false;
         private static Mutex mutex = new Mutex();
@@ -55,6 +55,7 @@ namespace FFramework.Utilities
                         file.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + caller + ": " + message);
                     else
                         file.WriteLine(caller + ": " + message);
+
                     file.Close();
                 }
             }

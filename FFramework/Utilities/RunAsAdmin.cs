@@ -22,7 +22,7 @@ using System;
 
 namespace FFramework.Utilities
 {
-    public class RunAsAdmin
+    public static class RunAsAdmin
     {
         public static void RunWithAdminRights(string executable_path)
         {

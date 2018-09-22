@@ -97,8 +97,10 @@ namespace FFramework.Network
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                Close();
+                Close(new Action(() =>
+                {
+                    Console.WriteLine(ex.ToString());
+                }));
             }
         }
 
@@ -128,8 +130,10 @@ namespace FFramework.Network
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                Close();
+                Close(new Action(() =>
+                {
+                    Console.WriteLine(ex.ToString());
+                }));
             }
         }
 
@@ -143,8 +147,7 @@ namespace FFramework.Network
                 byte[] packet = (byte[])oPacket;
                 using (BinaryReader reader = new BinaryReader(new MemoryStream(packet)))
                 {
-                    int iface = reader.ReadInt32();
-                    int pid = reader.ReadInt32();
+                    int iface = reader.ReadInt32(), pid = reader.ReadInt32();
                     Dictionary<int, PacketHandler> handlerMap;
                     if (!_handlerMap.TryGetValue((InterfaceType)iface, out handlerMap))
                     {
@@ -164,8 +167,10 @@ namespace FFramework.Network
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                Close();
+                Close(new Action(() => 
+                {
+                    Console.WriteLine(ex.ToString());
+                }));
             }
         }
 
@@ -207,15 +212,18 @@ namespace FFramework.Network
             Send(w => w.WriteStructure(structure));
         }
 
-        public void Close()
+        public void Close(Action a = null)
         {
-            if (m_closed)
-                return;
-
-            m_closed = true;
-
             try
             {
+                if (m_closed)
+                    return;
+
+                m_closed = true;
+
+                if (a != null)
+                    a.Invoke();
+
                 if (m_tcpClient != null)
                     m_tcpClient.Close();
             }

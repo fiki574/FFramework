@@ -18,20 +18,24 @@
 
 namespace FFramework.Cryptography
 {
-    public class StringCrypt
+    public static class StringCrypt
     {
-        public static string Encrypt(string s)
+        public static string Encrypt(string s, int key)
         {
+            if (key <= 0 || key > 128)
+                return "<invalid key>";
+
             char[] r = new char[s.Length];
             int i = 0, j = r.Length;
             for (i = 0; i < s.Length; i++)
                 r[i] = s[i];
+
             for (i = 0; i < j; i++)
             {
                 char c = r[i];
                 if (i + 2 < j)
                 {
-                    r[i] = (char)((r[i + 2] + 1) << 2);
+                    r[i] = (char)(((r[i + 2] + 1) << 2) * key);
                     r[i + 2] = c;
                 }
                 else
@@ -46,18 +50,22 @@ namespace FFramework.Cryptography
             return new string(r);
         }
 
-        public static string Decrypt(string s)
+        public static string Decrypt(string s, int key)
         {
+            if (key <= 0 || key > 128)
+                return "<invalid key>";
+
             char[] r = new char[s.Length];
             int i = 0, j = r.Length;
             for (i = 0; i < s.Length; i++)
                 r[i] = s[i];
+
             for (i = j - 1; i >= 0; i--)
             {
                 char c = r[i];
                 if (i - 2 >= 0)
                 {
-                    r[i] = (char)((r[i - 2] - 1) >> 2);
+                    r[i] = (char)(((r[i - 2] - 1) >> 2) / key);
                     r[i - 2] = c;
                 }
                 else

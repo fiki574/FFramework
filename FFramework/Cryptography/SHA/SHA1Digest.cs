@@ -23,17 +23,10 @@ namespace FFramework.Cryptography.SHA
     public class Sha1Digest : GeneralDigest
     {
         private const int DigestLength = 20;
-        private uint H1;
-        private uint H2;
-        private uint H3;
-        private uint H4;
-        private uint H5;
+        private uint H1, H2, H3, H4, H5;
         private uint[] X;
         private int xOff;
-        private const uint Y1 = 0x5a827999;
-        private const uint Y2 = 0x6ed9eba1;
-        private const uint Y3 = 0x8f1bbcdc;
-        private const uint Y4 = 0xca62c1d6;
+        private const uint Y1 = 0x5a827999, Y2 = 0x6ed9eba1, Y3 = 0x8f1bbcdc, Y4 = 0xca62c1d6;
 
         public Sha1Digest()
         {

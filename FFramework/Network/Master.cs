@@ -17,6 +17,7 @@
 */
 
 using System.Net;
+using System.Threading;
 using System.Net.Sockets;
 using FFramework.Threading;
 
@@ -44,6 +45,7 @@ namespace FFramework.Network
                 {
                     TcpClient client = m_listener.AcceptTcpClient();
                     m_sessions.Add(new Session(client));
+                    Thread.Sleep(50);
                 }
             }
             catch
@@ -64,7 +66,7 @@ namespace FFramework.Network
         public void Stop()
         {
             IsRunning = false;
-            m_sessions.Remove(s => true);
+            m_sessions.Clear();
             m_sessions = null;
             m_listener.Stop();
             m_listener = null;

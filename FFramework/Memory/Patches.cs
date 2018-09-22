@@ -49,7 +49,9 @@ namespace FFramework.Memory
 
         public Response ApplyPatches()
         {
-            if (_patches.Count == 0) return Response.NoPatches;
+            if (_patches.Count == 0)
+                return Response.NoPatches;
+
             try
             {
                 IntPtr handle = Kernel32.OpenProcess(_process, ProcessAccessFlags.All);
@@ -69,7 +71,8 @@ namespace FFramework.Memory
                         Kernel32.WriteString(handle, patch.Key, data);
                         Kernel32.VirtualProtectEx(handle, patch.Key, data.Length, oldProtect);
                     }
-                    else return Response.InvalidDataType;
+                    else
+                        return Response.InvalidDataType;
                 }
             }
             catch

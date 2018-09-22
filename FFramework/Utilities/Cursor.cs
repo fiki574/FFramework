@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 
 namespace FFramework.Utilities
 {
-    public class Cursor
+    public static class Cursor
     {
         [DllImport("User32.Dll")]
         private static extern long SetCursorPos(int x, int y);
@@ -38,9 +38,7 @@ namespace FFramework.Utilities
 
         public static void SetPosition(int x, int y)
         {
-            Point p = new Point();
-            p.X = Convert.ToInt16(x);
-            p.Y = Convert.ToInt16(y);
+            Point p = new Point() { X = Convert.ToInt16(x), Y = Convert.ToInt16(y) };
             ClientToScreen(default(IntPtr), ref p);
             SetCursorPos(p.X, p.Y);
         }

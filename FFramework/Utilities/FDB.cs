@@ -46,6 +46,7 @@ namespace FFramework.Utilities
                 FDBFiles = new List<FDBFile>();
                 if (!System.IO.File.Exists(Name))
                     Initial();
+
                 Load();
             }
             catch
@@ -62,9 +63,13 @@ namespace FFramework.Utilities
                 using (var reader = new BinaryReader(new MemoryStream(decompressed)))
                 {
                     var header = new byte[Signature.Length];
-                    for (int i = 0; i < Signature.Length; i++) if (reader.ReadByte() != Signature[i]) return;
+                    for (int i = 0; i < Signature.Length; i++)
+                        if (reader.ReadByte() != Signature[i])
+                            return;
+
                     var count = reader.ReadInt32();
-                    for (int i = 0; i < count; i++) FDBFiles.Add((FDBFile)reader.ReadStructure(typeof(FDBFile)));
+                    for (int i = 0; i < count; i++)
+                        FDBFiles.Add((FDBFile)reader.ReadStructure(typeof(FDBFile)));
                 }
             }
             catch
@@ -85,6 +90,7 @@ namespace FFramework.Utilities
                         writer.Write(FDBFiles.Count);
                         FDBFiles.ForEach(f => writer.WriteStructure(f));
                     }
+
                     stream.Flush();
                     var compressed = Compress(stream.GetBuffer());
                     System.IO.File.WriteAllBytes(Name, compressed);
@@ -108,6 +114,7 @@ namespace FFramework.Utilities
                         writer.Write(Marshal.SizeOf(typeof(T)));
                         foreach (T t in entries) writer.WriteStructure(t);
                     }
+
                     var data = ms.ToArray();
                     file.Data = new byte[data.Length];
                     Buffer.BlockCopy(data, 0, file.Data, 0, data.Length);
@@ -131,9 +138,11 @@ namespace FFramework.Utilities
                     var cursize = Marshal.SizeOf(typeof(T));
                     if (size < cursize || size > cursize)
                         throw new Exception($"Size of structure in database: {size} | Current structure size: {cursize} | Sizes must be the same!");
+
                     var list = new List<T>(entries);
                     for (int i = 0; i < entries; i++)
                         list.Add((T)reader.ReadStructure(typeof(T)));
+
                     reader.Close();
                     return list;
                 }
@@ -192,6 +201,7 @@ namespace FFramework.Utilities
             foreach (FDBFile file in FDBFiles)
                 if (file.ID > highest)
                     highest = file.ID;
+
             return highest + 1;
         }
 
@@ -215,6 +225,7 @@ namespace FFramework.Utilities
             foreach (var file in FDBFiles)
                 if (file.ID == id)
                     return file;
+
             return default(FDBFile);
         }
 
@@ -251,6 +262,7 @@ namespace FFramework.Utilities
             {
                 using (var dstream = new DeflateStream(output, CompressionLevel.Optimal))
                     dstream.Write(data, 0, data.Length);
+
                 return output.ToArray();
             }
         }
@@ -263,6 +275,7 @@ namespace FFramework.Utilities
                 {
                     using (DeflateStream dstream = new DeflateStream(input, CompressionMode.Decompress))
                         dstream.CopyTo(output);
+
                     return output.ToArray();
                 }
             }

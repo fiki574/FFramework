@@ -25,14 +25,10 @@ namespace FFramework.Memory
 {
     public class ExpandableMemoryStream : Stream
     {
-        private byte[] m_data;
-
         public byte[] Data
         {
-            get
-            {
-                return m_data;
-            }
+            get;
+            private set;
         }
 
         private int m_initalSize, m_blockSize, m_position = 0, m_length = 0;
@@ -41,17 +37,17 @@ namespace FFramework.Memory
         {
             m_initalSize = initialSize;
             m_blockSize = blockSize;
-            m_data = new byte[m_initalSize];
+            Data = new byte[m_initalSize];
         }
 
         public void EnsureLength(int length)
         {
-            if (length > m_data.Length)
+            if (length > Data.Length)
             {
                 int blocks = (int)Math.Ceiling(length / (double)m_blockSize);
                 byte[] newData = new byte[blocks * m_blockSize];
-                Array.Copy(m_data, newData, m_length);
-                m_data = newData;
+                Array.Copy(Data, newData, m_length);
+                Data = newData;
             }
         }
 
@@ -99,17 +95,17 @@ namespace FFramework.Memory
             }
             set
             {
-                if (value > m_data.Length) EnsureLength((int)value);
+                if (value > Data.Length) EnsureLength((int)value);
                 m_position = (int)value;
             }
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (m_position + count > m_data.Length)
+            if (m_position + count > Data.Length)
                 return -1;
 
-            Array.Copy(m_data, m_position, buffer, offset, count);
+            Array.Copy(Data, m_position, buffer, offset, count);
             m_position += count;
             return count;
         }
@@ -139,7 +135,7 @@ namespace FFramework.Memory
         public override void Write(byte[] buffer, int offset, int count)
         {
             EnsureLength(m_position + count);
-            Array.Copy(buffer, offset, m_data, m_position, count);
+            Array.Copy(buffer, offset, Data, m_position, count);
             if (m_position + count > m_length)
                 m_length = m_position + count;
             m_position += count;
@@ -148,7 +144,7 @@ namespace FFramework.Memory
         public byte[] ToArray()
         {
             byte[] data = new byte[m_length];
-            Array.Copy(m_data, data, m_length);
+            Array.Copy(Data, data, m_length);
             return data;
         }
     }

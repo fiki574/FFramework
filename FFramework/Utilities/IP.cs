@@ -21,7 +21,7 @@ using System.Net.Sockets;
 
 namespace FFramework.Utilities
 {
-    public class IP
+    public static class IP
     {
         public static string GetPublicIP()
         {
@@ -41,6 +41,7 @@ namespace FFramework.Utilities
             foreach (var ip in host.AddressList)
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                     return ip.ToString();
+
             return "127.0.0.1";
         }
     }

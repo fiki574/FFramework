@@ -21,7 +21,7 @@ using System.IO;
 
 namespace FFramework.File
 {
-    public class Files
+    public static class Files
     {
         public static string CreatePath(string location)
         {
@@ -29,13 +29,16 @@ namespace FFramework.File
             string root = folders[0];
             if (!Directory.Exists(root))
                 Directory.CreateDirectory(root);
+
             for (int i = 1; i < folders.Length - 1; i++)
             {
                 root += "\\" + folders[i];
                 if (!Directory.Exists(root)) Directory.CreateDirectory(root);
             }
+
             if(!System.IO.File.Exists(folders[folders.Length - 1]))
                 System.IO.File.Create(folders[folders.Length - 1]);
+
             return root;
         }
 

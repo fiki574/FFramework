@@ -89,6 +89,7 @@ namespace FFramework.Utilities
             string actual_path = "";
             for (int i = p.Length - 1; i > 0; i--)
                 actual_path += p[i] + "\\";
+
             return folder + "\\" + actual_path.Remove(actual_path.Length - 1);
         }
     }

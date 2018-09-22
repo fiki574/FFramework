@@ -20,7 +20,7 @@ using System.Diagnostics;
 
 namespace FFramework.Utilities
 {
-    public class ProcessEx
+    public static class ProcessEx
     {
         public static bool IsProcessActive(string process_name)
         {

@@ -44,16 +44,20 @@ namespace FFramework.Cryptography
             {
                 if (!ignore((char)data[num4 - 1]))
                     break;
+
                 num4--;
             }
+
             int index = off;
             while (index < num4)
             {
                 while ((index < num4) && ignore((char)data[index]))
                     index++;
+
                 byte num = decodingTable[data[index++]];
                 while ((index < num4) && ignore((char)data[index]))
                     index++;
+
                 byte num2 = decodingTable[data[index++]];
                 outStream.WriteByte((byte)((num << 4) | num2));
                 num3++;
@@ -67,17 +71,22 @@ namespace FFramework.Cryptography
             int length = data.Length;
             while (length > 0)
             {
-                if (!ignore(data[length - 1])) break;
+                if (!ignore(data[length - 1]))
+                    break;
+
                 length--;
             }
+
             int num5 = 0;
             while (num5 < length)
             {
                 while ((num5 < length) && ignore(data[num5]))
                     num5++;
+
                 byte num = decodingTable[data[num5++]];
                 while ((num5 < length) && ignore(data[num5]))
                     num5++;
+
                 byte num2 = decodingTable[data[num5++]];
                 outStream.WriteByte((byte)((num << 4) | num2));
                 num3++;
@@ -100,6 +109,7 @@ namespace FFramework.Cryptography
         {
             if (((c != '\n') && (c != '\r')) && (c != '\t'))
                 return (c == ' ');
+
             return true;
         }
     }

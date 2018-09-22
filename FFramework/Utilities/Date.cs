@@ -18,7 +18,7 @@
 
 namespace FFramework.Utilities
 {
-    public class Date
+    public static class Date
     {
         public static bool IsLeapYear(int year)
         {

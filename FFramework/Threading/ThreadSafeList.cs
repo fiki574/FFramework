@@ -25,18 +25,6 @@ namespace FFramework.Threading
     {
         private List<T> list = new List<T>();
 
-        public T this[int index]
-        {
-            get
-            {
-                return list[index];
-            }
-            set
-            {
-                list[index] = value;
-            }
-        }
-
         public ThreadSafeList()
         {
         }
@@ -44,6 +32,20 @@ namespace FFramework.Threading
         public ThreadSafeList(List<T> list)
         {
             this.list = list;
+        }
+
+        public T this[int index]
+        {
+            get
+            {
+                lock(list)
+                    return list[index];
+            }
+            set
+            {
+                lock(list)
+                    list[index] = value;
+            }
         }
 
         public int Length
@@ -77,23 +79,6 @@ namespace FFramework.Threading
             return nList;
         }
 
-        public T Single(Func<T, bool> condition)
-        {
-            int count = Count(condition);
-            if (count > 1)
-                return default(T);
-            else if (count == 0)
-                return default(T);
-            else
-                lock (list)
-                {
-                    foreach (T item in list)
-                        if (condition(item))
-                            return item;
-                }
-            return default(T);
-        }
-
         public T FirstOrDefault(Func<T, bool> condition)
         {
             lock (list)
@@ -103,56 +88,6 @@ namespace FFramework.Threading
                         return item;
             }
             return default(T);
-        }
-
-        public T SingleOrDefault(Func<T, bool> condition)
-        {
-            int count = Count(condition);
-            if (count > 1)
-                return default(T);
-            else if (count == 0)
-                return default(T);
-            else
-                lock (list)
-                {
-                    foreach (T item in list)
-                        if (condition(item))
-                            return item;
-                } 
-            return default(T);
-        }
-
-        public void Update(Func<T, bool> condition, T obj)
-        {
-            int count = Count(condition);
-            if (count > 1)
-                return;
-            else if (count == 0)
-                return;
-            else
-            {
-                T found = default(T);
-                bool b = false;
-                lock (list)
-                {
-                    foreach (T item in list)
-                    {
-                        if (condition(item))
-                        {
-                            found = item;
-                            b = true;
-                            break;
-                        }
-                    }
-
-                    if (b)
-                    {
-                        int index = list.IndexOf(found);
-                        list[index] = obj;
-                    }
-                }
-            }
-            return;
         }
 
         public T[] ToArray()

@@ -100,6 +100,7 @@ namespace FFramework.HTTP
                 string[] raw = context.Request.RawUrl.Split('&');
                 if (raw[0] == "/favicon.ico")
                     return;
+
                 context.Response.ContentEncoding = context.Request.ContentEncoding;
                 context.Response.ContentType = MIME.GetMimeType(Path.GetExtension(raw[0]));
                 string path = files.Find(f => f.ToString().Contains(raw[0]));

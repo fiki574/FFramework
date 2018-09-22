@@ -22,7 +22,7 @@ using System.Security.Cryptography;
 
 namespace FFramework.Cryptography.SHA
 {
-    public class SHA256Hash
+    public static class SHA256Hash
     {
         public static string Hash(string text)
         {

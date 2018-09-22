@@ -25,7 +25,7 @@ using System.Text;
 
 namespace FFramework.File
 {
-    public class Packer
+    public static class Packer
     {
         public static void Pack(string dir, string extension, uint header = 0x14B4150)
         {
@@ -71,6 +71,7 @@ namespace FFramework.File
             {
                 using (var compressor = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.Default))
                     compressor.Write(data, 0, data.Length);
+
                 return ms.ToArray();
             }
         }

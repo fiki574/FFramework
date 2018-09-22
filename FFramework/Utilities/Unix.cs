@@ -20,7 +20,7 @@ using System;
 
 namespace FFramework.Utilities
 {
-    public class Unix
+    public static class Unix
     {
         public static int GetCurrentTimestamp()
         {

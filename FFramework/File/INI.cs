@@ -21,7 +21,7 @@ using System.Text;
 
 namespace FFramework.File
 {
-    public class INI
+    public static class INI
     {
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);

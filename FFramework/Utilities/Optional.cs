@@ -22,16 +22,23 @@ namespace FFramework.Utilities
 {
     public class Optional<T> where T : struct
     {
-        private bool isPresent;
-        private T value;
+        public bool IsPresent
+        {
+            get;
+        }
+
+        public T Value
+        {
+            get;
+        }
 
         public Optional(T value)
         {
             if (IsNullable(value) && value.Equals(default(T)))
                 throw new ArgumentNullException("value");
 
-            isPresent = true;
-            this.value = value;
+            IsPresent = true;
+            Value = value;
         }
 
         private bool IsNullable(T t)
@@ -42,22 +49,6 @@ namespace FFramework.Utilities
         private bool IsNullable(T? t)
         {
             return true;
-        }
-
-        public bool IsPresent
-        {
-            get
-            {
-                return isPresent;
-            }
-        }
-
-        public T Value
-        {
-            get
-            {
-                return value;
-            }
         }
     }
 }

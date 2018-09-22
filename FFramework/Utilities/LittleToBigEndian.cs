@@ -18,7 +18,7 @@
 
 namespace FFramework.Utilities
 {
-    public class LittleToBigEndian
+    public static class LittleToBigEndian
     {
         public static long LTBE(long input)
         {

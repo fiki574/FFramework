@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 
 namespace FFramework.Extensions
 {
-    public class ConsoleExtension
+    public static class ConsoleExtension
     {
         [DllImport("kernel32.dll")]
         public static extern bool AllocConsole();
@@ -37,7 +37,9 @@ namespace FFramework.Extensions
             try
             {
                 IntPtr hw = GetConsoleWindow();
-                if (hw == IntPtr.Zero) AllocConsole();
+                if (hw == IntPtr.Zero)
+                    AllocConsole();
+
                 Console.Clear();
                 ShowWindow(hw, 8);
             }
@@ -51,7 +53,8 @@ namespace FFramework.Extensions
             try
             {
                 IntPtr hw = GetConsoleWindow();
-                if (hw != IntPtr.Zero) ShowWindow(hw, 0);
+                if (hw != IntPtr.Zero)
+                    ShowWindow(hw, 0);
             }
             catch
             {

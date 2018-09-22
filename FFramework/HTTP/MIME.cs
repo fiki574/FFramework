@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FFramework.HTTP
 {
-    class MIME
+    public static class MIME
     {
         private static IDictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
         #region
