@@ -24,14 +24,14 @@ namespace FFramework.Utilities
 {
     public class Publicity
     {
-        public static void CreateInboundFirewallRule(int port, string name)
+        public static void CreateInboundFirewallRule(int port, string name, int protocol)
         {
             Type tNetFwPolicy = Type.GetTypeFromProgID("HNetCfg.FwPolicy2");
             INetFwPolicy2 fwPolicy = (INetFwPolicy2)Activator.CreateInstance(tNetFwPolicy);
             INetFwRule2 inboundRule = (INetFwRule2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FWRule"));
             inboundRule.Enabled = true;
             inboundRule.Action = NET_FW_ACTION_.NET_FW_ACTION_ALLOW;
-            inboundRule.Protocol = 6;
+            inboundRule.Protocol = protocol;
             inboundRule.LocalPorts = port.ToString();
             inboundRule.Name = name;
             inboundRule.Profiles = (int)NET_FW_PROFILE_TYPE2_.NET_FW_PROFILE2_ALL;
