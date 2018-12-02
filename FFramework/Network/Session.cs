@@ -22,8 +22,8 @@ using System.IO;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
-using FFramework.Memory;
-using FFramework.Extensions;
+using FFramework.IO.Memory;
+using FFramework.IO.Extensions;
 
 namespace FFramework.Network
 {

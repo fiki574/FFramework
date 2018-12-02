@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.4.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.4\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zlib">
       <HintPath>.\Ionic.Zlib.dll</HintPath>
     </Reference>
@@ -47,61 +50,76 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="YamlDotNet, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.5.2.1\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cryptography\CRC32.cs" />
-    <Compile Include="Cryptography\Hex.cs" />
-    <Compile Include="Cryptography\HexEncoder.cs" />
+    <Compile Include="Cryptography\Other\CRC32.cs" />
+    <Compile Include="Cryptography\Other\Hex.cs" />
+    <Compile Include="Cryptography\Other\HexDumper.cs" />
+    <Compile Include="Cryptography\Other\HexEncoder.cs" />
+    <Compile Include="Cryptography\Network\RC4.cs" />
     <Compile Include="Cryptography\SHA\GeneralDigest.cs" />
     <Compile Include="Cryptography\SHA\IDigest.cs" />
     <Compile Include="Cryptography\SHA\SHA256Digest.cs" />
     <Compile Include="Cryptography\SRP6\BigInteger.cs" />
-    <Compile Include="Cryptography\ByteSwap.cs" />
+    <Compile Include="Cryptography\Other\ByteSwap.cs" />
     <Compile Include="Cryptography\SHA\SHA1Digest.cs" />
     <Compile Include="Cryptography\SRP6\SRP.cs" />
-    <Compile Include="Extensions\BinaryReaderExtension.cs" />
-    <Compile Include="Extensions\BinaryWriterExtension.cs" />
-    <Compile Include="Extensions\TypeExtension.cs" />
-    <Compile Include="File\Files.cs" />
-    <Compile Include="File\Packer.cs" />
+    <Compile Include="Cryptography\Network\WindowsRSA.cs" />
+    <Compile Include="Cryptography\Network\XXTEA.cs" />
+    <Compile Include="IO\Extensions\BinaryReaderExtension.cs" />
+    <Compile Include="IO\Extensions\BinaryWriterExtension.cs" />
+    <Compile Include="IO\Extensions\TypeExtension.cs" />
+    <Compile Include="IO\FileSystem\Packer.cs" />
     <Compile Include="HTTP\HttpServer.cs" />
     <Compile Include="HTTP\MIME.cs" />
-    <Compile Include="Image\Convert.cs" />
-    <Compile Include="Image\DDS.cs" />
-    <Compile Include="Memory\BufferBlock.cs" />
-    <Compile Include="Memory\BufferManager.cs" />
-    <Compile Include="Memory\ByteBuffer.cs" />
-    <Compile Include="Memory\VariableBuffer.cs" />
+    <Compile Include="IO\Image\Convert.cs" />
+    <Compile Include="IO\Image\DDS.cs" />
+    <Compile Include="IO\Memory\BufferBlock.cs" />
+    <Compile Include="IO\Memory\BufferManager.cs" />
+    <Compile Include="IO\Memory\ByteBuffer.cs" />
+    <Compile Include="IO\Memory\VariableBuffer.cs" />
     <Compile Include="MySQL\Database.cs" />
     <Compile Include="MySQL\DatabaseTable.cs" />
     <Compile Include="MySQL\Table.cs" />
-    <Compile Include="Memory\Kernel32.cs" />
-    <Compile Include="Memory\ProcessAccessFlag.cs" />
-    <Compile Include="Memory\StringStream.cs" />
+    <Compile Include="IO\Memory\Kernel32.cs" />
+    <Compile Include="IO\Memory\ProcessAccessFlag.cs" />
+    <Compile Include="IO\Memory\StringStream.cs" />
     <Compile Include="Network\Handler.cs" />
     <Compile Include="Network\Master.cs" />
+    <Compile Include="Network\ProxySocket\AuthMethod.cs" />
+    <Compile Include="Network\ProxySocket\AuthNone.cs" />
+    <Compile Include="Network\ProxySocket\AuthUserPass.cs" />
+    <Compile Include="Network\ProxySocket\IAsyncProxyResult.cs" />
+    <Compile Include="Network\ProxySocket\ProxyException.cs" />
+    <Compile Include="Network\ProxySocket\ProxySocket.cs" />
+    <Compile Include="Network\ProxySocket\Socks4Handler.cs" />
+    <Compile Include="Network\ProxySocket\Socks5Handler.cs" />
+    <Compile Include="Network\ProxySocket\SocksHandler.cs" />
     <Compile Include="Network\Session.cs" />
     <Compile Include="Threading\Singleton.cs" />
     <Compile Include="Threading\ThreadExecutor.cs" />
-    <Compile Include="Extensions\ConsoleExtension.cs" />
+    <Compile Include="IO\Extensions\ConsoleExtension.cs" />
     <Compile Include="Threading\ThreadSafeDictionary.cs" />
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
-    <Compile Include="Memory\ExpandableMemoryStream.cs" />
-    <Compile Include="Utilities\FDB.cs" />
+    <Compile Include="IO\Memory\ExpandableMemoryStream.cs" />
+    <Compile Include="IO\FileSystem\FDB.cs" />
     <Compile Include="Utilities\GenericObject.cs" />
     <Compile Include="Cryptography\SHA\SHA256Hash.cs" />
-    <Compile Include="File\INI.cs" />
-    <Compile Include="Utilities\IP.cs" />
-    <Compile Include="Utilities\LittleToBigEndian.cs" />
+    <Compile Include="IO\FileSystem\INI.cs" />
+    <Compile Include="Utilities\HardwareStore.cs" />
+    <Compile Include="Network\IP.cs" />
+    <Compile Include="Cryptography\Other\LittleToBigEndian.cs" />
     <Compile Include="Utilities\Logger.cs" />
-    <Compile Include="Memory\Patches.cs" />
+    <Compile Include="IO\Memory\Patches.cs" />
     <Compile Include="Utilities\Optional.cs" />
     <Compile Include="Utilities\Platform.cs" />
     <Compile Include="Utilities\ProcessEx.cs" />
-    <Compile Include="Utilities\Publicity.cs" />
     <Compile Include="Utilities\RunAsAdmin.cs" />
-    <Compile Include="Cryptography\StringCrypt.cs" />
+    <Compile Include="Cryptography\Other\StringCrypt.cs" />
     <Compile Include="Threading\ThreadSafeList.cs" />
     <Compile Include="Utilities\FolderTreeView.cs" />
     <Compile Include="Utilities\Unix.cs" />
@@ -126,6 +144,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

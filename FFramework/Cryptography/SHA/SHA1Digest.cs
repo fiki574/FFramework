@@ -17,6 +17,7 @@
 */
 
 using System;
+using FFramework.Cryptography.Other;
 
 namespace FFramework.Cryptography.SHA
 {
