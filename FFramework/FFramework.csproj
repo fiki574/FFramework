@@ -103,6 +103,9 @@
     <Compile Include="Threading\ThreadExecutor.cs" />
     <Compile Include="IO\Extensions\ConsoleExtension.cs" />
     <Compile Include="Threading\ThreadSafeDictionary.cs" />
+    <Compile Include="Threading\Worker.cs" />
+    <Compile Include="Threading\WorkerPool.cs" />
+    <Compile Include="Threading\WorkTask.cs" />
     <Compile Include="Utilities\Cursor.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="IO\Memory\ExpandableMemoryStream.cs" />
