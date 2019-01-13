@@ -166,5 +166,13 @@ namespace FFramework.Cryptography.Other
             UInt32_To_LE((uint)n, bs, off);
             UInt32_To_LE((uint)(n >> 0x20), bs, off + 4);
         }
+
+        public static byte[] XOR(byte[] value, byte[] key)
+        {
+            byte[] xorValue = new byte[20];
+            for (int i = 0; i < 20; i++)
+                xorValue[i] = (byte)(value[i] ^ key[i]);
+            return xorValue;
+        }
     }
 }

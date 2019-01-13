@@ -44,6 +44,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cryptography\Other\CRC32.cs" />
+    <Compile Include="Cryptography\Other\DiffieHellman.cs" />
     <Compile Include="Cryptography\Other\Hex.cs" />
     <Compile Include="Cryptography\Other\HexDumper.cs" />
     <Compile Include="Cryptography\Other\HexEncoder.cs" />
@@ -75,12 +77,29 @@
     <Compile Include="IO\FileSystem\Packer.cs" />
     <Compile Include="HTTP\HttpServer.cs" />
     <Compile Include="HTTP\MIME.cs" />
+    <Compile Include="IO\Memory\KeyboardHooking.cs" />
     <Compile Include="IO\Image\Convert.cs" />
     <Compile Include="IO\Image\DDS.cs" />
     <Compile Include="IO\Memory\BufferBlock.cs" />
     <Compile Include="IO\Memory\BufferManager.cs" />
     <Compile Include="IO\Memory\ByteBuffer.cs" />
     <Compile Include="IO\Memory\VariableBuffer.cs" />
+    <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\Colorf.cs" />
+    <Compile Include="Models\ColorParameter.cs" />
+    <Compile Include="Models\GeoMesh.cs" />
+    <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\Mesh.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\ScalarParameter.cs" />
+    <Compile Include="Models\Texture.cs" />
+    <Compile Include="Models\TextureParameter.cs" />
+    <Compile Include="Models\TriangleIndices.cs" />
+    <Compile Include="Models\Vector2D.cs" />
+    <Compile Include="Models\Vector3D.cs" />
+    <Compile Include="Models\Vector4D.cs" />
+    <Compile Include="Models\VectorParameter.cs" />
+    <Compile Include="Models\Vertex.cs" />
     <Compile Include="MySQL\Database.cs" />
     <Compile Include="MySQL\DatabaseTable.cs" />
     <Compile Include="MySQL\Table.cs" />
@@ -99,6 +118,8 @@
     <Compile Include="Network\ProxySocket\Socks5Handler.cs" />
     <Compile Include="Network\ProxySocket\SocksHandler.cs" />
     <Compile Include="Network\Session.cs" />
+    <Compile Include="Threading\AsyncLock.cs" />
+    <Compile Include="Threading\AsyncSemaphore.cs" />
     <Compile Include="Threading\Singleton.cs" />
     <Compile Include="Threading\ThreadExecutor.cs" />
     <Compile Include="IO\Extensions\ConsoleExtension.cs" />
@@ -106,7 +127,11 @@
     <Compile Include="Threading\Worker.cs" />
     <Compile Include="Threading\WorkerPool.cs" />
     <Compile Include="Threading\WorkTask.cs" />
+    <Compile Include="Updating\Updatable.cs" />
+    <Compile Include="Updating\UpdateMethodAttribute.cs" />
+    <Compile Include="Updating\Updater.cs" />
     <Compile Include="Utilities\Cursor.cs" />
+    <Compile Include="Utilities\DataCollection.cs" />
     <Compile Include="Utilities\Date.cs" />
     <Compile Include="IO\Memory\ExpandableMemoryStream.cs" />
     <Compile Include="IO\FileSystem\FDB.cs" />
@@ -121,10 +146,12 @@
     <Compile Include="Utilities\Optional.cs" />
     <Compile Include="Utilities\Platform.cs" />
     <Compile Include="Utilities\ProcessEx.cs" />
+    <Compile Include="Utilities\PseudoRandomFunction.cs" />
     <Compile Include="Utilities\RunAsAdmin.cs" />
     <Compile Include="Cryptography\Other\StringCrypt.cs" />
     <Compile Include="Threading\ThreadSafeList.cs" />
     <Compile Include="Utilities\FolderTreeView.cs" />
+    <Compile Include="Threading\ThreadSafeObject.cs" />
     <Compile Include="Utilities\Unix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -151,6 +178,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
