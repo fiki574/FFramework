@@ -31,7 +31,7 @@ namespace FFramework.IO.FileSystem
         {
             string file = dir + extension;
             int offset = 16;
-            using (var ws = System.IO.File.OpenWrite(file))
+            using (var ws = File.OpenWrite(file))
             using (BinaryWriter fileWriter = new BinaryWriter(ws))
             {
                 fileWriter.Write(header);
@@ -51,7 +51,7 @@ namespace FFramework.IO.FileSystem
                         int size = (int)new FileInfo(filePath).Length;
                         w.Write((offset + size));
                         offset += size;
-                        fileWriter.Write(System.IO.File.ReadAllBytes(filePath));
+                        fileWriter.Write(File.ReadAllBytes(filePath));
                     }
                     ws.Position = 4;
                     fileWriter.Write(offset);
@@ -79,7 +79,7 @@ namespace FFramework.IO.FileSystem
         public static void Unpack(string file, uint header = 0x14B4150)
         {
             string dir = Path.GetFileNameWithoutExtension(file);
-            using (Stream s = System.IO.File.OpenRead(file))
+            using (Stream s = File.OpenRead(file))
             using (BinaryReader reader = new BinaryReader(s))
             {
                 if (reader.ReadUInt32() != header)
@@ -107,7 +107,7 @@ namespace FFramework.IO.FileSystem
                         s.Position = fileOffset;
                         string path = Path.Combine(dir, name);
                         CreatePath(path);
-                        System.IO.File.WriteAllBytes(path, reader.ReadBytes(fileSize));
+                        File.WriteAllBytes(path, reader.ReadBytes(fileSize));
                     }
                 }
             }

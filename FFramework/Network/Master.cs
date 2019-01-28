@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+using System;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
@@ -28,28 +29,38 @@ namespace FFramework.Network
         private TcpListener m_listener;
         private ThreadSafeList<Session> m_sessions;
         private bool IsRunning;
+        private int SleepTime;
 
-        public Master(int port)
+        public Master(int port = 6574, int hz = 20, bool forwardport = false, bool allowfirewall = false)
         {
-            IsRunning = true;
+            SleepTime = 1000 / hz;
+            if (forwardport)
+                IP.ForwardPort(port, "TCP", IP.GetLocalIP(), "");
+
+            if (allowfirewall)
+                IP.CreateInboundFirewallRule(port, "", 6);
+
             m_sessions = new ThreadSafeList<Session>();
             m_listener = new TcpListener(new IPEndPoint(IPAddress.Any, port));
             m_listener.Start();
+            IsRunning = true;
         }
 
         public void Run()
         {
+
             try
             {
                 while (IsRunning)
                 {
                     TcpClient client = m_listener.AcceptTcpClient();
                     m_sessions.Add(new Session(client));
-                    Thread.Sleep(50);
+                    Thread.Sleep(SleepTime);
                 }
             }
             catch
             {
+                throw new Exception("Exception occured in Master.Run()");
             }
         }
 

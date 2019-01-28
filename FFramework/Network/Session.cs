@@ -34,7 +34,7 @@ namespace FFramework.Network
         private NetworkStream m_nStream;
         private TcpClient m_tcpClient;
         private VariableBuffer m_variableBuffer = new VariableBuffer(512, 512);
-        private static Dictionary<InterfaceType, Dictionary<int, PacketHandler>> _handlerMap = new Dictionary<InterfaceType, Dictionary<int, PacketHandler>>();
+        private static Dictionary<InterfaceType, Dictionary<int, PacketHandler>> m_handlerMap = new Dictionary<InterfaceType, Dictionary<int, PacketHandler>>();
         private delegate void PacketHandler(Session session, BinaryReader reader);
 
         public Session(TcpClient tcpClient)
@@ -46,27 +46,34 @@ namespace FFramework.Network
 
         public static void MapHandlers()
         {
-            Type t = typeof(Session);
-            foreach (var m in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static))
+            try
             {
-                object[] o = m.GetCustomAttributes(typeof(Handler), false);
-                if (o.Length > 0)
+                Type t = typeof(Session);
+                foreach (var m in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static))
                 {
-                    Handler h = (Handler)o[0];
-                    Dictionary<int, PacketHandler> d;
-                    if (_handlerMap.ContainsKey(h.OpcodeHandler))
-                        d = _handlerMap[h.OpcodeHandler];
-                    else
+                    object[] o = m.GetCustomAttributes(typeof(Handler), false);
+                    if (o.Length > 0)
                     {
-                        d = new Dictionary<int, PacketHandler>();
-                        _handlerMap.Add(h.OpcodeHandler, d);
+                        Handler h = (Handler)o[0];
+                        Dictionary<int, PacketHandler> d;
+                        if (m_handlerMap.ContainsKey(h.OpcodeHandler))
+                            d = m_handlerMap[h.OpcodeHandler];
+                        else
+                        {
+                            d = new Dictionary<int, PacketHandler>();
+                            m_handlerMap.Add(h.OpcodeHandler, d);
+                        }
+
+                        if (d.ContainsKey(h.Type))
+                            continue;
+
+                        d.Add(h.Type, (PacketHandler)Delegate.CreateDelegate(typeof(PacketHandler), m));
                     }
-
-                    if (d.ContainsKey(h.Type))
-                        continue;
-
-                    d.Add(h.Type, (PacketHandler)Delegate.CreateDelegate(typeof(PacketHandler), m));
                 }
+            }
+            catch
+            {
+                throw new Exception("Failed to map network handlers");
             }
         }
 
@@ -93,6 +100,7 @@ namespace FFramework.Network
                 byte[] packet = new byte[m_expectedLength];
                 Array.Copy(m_variableBuffer.Data, packet, m_expectedLength);
                 ThreadPool.QueueUserWorkItem(HandlePacket, packet);
+
                 m_nStream.BeginRead(m_variableBuffer.Data, 0, 4, OnReceiveLength, null);
             }
             catch (Exception ex)
@@ -149,7 +157,7 @@ namespace FFramework.Network
                 {
                     int iface = reader.ReadInt32(), pid = reader.ReadInt32();
                     Dictionary<int, PacketHandler> handlerMap;
-                    if (!_handlerMap.TryGetValue((InterfaceType)iface, out handlerMap))
+                    if (!m_handlerMap.TryGetValue((InterfaceType)iface, out handlerMap))
                     {
                         Close();
                         return;
@@ -167,7 +175,7 @@ namespace FFramework.Network
             }
             catch (Exception ex)
             {
-                Close(new Action(() => 
+                Close(new Action(() =>
                 {
                     Console.WriteLine(ex.ToString());
                 }));
@@ -187,29 +195,52 @@ namespace FFramework.Network
                     m_nStream.Write(response, 0, size);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Close();
+                Close(new Action(() =>
+                {
+                    Console.WriteLine(ex.ToString());
+                }));
             }
         }
 
         public void Send(Action<BinaryWriter> writerAction)
         {
-            if (m_closed)
-                return;
-
-            using (ExpandableMemoryStream responseStream = new ExpandableMemoryStream())
-            using (BinaryWriter writer = new BinaryWriter(responseStream))
+            try
             {
-                writerAction(writer);
-                var size = responseStream.Position;
-                Send(responseStream.ToArray(), (int)size);
+                if (m_closed)
+                    return;
+
+                using (ExpandableMemoryStream responseStream = new ExpandableMemoryStream())
+                using (BinaryWriter writer = new BinaryWriter(responseStream))
+                {
+                    writerAction(writer);
+                    var size = responseStream.Position;
+                    Send(responseStream.ToArray(), (int)size);
+                }
+            }
+            catch (Exception ex)
+            {
+                Close(new Action(() =>
+                {
+                    Console.WriteLine(ex.ToString());
+                }));
             }
         }
 
         public virtual void Send(object structure)
         {
-            Send(w => w.WriteStructure(structure));
+            try
+            {
+                Send(w => w.WriteStructure(structure));
+            }
+            catch (Exception ex)
+            {
+                Close(new Action(() =>
+                {
+                    Console.WriteLine(ex.ToString());
+                }));
+            }
         }
 
         public void Close(Action a = null)
