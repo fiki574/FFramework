@@ -26,7 +26,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-
+using FFramework.IO.Memory;
 using InlineIL;
 using static InlineIL.IL.Emit;
 
