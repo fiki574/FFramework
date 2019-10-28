@@ -31,15 +31,9 @@ namespace FFramework.Network
         private bool IsRunning;
         private int SleepTime;
 
-        public Master(int port = 6574, int hz = 20, bool forwardport = false, bool allowfirewall = false)
+        public Master(int port = 6574, int hz = 20)
         {
             SleepTime = 1000 / hz;
-            if (forwardport)
-                IP.ForwardPort(port, "TCP", IP.GetLocalIP(), "");
-
-            if (allowfirewall)
-                IP.CreateInboundFirewallRule(port, "", 6);
-
             m_sessions = new ThreadSafeList<Session>();
             m_listener = new TcpListener(new IPEndPoint(IPAddress.Any, port));
             m_listener.Start();

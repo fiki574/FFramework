@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace FFramework.Cryptography.Network
+namespace FFramework.Cryptography.Other
 {
     public class XXTEA
     {
