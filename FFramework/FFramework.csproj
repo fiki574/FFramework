@@ -78,6 +78,7 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -88,6 +89,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cryptography\Network\ARC4.cs" />
     <Compile Include="Cryptography\Network\RC4.cs" />
     <Compile Include="Cryptography\Network\RSA.cs" />
     <Compile Include="Cryptography\Other\CRC32.cs" />
@@ -100,8 +102,18 @@
     <Compile Include="Cryptography\SRP6\BigInteger.cs" />
     <Compile Include="Cryptography\Other\ByteSwap.cs" />
     <Compile Include="Cryptography\SHA\SHA1Digest.cs" />
+    <Compile Include="Cryptography\SRP6\BigIntegers.cs" />
     <Compile Include="Cryptography\SRP6\SRP.cs" />
     <Compile Include="Cryptography\Network\XXTEA.cs" />
+    <Compile Include="Cryptography\SRP6\Client.cs" />
+    <Compile Include="Cryptography\SRP6\Server.cs" />
+    <Compile Include="Cryptography\SRP6\Utilities.cs" />
+    <Compile Include="Cryptography\SRP6\VerifierGenerator.cs" />
+    <Compile Include="Generator\DigestRandomGenerator.cs" />
+    <Compile Include="Generator\IRandomGenerator.cs" />
+    <Compile Include="Generator\ReversedWindowGenerator.cs" />
+    <Compile Include="Generator\SecureRandom.cs" />
+    <Compile Include="Generator\ThreadedSeedGenerator.cs" />
     <Compile Include="HTTP\CustomHttpServer.cs" />
     <Compile Include="HTTP\HttpHandler.cs" />
     <Compile Include="IO\Extensions\BinaryReaderExtension.cs" />
@@ -184,6 +196,14 @@
     <Compile Include="Threading\Worker.cs" />
     <Compile Include="Threading\WorkerPool.cs" />
     <Compile Include="Threading\WorkTask.cs" />
+    <Compile Include="Timing\EventableObject.cs" />
+    <Compile Include="Timing\EventInfo.cs" />
+    <Compile Include="Timing\EventManager.cs" />
+    <Compile Include="Timing\EventThread.cs" />
+    <Compile Include="Timing\TimedAttribute.cs" />
+    <Compile Include="Timing\TimedMethod.cs" />
+    <Compile Include="Timing\TimeInfo.cs" />
+    <Compile Include="Timing\TimeManager.cs" />
     <Compile Include="Updating\Updatable.cs" />
     <Compile Include="Updating\UpdateMethodAttribute.cs" />
     <Compile Include="Updating\Updater.cs" />
@@ -210,6 +230,23 @@
     <Compile Include="Threading\ThreadSafeObject.cs" />
     <Compile Include="Utilities\Unix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XML\ConfigElement.cs" />
+    <Compile Include="XML\ConfigFile.cs" />
+    <Compile Include="Zlib\Adler32.cs" />
+    <Compile Include="Zlib\Deflate.cs" />
+    <Compile Include="Zlib\InfBlocks.cs" />
+    <Compile Include="Zlib\InfCodes.cs" />
+    <Compile Include="Zlib\Inflate.cs" />
+    <Compile Include="Zlib\InfTree.cs" />
+    <Compile Include="Zlib\StaticTree.cs" />
+    <Compile Include="Zlib\SupportClass.cs" />
+    <Compile Include="Zlib\Tree.cs" />
+    <Compile Include="Zlib\ZInputStream.cs" />
+    <Compile Include="Zlib\zlibConst.cs" />
+    <Compile Include="Zlib\ZlibMgr.cs" />
+    <Compile Include="Zlib\ZOutputStream.cs" />
+    <Compile Include="Zlib\ZStream.cs" />
+    <Compile Include="Zlib\ZStreamException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -218,6 +255,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

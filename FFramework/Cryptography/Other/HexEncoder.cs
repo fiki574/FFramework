@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2018/2019 Bruno Fištrek
+    Copyright (C) 2019/2020 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ namespace FFramework.Cryptography.Other
             int num4 = off + length;
             while (num4 > off)
             {
-                if (!ignore((char)data[num4 - 1]))
+                if (!Ignore((char)data[num4 - 1]))
                     break;
 
                 num4--;
@@ -51,11 +51,11 @@ namespace FFramework.Cryptography.Other
             int index = off;
             while (index < num4)
             {
-                while ((index < num4) && ignore((char)data[index]))
+                while ((index < num4) && Ignore((char)data[index]))
                     index++;
 
                 byte num = decodingTable[data[index++]];
-                while ((index < num4) && ignore((char)data[index]))
+                while ((index < num4) && Ignore((char)data[index]))
                     index++;
 
                 byte num2 = decodingTable[data[index++]];
@@ -71,7 +71,7 @@ namespace FFramework.Cryptography.Other
             int length = data.Length;
             while (length > 0)
             {
-                if (!ignore(data[length - 1]))
+                if (!Ignore(data[length - 1]))
                     break;
 
                 length--;
@@ -80,11 +80,11 @@ namespace FFramework.Cryptography.Other
             int num5 = 0;
             while (num5 < length)
             {
-                while ((num5 < length) && ignore(data[num5]))
+                while ((num5 < length) && Ignore(data[num5]))
                     num5++;
 
                 byte num = decodingTable[data[num5++]];
-                while ((num5 < length) && ignore(data[num5]))
+                while ((num5 < length) && Ignore(data[num5]))
                     num5++;
 
                 byte num2 = decodingTable[data[num5++]];
@@ -105,7 +105,7 @@ namespace FFramework.Cryptography.Other
             return (length * 2);
         }
 
-        private bool ignore(char c)
+        private bool Ignore(char c)
         {
             if (((c != '\n') && (c != '\r')) && (c != '\t'))
                 return (c == ' ');

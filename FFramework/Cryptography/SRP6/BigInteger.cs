@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2018/2019 Bruno Fištrek
+    Copyright (C) 2019/2020 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ namespace FFramework.Cryptography.SRP6
         private long mQuote;
         private int nBitLength;
         private int nBits;
-        public static readonly BigInteger One = createUValueOf(1L);
+        public static readonly BigInteger One = CreateUValueOf(1L);
         private static readonly int[][] primeLists = new int[][] {
         new int[] { 3, 5, 7, 11, 13, 0x11, 0x13, 0x17 }, new int[] { 0x1d, 0x1f, 0x25, 0x29, 0x2b }, new int[] { 0x2f, 0x35, 0x3b, 0x3d, 0x43 }, new int[] { 0x47, 0x49, 0x4f, 0x53 }, new int[] { 0x59, 0x61, 0x65, 0x67 }, new int[] { 0x6b, 0x6d, 0x71, 0x7f }, new int[] { 0x83, 0x89, 0x8b, 0x95 }, new int[] { 0x97, 0x9d, 0xa3, 0xa7 }, new int[] { 0xad, 0xb3, 0xb5, 0xbf }, new int[] { 0xc1, 0xc5, 0xc7, 0xd3 }, new int[] { 0xdf, 0xe3, 0xe5 }, new int[] { 0xe9, 0xef, 0xf1 }, new int[] { 0xfb, 0x101, 0x107 }, new int[] { 0x10d, 0x10f, 0x115 }, new int[] { 0x119, 0x11b, 0x125 }, new int[] { 0x133, 0x137, 0x139 },
         new int[] { 0x13d, 0x14b, 0x151 }, new int[] { 0x15b, 0x15d, 0x161 }, new int[] { 0x167, 0x16f, 0x175 }, new int[] { 0x17b, 0x17f, 0x185 }, new int[] { 0x18d, 0x191, 0x199 }, new int[] { 0x1a3, 0x1a5, 0x1af }, new int[] { 0x1b1, 0x1b7, 0x1bb }, new int[] { 0x1c1, 0x1c9, 0x1cd }, new int[] { 0x1cf, 0x1d3, 0x1df }, new int[] { 0x1e7, 0x1eb, 0x1f3 }, new int[] { 0x1f7, 0x1fd, 0x209 }, new int[] { 0x20b, 0x21d, 0x223 }, new int[] { 0x22d, 0x233, 0x239 }, new int[] { 0x23b, 0x241, 0x24b }, new int[] { 0x251, 0x257, 0x259 }, new int[] { 0x25f, 0x265, 0x269 },
@@ -72,9 +72,9 @@ namespace FFramework.Cryptography.SRP6
         private static readonly Random RandomSource = new Random();
         private static readonly byte[] rndMask = new byte[] { 0xff, 0x7f, 0x3f, 0x1f, 15, 7, 3, 1 };
         private int sign;
-        public static readonly BigInteger Ten = createUValueOf(10L);
-        public static readonly BigInteger Three = createUValueOf(3L);
-        public static readonly BigInteger Two = createUValueOf(2L);
+        public static readonly BigInteger Ten = CreateUValueOf(10L);
+        public static readonly BigInteger Three = CreateUValueOf(3L);
+        public static readonly BigInteger Two = CreateUValueOf(2L);
         private static readonly ulong UIMASK = 0xffffffffL;
         public static readonly BigInteger Zero = new BigInteger(0, ZeroMagnitude, false);
         private static readonly byte[] ZeroEncoding = new byte[0];
@@ -199,7 +199,7 @@ namespace FFramework.Cryptography.SRP6
                     {
                         string s = str.Substring(startIndex, num);
                         ulong num4 = ulong.Parse(s, allowHexSpecifier);
-                        BigInteger integer4 = createUValueOf(num4);
+                        BigInteger integer4 = CreateUValueOf(num4);
                         switch (radix)
                         {
                             case 2:
@@ -224,7 +224,7 @@ namespace FFramework.Cryptography.SRP6
                 if (startIndex < str.Length)
                 {
                     string str3 = str.Substring(startIndex);
-                    BigInteger integer5 = createUValueOf(ulong.Parse(str3, allowHexSpecifier));
+                    BigInteger integer5 = CreateUValueOf(ulong.Parse(str3, allowHexSpecifier));
                     if (zero.sign > 0)
                     {
                         if (radix != 2)
@@ -528,7 +528,7 @@ namespace FFramework.Cryptography.SRP6
             return 0x20;
         }
 
-        private int calcBitLength(int indx, int[] mag)
+        private int CalcBitLength(int indx, int[] mag)
         {
         Label_0000:
             if (indx >= mag.Length) return 0;
@@ -615,7 +615,7 @@ namespace FFramework.Cryptography.SRP6
             return CompareNoLeadingZeroes(xIndx, x, yIndx, y);
         }
 
-        private static BigInteger createUValueOf(ulong value)
+        private static BigInteger CreateUValueOf(ulong value)
         {
             int num = (int)(value >> 0x20);
             int num2 = (int)value;
@@ -626,11 +626,11 @@ namespace FFramework.Cryptography.SRP6
             return integer;
         }
 
-        private static BigInteger createValueOf(long value)
+        private static BigInteger CreateValueOf(long value)
         {
-            if (value >= 0L)  return createUValueOf((ulong)value);
-            if (value == -9223372036854775808L) return createValueOf(~value).Not();
-            return createValueOf(-value).Negate();
+            if (value >= 0L)  return CreateUValueOf((ulong)value);
+            if (value == -9223372036854775808L) return CreateValueOf(~value).Not();
+            return CreateValueOf(-value).Negate();
         }
 
         public BigInteger Divide(BigInteger val)
@@ -659,8 +659,8 @@ namespace FFramework.Cryptography.SRP6
             {
                 int[] numArray2;
                 int[] numArray3;
-                int num4 = calcBitLength(num2, y);
-                int num5 = calcBitLength(index, x);
+                int num4 = CalcBitLength(num2, y);
+                int num5 = CalcBitLength(index, x);
                 int n = num5 - num4;
                 int start = 0;
                 int yIndx = 0;
@@ -754,7 +754,7 @@ namespace FFramework.Cryptography.SRP6
             return integerArray;
         }
 
-        private static int[] doSubBigLil(int[] bigMag, int[] lilMag)
+        private static int[] DoSubBigLil(int[] bigMag, int[] lilMag)
         {
             int[] x = (int[])bigMag.Clone();
             return Subtract(0, x, 0, lilMag);
@@ -764,8 +764,7 @@ namespace FFramework.Cryptography.SRP6
         {
             if (obj != this)
             {
-                BigInteger integer = obj as BigInteger;
-                if (integer == null) return false;
+                if (!(obj is BigInteger integer)) return false;
                 if ((integer.sign != sign) || (integer.magnitude.Length != magnitude.Length)) return false;
                 for (int i = 0; i < this.magnitude.Length; i++) if (integer.magnitude[i] != magnitude[i]) return false;
             }
@@ -905,7 +904,7 @@ namespace FFramework.Cryptography.SRP6
         private BigInteger Inc()
         {
             if (sign == 0) return One;
-            if (sign < 0) return new BigInteger(-1, doSubBigLil(magnitude, One.magnitude), true);
+            if (sign < 0) return new BigInteger(-1, DoSubBigLil(magnitude, One.magnitude), true);
             return AddToMagnitude(One.magnitude);
         }
 
@@ -988,7 +987,7 @@ namespace FFramework.Cryptography.SRP6
             if (integer.sign < 0)
             {
                 integer.sign = 1;
-                integer.magnitude = doSubBigLil(m.magnitude, integer.magnitude);
+                integer.magnitude = DoSubBigLil(m.magnitude, integer.magnitude);
             }
             return integer;
         }
@@ -1338,8 +1337,8 @@ namespace FFramework.Cryptography.SRP6
             if (num3 > 0)
             {
                 int[] numArray;
-                int num4 = calcBitLength(num2, y);
-                int num5 = calcBitLength(index, x);
+                int num4 = CalcBitLength(num2, y);
+                int num5 = CalcBitLength(index, x);
                 int n = num5 - num4;
                 int yIndx = 0;
                 int num8 = num4;
@@ -1565,7 +1564,7 @@ namespace FFramework.Cryptography.SRP6
                 integer = this;
                 integer2 = n;
             }
-            return new BigInteger(sign * num, doSubBigLil(integer.magnitude, integer2.magnitude), true);
+            return new BigInteger(sign * num, DoSubBigLil(integer.magnitude, integer2.magnitude), true);
         }
 
         private static int[] Subtract(int xStart, int[] x, int yStart, int[] y)
@@ -1730,7 +1729,7 @@ namespace FFramework.Cryptography.SRP6
                 return Ten;
             }
         Label_0049:
-            return createValueOf(value);
+            return CreateValueOf(value);
         }
 
         public BigInteger Xor(BigInteger value)
@@ -1790,7 +1789,7 @@ namespace FFramework.Cryptography.SRP6
         {
             get
             {
-                if (nBitLength == -1) nBitLength = (sign == 0) ? 0 : calcBitLength(0, magnitude);
+                if (nBitLength == -1) nBitLength = (sign == 0) ? 0 : CalcBitLength(0, magnitude);
                 return nBitLength;
             }
         }

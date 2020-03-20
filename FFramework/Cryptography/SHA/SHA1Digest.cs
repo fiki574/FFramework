@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2018/2019 Bruno Fištrek
+    Copyright (C) 2019/2020 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ using FFramework.Cryptography.Other;
 
 namespace FFramework.Cryptography.SHA
 {
-    public class Sha1Digest : GeneralDigest
+    public class SHA1Digest : GeneralDigest
     {
         private const int DigestLength = 20;
         private uint H1, H2, H3, H4, H5;
@@ -29,13 +29,13 @@ namespace FFramework.Cryptography.SHA
         private int xOff;
         private const uint Y1 = 0x5a827999, Y2 = 0x6ed9eba1, Y3 = 0x8f1bbcdc, Y4 = 0xca62c1d6;
 
-        public Sha1Digest()
+        public SHA1Digest()
         {
             X = new uint[80];
             Reset();
         }
 
-        public Sha1Digest(Sha1Digest t) : base(t)
+        public SHA1Digest(SHA1Digest t) : base(t)
         {
             X = new uint[80];
             H1 = t.H1;

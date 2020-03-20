@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2018/2019 Bruno Fištrek
+    Copyright (C) 2019/2020 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,12 +39,12 @@ namespace FFramework.Cryptography.SRP6
         public static readonly BigInteger G = BigInteger.Two;
         public static readonly BigInteger K = new BigInteger("B7867F1299DA8CC24AB93E08986EBC4D6A478AD0", 16);
 
-        public static BigInteger computeVerifier(byte[] salt, string name, string password)
+        public static BigInteger ComputeVerifier(byte[] salt, string name, string password)
         {
             byte[] partA = Encoding.ASCII.GetBytes(name);
             byte[] partB = Encoding.ASCII.GetBytes(password);
             byte[] credentials = new byte[20];
-            Sha1Digest digest = new Sha1Digest();
+            SHA1Digest digest = new SHA1Digest();
             digest.BlockUpdate(partA, 0, partA.Length);
             digest.BlockUpdate(Encoding.ASCII.GetBytes(":"), 0, 1);
             digest.BlockUpdate(partB, 0, partB.Length);
@@ -57,16 +57,16 @@ namespace FFramework.Cryptography.SRP6
             return G.ModPow(x, N);
         }
 
-        public static ServerModulus computeServerModulus(BigInteger verifier)
+        public static ServerModulus ComputeServerModulus(BigInteger verifier)
         {
             BigInteger b = new BigInteger(8 * 64, new Random());
-            Sha1Digest digest = new Sha1Digest();
+            SHA1Digest digest = new SHA1Digest();
             return new ServerModulus(verifier.Multiply(K).Add(G.ModPow(b, N)).Remainder(N), b);
         }
 
-        public static byte[] computeProof(string username, ServerModulus serverModulus, BigInteger clientModulus, BigInteger verifier, byte[] salt, out byte[] sessionId)
+        public static byte[] ComputeProof(string username, ServerModulus serverModulus, BigInteger clientModulus, BigInteger verifier, byte[] salt, out byte[] sessionId)
         {
-            Sha1Digest digest = new Sha1Digest();
+            SHA1Digest digest = new SHA1Digest();
             byte[] a = clientModulus.ToByteArrayUnsigned();
             byte[] b = serverModulus.B.ToByteArrayUnsigned();
             byte[] binU = new byte[20];
@@ -104,21 +104,21 @@ namespace FFramework.Cryptography.SRP6
             return proof;
         }
 
-        private static byte[] getEvenBytes(byte[] array)
+        private static byte[] GetEvenBytes(byte[] array)
         {
             byte[] result = new byte[array.Length / 2];
             for (int i = 0; i < result.Length; i++) result[i] = array[i * 2];
             return result;
         }
 
-        private static byte[] getOddBytes(byte[] array)
+        private static byte[] GetOddBytes(byte[] array)
         {
             byte[] result = new byte[array.Length / 2];
             for (int i = 0; i < result.Length; i++) result[i] = array[i * 2 + 1];
             return result;
         }
 
-        private static byte[] interleave(byte[] a, byte[] b)
+        private static byte[] Interleave(byte[] a, byte[] b)
         {
             byte[] result = new byte[40];
             for (int i = 0; i < 20; i++)
@@ -145,7 +145,7 @@ namespace FFramework.Cryptography.SRP6
             int pos = 0;
             byte[] cnt = new byte[4];
             byte[] hout = new byte[20];
-            Sha1Digest digest = new Sha1Digest();
+            SHA1Digest digest = new SHA1Digest();
             byte[] mask = new byte[40];
             int masklen = 40;
             while (pos < masklen)

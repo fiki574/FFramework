@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2018/2019 Bruno Fištrek
+    Copyright (C) 2019/2020 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ namespace FFramework.Cryptography.SHA
         public SHA256Digest()
         {
             X = new uint[0x40];
-            initHs();
+            InitHs();
         }
 
         public SHA256Digest(SHA256Digest t) : base(t)
@@ -70,7 +70,7 @@ namespace FFramework.Cryptography.SHA
             return 0x20;
         }
 
-        private void initHs()
+        private void InitHs()
         {
             H1 = 0x6a09e667;
             H2 = 0xbb67ae85;
@@ -162,7 +162,7 @@ namespace FFramework.Cryptography.SHA
         public override void Reset()
         {
             Reset();
-            initHs();
+            InitHs();
             xOff = 0;
             Array.Clear(X, 0, X.Length);
         }

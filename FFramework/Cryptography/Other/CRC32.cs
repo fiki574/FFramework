@@ -1,6 +1,6 @@
 ﻿/*
     C# Framework with a lot of useful functions and classes
-    Copyright (C) 2018/2019 Bruno Fištrek
+    Copyright (C) 2019/2020 Bruno Fištrek
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -185,7 +185,7 @@ namespace FFramework.Cryptography.Other
         }
 
 
-        private uint gf2_matrix_times(uint[] matrix, uint vec)
+        private uint Gf2_matrix_times(uint[] matrix, uint vec)
         {
             uint sum = 0;
             int i = 0;
@@ -199,10 +199,10 @@ namespace FFramework.Cryptography.Other
             return sum;
         }
 
-        private void gf2_matrix_square(uint[] square, uint[] mat)
+        private void Gf2_matrix_square(uint[] square, uint[] mat)
         {
             for (int i = 0; i < 32; i++)
-                square[i] = gf2_matrix_times(mat, mat[i]);
+                square[i] = Gf2_matrix_times(mat, mat[i]);
         }
 
         public void Combine(int crc, int length)
@@ -224,21 +224,21 @@ namespace FFramework.Cryptography.Other
                 row <<= 1;
             }
 
-            gf2_matrix_square(even, odd);
-            gf2_matrix_square(odd, even);
+            Gf2_matrix_square(even, odd);
+            Gf2_matrix_square(odd, even);
 
             uint len2 = (uint)length;
             do
             {
-                gf2_matrix_square(even, odd);
+                Gf2_matrix_square(even, odd);
                 if ((len2 & 1) == 1)
-                    crc1 = gf2_matrix_times(even, crc1);
+                    crc1 = Gf2_matrix_times(even, crc1);
                 len2 >>= 1;
                 if (len2 == 0)
                     break;
-                gf2_matrix_square(odd, even);
+                Gf2_matrix_square(odd, even);
                 if ((len2 & 1) == 1)
-                    crc1 = gf2_matrix_times(odd, crc1);
+                    crc1 = Gf2_matrix_times(odd, crc1);
                 len2 >>= 1;
             }
             while (len2 != 0);
@@ -268,9 +268,9 @@ namespace FFramework.Cryptography.Other
             _register = 0xFFFFFFFFU;
         }
 
-        private uint dwPolynomial;
+        private readonly uint dwPolynomial;
         private long _TotalBytesRead;
-        private bool reverseBits;
+        private readonly bool reverseBits;
         private uint[] crc32Table;
         private const int BUFFER_SIZE = 8192;
         private uint _register = 0xFFFFFFFFU;
@@ -281,7 +281,7 @@ namespace FFramework.Cryptography.Other
         private static readonly long UnsetLengthLimit = -99;
         internal Stream _innerStream;
         private CRC32 _Crc32;
-        private long _lengthLimit = -99;
+        private readonly long _lengthLimit = -99;
         private bool _leaveOpen;
 
         public CrcCalculatorStream(Stream stream) : this(true, UnsetLengthLimit, stream, null)
