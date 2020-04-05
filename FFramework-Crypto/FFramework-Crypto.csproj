@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{627A487E-1284-4E6A-9BA8-53402AE53010}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FFramework_Crypto</RootNamespace>
+    <AssemblyName>FFramework-Crypto</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Network\ARC4.cs" />
+    <Compile Include="Network\RC4.cs" />
+    <Compile Include="Network\RSA.cs" />
+    <Compile Include="Network\XXTEA.cs" />
+    <Compile Include="Other\ByteSwap.cs" />
+    <Compile Include="Other\CRC32.cs" />
+    <Compile Include="Other\Hex.cs" />
+    <Compile Include="Other\HexDumper.cs" />
+    <Compile Include="Other\HexEncoder.cs" />
+    <Compile Include="Other\LittleToBigEndian.cs" />
+    <Compile Include="Other\StringCrypt.cs" />
+    <Compile Include="SHA\GeneralDigest.cs" />
+    <Compile Include="SHA\IDigest.cs" />
+    <Compile Include="SHA\SHA1Digest.cs" />
+    <Compile Include="SHA\SHA256Digest.cs" />
+    <Compile Include="SHA\SHA256Hash.cs" />
+    <Compile Include="SRP6\BigInteger.cs" />
+    <Compile Include="SRP6\BigIntegers.cs" />
+    <Compile Include="SRP6\Client.cs" />
+    <Compile Include="SRP6\Server.cs" />
+    <Compile Include="SRP6\SRP.cs" />
+    <Compile Include="SRP6\Utilities.cs" />
+    <Compile Include="SRP6\VerifierGenerator.cs" />
+    <Compile Include="DigestRandomGenerator.cs" />
+    <Compile Include="IRandomGenerator.cs" />
+    <Compile Include="ReversedWindowGenerator.cs" />
+    <Compile Include="SecureRandom.cs" />
+    <Compile Include="ThreadedSeedGenerator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

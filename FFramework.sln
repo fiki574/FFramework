@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFramework", "FFramework\FFramework.csproj", "{20B611CD-A63E-4C2F-B56C-437D9A9F134F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFramework-SQL", "FFramework-SQL\FFramework-SQL.csproj", "{20B611CD-A63E-4C2F-B56C-437D9A9F134F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFramework-Crypto", "FFramework-Crypto\FFramework-Crypto.csproj", "{627A487E-1284-4E6A-9BA8-53402AE53010}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFramework-Core", "FFramework-Core\FFramework-Core.csproj", "{27B6E3B9-47EC-48F3-959F-252B2CB4D386}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{20B611CD-A63E-4C2F-B56C-437D9A9F134F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20B611CD-A63E-4C2F-B56C-437D9A9F134F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20B611CD-A63E-4C2F-B56C-437D9A9F134F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{627A487E-1284-4E6A-9BA8-53402AE53010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{627A487E-1284-4E6A-9BA8-53402AE53010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{627A487E-1284-4E6A-9BA8-53402AE53010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{627A487E-1284-4E6A-9BA8-53402AE53010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27B6E3B9-47EC-48F3-959F-252B2CB4D386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27B6E3B9-47EC-48F3-959F-252B2CB4D386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27B6E3B9-47EC-48F3-959F-252B2CB4D386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27B6E3B9-47EC-48F3-959F-252B2CB4D386}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

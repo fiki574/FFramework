@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27B6E3B9-47EC-48F3-959F-252B2CB4D386}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FFramework_Core</RootNamespace>
+    <AssemblyName>FFramework-Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HTTP\BasicHttpServer.cs" />
+    <Compile Include="HTTP\CustomHttpServer.cs" />
+    <Compile Include="HTTP\HttpHandler.cs" />
+    <Compile Include="HTTP\MIME.cs" />
+    <Compile Include="IO\Extensions\BinaryReaderExtension.cs" />
+    <Compile Include="IO\Extensions\BinaryWriterExtension.cs" />
+    <Compile Include="IO\Extensions\ConsoleExtension.cs" />
+    <Compile Include="IO\Extensions\TypeExtension.cs" />
+    <Compile Include="IO\FileSystem\FDB.cs" />
+    <Compile Include="IO\FileSystem\INI.cs" />
+    <Compile Include="IO\LowLevelInput\Converters\KeyCodeConverter.cs" />
+    <Compile Include="IO\LowLevelInput\Converters\KeyStateConverter.cs" />
+    <Compile Include="IO\LowLevelInput\Global.cs" />
+    <Compile Include="IO\LowLevelInput\HelperMethods.cs" />
+    <Compile Include="IO\LowLevelInput\Hooks\InputManager.cs" />
+    <Compile Include="IO\LowLevelInput\Hooks\KeyState.cs" />
+    <Compile Include="IO\LowLevelInput\Hooks\LowLevelKeyboardHook.cs" />
+    <Compile Include="IO\LowLevelInput\Hooks\LowLevelMouseHook.cs" />
+    <Compile Include="IO\LowLevelInput\Hooks\VirtualKeyCode.cs" />
+    <Compile Include="IO\LowLevelInput\PInvoke\Libraries\Kernel32.cs" />
+    <Compile Include="IO\LowLevelInput\PInvoke\Libraries\User32.cs" />
+    <Compile Include="IO\LowLevelInput\PInvoke\Types\Message.cs" />
+    <Compile Include="IO\LowLevelInput\PInvoke\Types\WindowsMessage.cs" />
+    <Compile Include="IO\LowLevelInput\PInvoke\WinApi.cs" />
+    <Compile Include="IO\LowLevelInput\WindowsHooks\WindowsHook.cs" />
+    <Compile Include="IO\LowLevelInput\WindowsHooks\WindowsHookFilter.cs" />
+    <Compile Include="IO\LowLevelInput\WindowsHooks\WindowsHookType.cs" />
+    <Compile Include="IO\Memory\BufferBlock.cs" />
+    <Compile Include="IO\Memory\BufferManager.cs" />
+    <Compile Include="IO\Memory\ByteBuffer.cs" />
+    <Compile Include="IO\Memory\ExpandableMemoryStream.cs" />
+    <Compile Include="IO\Memory\Kernel32.cs" />
+    <Compile Include="IO\Memory\Patches.cs" />
+    <Compile Include="IO\Memory\ProcessAccessFlag.cs" />
+    <Compile Include="IO\Memory\StringStream.cs" />
+    <Compile Include="IO\Memory\VariableBuffer.cs" />
+    <Compile Include="Maths\Math2.cs" />
+    <Compile Include="Maths\Math3.cs" />
+    <Compile Include="Maths\MathF.cs" />
+    <Compile Include="Maths\Matrix3x4.cs" />
+    <Compile Include="Maths\Matrix4x4.cs" />
+    <Compile Include="Maths\Vector2.cs" />
+    <Compile Include="Maths\Vector3.cs" />
+    <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\Colorf.cs" />
+    <Compile Include="Models\ColorParameter.cs" />
+    <Compile Include="Models\GeoMesh.cs" />
+    <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\Mesh.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\ScalarParameter.cs" />
+    <Compile Include="Models\Texture.cs" />
+    <Compile Include="Models\TextureParameter.cs" />
+    <Compile Include="Models\TriangleIndices.cs" />
+    <Compile Include="Models\Vector2D.cs" />
+    <Compile Include="Models\Vector3D.cs" />
+    <Compile Include="Models\Vector4D.cs" />
+    <Compile Include="Models\VectorParameter.cs" />
+    <Compile Include="Models\Vertex.cs" />
+    <Compile Include="Network\Handler.cs" />
+    <Compile Include="Network\IP.cs" />
+    <Compile Include="Network\Master.cs" />
+    <Compile Include="Network\ProxySocket\AuthMethod.cs" />
+    <Compile Include="Network\ProxySocket\AuthNone.cs" />
+    <Compile Include="Network\ProxySocket\AuthUserPass.cs" />
+    <Compile Include="Network\ProxySocket\IAsyncProxyResult.cs" />
+    <Compile Include="Network\ProxySocket\ProxyException.cs" />
+    <Compile Include="Network\ProxySocket\ProxySocket.cs" />
+    <Compile Include="Network\ProxySocket\Socks4Handler.cs" />
+    <Compile Include="Network\ProxySocket\Socks5Handler.cs" />
+    <Compile Include="Network\ProxySocket\SocksHandler.cs" />
+    <Compile Include="Network\Session.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\AsyncLock.cs" />
+    <Compile Include="Threading\AsyncSemaphore.cs" />
+    <Compile Include="Threading\Singleton.cs" />
+    <Compile Include="Threading\ThreadExecutor.cs" />
+    <Compile Include="Threading\ThreadSafeDictionary.cs" />
+    <Compile Include="Threading\ThreadSafeList.cs" />
+    <Compile Include="Threading\ThreadSafeObject.cs" />
+    <Compile Include="Threading\Worker.cs" />
+    <Compile Include="Threading\WorkerPool.cs" />
+    <Compile Include="Threading\WorkTask.cs" />
+    <Compile Include="Timing\EventableObject.cs" />
+    <Compile Include="Timing\EventInfo.cs" />
+    <Compile Include="Timing\EventManager.cs" />
+    <Compile Include="Timing\EventThread.cs" />
+    <Compile Include="Timing\TimedAttribute.cs" />
+    <Compile Include="Timing\TimedMethod.cs" />
+    <Compile Include="Timing\TimeInfo.cs" />
+    <Compile Include="Timing\TimeManager.cs" />
+    <Compile Include="Updating\Updatable.cs" />
+    <Compile Include="Updating\UpdateMethodAttribute.cs" />
+    <Compile Include="Updating\Updater.cs" />
+    <Compile Include="Utilities\Cursor.cs" />
+    <Compile Include="Utilities\DataCollection.cs" />
+    <Compile Include="Utilities\Date.cs" />
+    <Compile Include="Utilities\GenericObject.cs" />
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\Optional.cs" />
+    <Compile Include="Utilities\Platform.cs" />
+    <Compile Include="Utilities\ProcessEx.cs" />
+    <Compile Include="Utilities\PseudoRandomFunction.cs" />
+    <Compile Include="Utilities\RunAsAdmin.cs" />
+    <Compile Include="Utilities\Unix.cs" />
+    <Compile Include="XML\ConfigElement.cs" />
+    <Compile Include="XML\ConfigFile.cs" />
+    <Compile Include="Zlib\Adler32.cs" />
+    <Compile Include="Zlib\Deflate.cs" />
+    <Compile Include="Zlib\InfBlocks.cs" />
+    <Compile Include="Zlib\InfCodes.cs" />
+    <Compile Include="Zlib\Inflate.cs" />
+    <Compile Include="Zlib\InfTree.cs" />
+    <Compile Include="Zlib\StaticTree.cs" />
+    <Compile Include="Zlib\SupportClass.cs" />
+    <Compile Include="Zlib\Tree.cs" />
+    <Compile Include="Zlib\ZInputStream.cs" />
+    <Compile Include="Zlib\zlibConst.cs" />
+    <Compile Include="Zlib\ZlibMgr.cs" />
+    <Compile Include="Zlib\ZOutputStream.cs" />
+    <Compile Include="Zlib\ZStream.cs" />
+    <Compile Include="Zlib\ZStreamException.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
